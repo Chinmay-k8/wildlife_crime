@@ -2,58 +2,114 @@
 @extends('layouts.dashboard')
 
 @section('form-content')
-<div class="col-12">
-    <div class="card">
-        <div class="card-body">
-            <h1 class="card-title">Add Data Form</h1>
-            <form>
-                @csrf
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="circle">Circle</label>
-                            <select id="circle" class="form-control">
-                                <option value="">Select Circle</option>
-                            </select>
+<div class="container mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">Add Data Form</h1>
+                <form id="data-form" action="{{ route('submit-form') }}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="circle">Circle</label>
+                                <select id="circle" name="circle" class="form-control">
+                                    <option value="">Select Circle</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="division">Division</label>
+                                <select id="division" name="division" class="form-control" disabled>
+                                    <option value="">Select Division</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="division">Division</label>
-                            <select id="division" class="form-control" disabled>
-                                <option value="">Select Division</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="range">Range</label>
+                                <select id="range" name="range" class="form-control" disabled>
+                                    <option value="">Select Range</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="section">Section</label>
+                                <select id="section" name="section" class="form-control" disabled>
+                                    <option value="">Select Section</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="range">Range</label>
-                            <select id="range" class="form-control" disabled>
-                                <option value="">Select Range</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="beat">Beat</label>
+                                <select id="beat" name="beat" class="form-control" disabled>
+                                    <option value="">Select Beat</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="case_type">Case Type</label>
+                                <select id="case_type" name="case_type" class="form-control" required>
+                                    <option value="">Select Case Type</option>
+                                    <option value="UD">UD</option>
+                                    <option value="OR">OR</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="section">Section</label>
-                            <select id="section" class="form-control" disabled>
-                                <option value="">Select Section</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="case_no_label" for="case_no">Case Number</label>
+                                <input type="text" id="case_no" name="case_no" class="form-control" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="beat">Beat</label>
-                            <select id="beat" class="form-control" disabled>
-                                <option value="">Select Beat</option>
-                            </select>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                        <h3>Accused Detail</h3>
+                            <table class="table table-bordered" id="accused-details-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Alias</th>
+                                        <th>Father's Name</th>
+                                        <th>Address</th>
+                                        <th>Mobile Number</th>
+                                        <th>IMEI Number</th>
+                                        <th> <img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><input type="text" name="accused[0][name]" class="form-control"></td>
+                                    <td><input type="text" name="accused[0][alias]" class="form-control"></td>
+                                    <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
+                                    <td><input type="text" name="accused[0][address]" class="form-control"></td>
+                                    <td><input type="text" name="accused[0][mobile]" class="form-control"></td>
+                                    <td><input type="text" name="accused[0][imei]" class="form-control"></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                    <div class="row mt-3">
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -62,8 +118,41 @@
 
 
 
+
 <script>
 $(document).ready(function() {
+    $('#add-row').click(function() {
+        var index = $('#accused-details-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="accused[${index}][name]" class="form-control"></td>
+                <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
+                <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
+                <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
+                <td><input type="text" name="accused[${index}][mobile]" class="form-control"></td>
+                <td><input type="text" name="accused[${index}][imei]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#accused-details-table tbody').append(newRow);
+        updateIndices();
+    });
+
+    // Delete accused details row
+    $(document).on('click', '.delete-accused', function() {
+        $(this).closest('tr').remove();
+        updateIndices();
+    });
+
+    // Update the indices of the accused details rows
+    function updateIndices() {
+        $('#accused-details-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
     // Fetch circles on page load
     $.getJSON('circles', function(data) {
         $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
@@ -125,6 +214,11 @@ $(document).ready(function() {
                 $('#beat').append(data.map(beat => `<option value="${beat.id}">${beat.name_e}</option>`));
             });
         }
+    });
+    $('#case_type').change(function() {
+        const caseType = $(this).val();
+        const label = caseType ? caseType + ' Case Number' : 'Case Number';
+        $('#case_no_label').text(label);
     });
 });
 </script>
