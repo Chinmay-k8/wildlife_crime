@@ -6,7 +6,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h1 class="card-title">Add Data Form</h1>
+                <h1 class="card-title">Complain 1</h1>
                 <form id="data-form" action="{{ route('submit-form') }}" method="POST">
                     @csrf
                     <div class="row">
@@ -73,10 +73,45 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Case Detection GPS Location</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Latitude</h5>
+                            <div class="form-group">
+                                <label for="latitude_degrees">Degrees</label>
+                                <input type="number" id="latitude_degrees" name="latitude_degrees" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="latitude_minutes">Minutes</label>
+                                <input type="number" id="latitude_minutes" name="latitude_minutes" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="latitude_seconds">Seconds</label>
+                                <input type="number" id="latitude_seconds" name="latitude_seconds" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Longitude</h5>
+                            <div class="form-group">
+                                <label for="longitude_degrees">Degrees</label>
+                                <input type="number" id="longitude_degrees" name="longitude_degrees" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="longitude_minutes">Minutes</label>
+                                <input type="number" id="longitude_minutes" name="longitude_minutes" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="longitude_seconds">Seconds</label>
+                                <input type="number" id="longitude_seconds" name="longitude_seconds" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-12">
-                        <h3>Accused Detail</h3>
+                            <h3>Accused Detail</h3>
                             <table class="table table-bordered" id="accused-details-table">
                                 <thead>
                                     <tr>
@@ -86,19 +121,19 @@
                                         <th>Address</th>
                                         <th>Mobile Number</th>
                                         <th>IMEI Number</th>
-                                        <th> <img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
+                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><input type="text" name="accused[0][name]" class="form-control"></td>
-                                    <td><input type="text" name="accused[0][alias]" class="form-control"></td>
-                                    <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
-                                    <td><input type="text" name="accused[0][address]" class="form-control"></td>
-                                    <td><input type="text" name="accused[0][mobile]" class="form-control"></td>
-                                    <td><input type="text" name="accused[0][imei]" class="form-control"></td>
-                                    <td></td>
-                                </tr>
+                                    <tr>
+                                        <td><input type="text" name="accused[0][name]" class="form-control"></td>
+                                        <td><input type="text" name="accused[0][alias]" class="form-control"></td>
+                                        <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
+                                        <td><input type="text" name="accused[0][address]" class="form-control"></td>
+                                        <td><input type="text" name="accused[0][mobile]" class="form-control"></td>
+                                        <td><input type="text" name="accused[0][imei]" class="form-control"></td>
+                                        <td></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
