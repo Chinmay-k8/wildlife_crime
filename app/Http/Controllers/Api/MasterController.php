@@ -9,6 +9,7 @@ use App\Models\Division;
 use App\Models\Range;
 use App\Models\Section;
 use App\Models\Beat;
+use App\Models\Forestblock;
 
 class MasterController extends Controller
 {
@@ -47,6 +48,13 @@ class MasterController extends Controller
     public function getBeats($sectionId)
     {
         return Beat::where('parent_id', $sectionId)
+            ->where('active', 1)
+            ->orderBy('id')
+            ->get(['id', 'name_e']);
+    }
+    public function getForestblocks($divisionId)
+    {
+        return Forestblock::where('parent_id', $divisionId)
             ->where('active', 1)
             ->orderBy('id')
             ->get(['id', 'name_e']);

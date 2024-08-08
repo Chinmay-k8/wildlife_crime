@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="case_no" id="case_no_lable">Case Number</label>
+                            <label for="case_no" id="case_no_label">Case Number</label>
                                 <input type="text" id="case_no" name="case_no" class="form-control" required>
                             </div>
                         </div>
@@ -77,6 +77,20 @@
                             <div class="form-group">
                                 <label for="case_date">Case Date</label>
                                 <input type="date" id="case_date" name="case_date" class="form-control" max="{{ date('Y-m-d') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="case_date">Detection Date</label>
+                                <input type="date" id="detection_date" name="detection_date" class="form-control" max="{{ date('Y-m-d') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="detection_place">Place of Detection</label>
+                                <select id="detection_place" name="detection_place" class="form-control" disabled>
+                                    <option value="">Select Forest Block</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -115,6 +129,7 @@
                             </div>
                         </div>
                     </div>
+                   
                     <div class="row mt-4">
                         <div class="col-12">
                             <h4>Accused Detail</h4>
@@ -163,6 +178,9 @@
 <script>
 $(document).ready(function() {
      $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
+     $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
+
+
     $('#add-row').click(function() {
         var index = $('#accused-details-table tbody tr').length;
         var newRow = `
@@ -199,7 +217,6 @@ $(document).ready(function() {
     $.getJSON('circles', function(data) {
         $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
     });
-
     // Fetch divisions based on selected circle
     $('#circle').change(function() {
         const circleId = $(this).val();
@@ -219,6 +236,8 @@ $(document).ready(function() {
     // Fetch ranges based on selected division
     $('#division').change(function() {
         const divisionId = $(this).val();
+        $('#detection_place').prop('disabled', !divisionId);
+        $('#detection_place').empty().append('<option value="">Select Forest Block</option>');
         $('#range').prop('disabled', !divisionId);
         $('#range').empty().append('<option value="">Select Range</option>');
         $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
@@ -227,6 +246,9 @@ $(document).ready(function() {
         if (divisionId) {
             $.getJSON(`divisions/${divisionId}/ranges`, function(data) {
                 $('#range').append(data.map(range => `<option value="${range.id}">${range.name_e}</option>`));
+            });
+            $.getJSON(`divisions/${divisionId}/forest_blocks`, function(data) {
+                $('#detection_place').append(data.map(forest_block => `<option value="${forest_block.id}">${forest_block.name_e}</option>`));
             });
         }
     });
@@ -260,7 +282,7 @@ $(document).ready(function() {
     $('#case_type').change(function() {
         const caseType = $(this).val();
         const label = caseType ? caseType + ' Case Number' : 'Case Number';
-        $('#case_no_lable').text(label);
+        $('#case_no_label').text(label);
     });
 });
 </script>

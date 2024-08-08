@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Api\MasterController;
 use App\Http\Controllers\FormController;
 
+
 // Route::get('/', function () {
 //     return view('');
 // });
@@ -24,5 +25,7 @@ Route::get('/circles/{circle}/divisions', [MasterController::class, 'getDivision
 Route::get('/divisions/{division}/ranges', [MasterController::class, 'getRanges']);
 Route::get('/ranges/{range}/sections', [MasterController::class, 'getSections']);
 Route::get('/sections/{section}/beats', [MasterController::class, 'getBeats']);
+Route::get('/divisions/{division}/forest_blocks', [MasterController::class, 'getForestblocks']);
+
 Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
 Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
