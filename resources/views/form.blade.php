@@ -1,12 +1,13 @@
 <!-- resources/views/form.blade.php -->
 @extends('layouts.dashboard')
-
+@section('user-info')
+<h1>Complain 1</h1>
+@endsection
 @section('form-content')
 <div class="container mt-5">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h1 class="card-title">Complain 1</h1>
                 <form id="data-form" action="{{ route('submit-form') }}" method="POST">
                     @csrf
                     <div class="row">
@@ -68,12 +69,18 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label id="case_no_label" for="case_no">Case Number</label>
+                                <label for="case_no" id="case_no_lable">Case Number</label>
                                 <input type="text" id="case_no" name="case_no" class="form-control" required>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="case_date">Case Date</label>
+                                <input type="date" id="case_date" name="case_date" class="form-control" max="{{ date('Y-m-d') }}" required>
+                            </div>
+                        </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-12">
                             <h4>Case Detection GPS Location</h4>
                         </div>
@@ -108,10 +115,9 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-12">
-                            <h3>Accused Detail</h3>
+                            <h4>Accused Detail</h4>
                             <table class="table table-bordered" id="accused-details-table">
                                 <thead>
                                     <tr>
@@ -156,6 +162,7 @@
 
 <script>
 $(document).ready(function() {
+     $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
     $('#add-row').click(function() {
         var index = $('#accused-details-table tbody tr').length;
         var newRow = `
@@ -253,7 +260,7 @@ $(document).ready(function() {
     $('#case_type').change(function() {
         const caseType = $(this).val();
         const label = caseType ? caseType + ' Case Number' : 'Case Number';
-        $('#case_no_label').text(label);
+        $('#case_no_lable').text(label);
     });
 });
 </script>
