@@ -27,5 +27,8 @@ Route::get('/ranges/{range}/sections', [MasterController::class, 'getSections'])
 Route::get('/sections/{section}/beats', [MasterController::class, 'getBeats']);
 Route::get('/divisions/{division}/forest_blocks', [MasterController::class, 'getForestblocks']);
 
-Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
+    Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
+});
 Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
