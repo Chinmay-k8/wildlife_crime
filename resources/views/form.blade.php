@@ -11,7 +11,7 @@
                 <form id="data-form" action="{{ route('submit-form') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="circle">Circle</label>
                                 <select id="circle" name="circle" class="form-control">
@@ -19,7 +19,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="division">Division</label>
                                 <select id="division" name="division" class="form-control" disabled>
@@ -27,9 +27,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="range">Range</label>
                                 <select id="range" name="range" class="form-control" disabled>
@@ -37,7 +35,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="section">Section</label>
                                 <select id="section" name="section" class="form-control" disabled>
@@ -47,7 +45,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="beat">Beat</label>
                                 <select id="beat" name="beat" class="form-control" disabled>
@@ -55,7 +53,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="case_type">Case Type</label>
                                 <select id="case_type" name="case_type" class="form-control" required>
@@ -65,14 +63,22 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                             <label for="case_no" id="case_no_label">Case Number</label>
                                 <input type="text" id="case_no" name="case_no" class="form-control" required>
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="detection_place">Place of Detection</label>
+                                <select id="detection_place" name="detection_place" class="form-control" disabled>
+                                    <option value="">Select Forest Block</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="case_date">Case Date</label>
@@ -85,18 +91,11 @@
                                 <input type="date" id="detection_date" name="detection_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="detection_place">Place of Detection</label>
-                                <select id="detection_place" name="detection_place" class="form-control" disabled>
-                                    <option value="">Select Forest Block</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
-                            <h4>Case Detection GPS Location</h4>
+                            <h5>Case Detection GPS Location</h5 >
                         </div>
                         <div class="col-md-6">
                             <h5>Latitude</h5>
@@ -129,10 +128,32 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="detection_agency">Case Detection Agency</label>
+                                <select id="detection_agency" name="detection_agency" class="form-control" required>
+                                    <option value="">Select Agency</option>
+                                    <option value="Forest">Forest</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                    </div>
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="investigating_agency">Case Detection Agency</label>
+                                <select id="investigating_agency" name="investigating_agency" class="form-control" required>
+                                    <option value="">Select Agency</option>
+                                    <option value="Forest">Forest</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                    </div>
+                    </div>
                    
                     <div class="row mt-4">
                         <div class="col-12">
-                            <h4>Accused Detail</h4>
+                            <h5>Accused Detail</h5>
                             <table class="table table-bordered" id="accused-details-table">
                                 <thead>
                                     <tr>
@@ -153,6 +174,35 @@
                                         <td><input type="text" name="accused[0][address]" class="form-control"></td>
                                         <td><input type="text" name="accused[0][mobile]" class="form-control"></td>
                                         <td><input type="text" name="accused[0][imei]" class="form-control"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Arrested Accused Detail</h5>
+                            <table class="table table-bordered" id="arrested-accused-details-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Alias</th>
+                                        <th>Father's Name</th>
+                                        <th>Address</th>
+                                        <th>Mobile Number</th>
+                                        <th>IMEI Number</th>
+                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row2" style="cursor: pointer; width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="arrested_accused[0][name]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][alias]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][father_name]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][address]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][mobile]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][imei]" class="form-control"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -196,16 +246,44 @@ $(document).ready(function() {
         $('#accused-details-table tbody').append(newRow);
         updateIndices();
     });
+    $('#add-row2').click(function() {
+        var index = $('#arrested-accused-details-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="arrested_accused[${index}][name]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][alias]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][father_name]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][address]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][mobile]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][imei]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#arrested-accused-details-table tbody').append(newRow);
+        updateIndices2();
+    });
 
     // Delete accused details row
     $(document).on('click', '.delete-accused', function() {
         $(this).closest('tr').remove();
         updateIndices();
     });
+    $(document).on('click', '.delete-accused2', function() {
+        $(this).closest('tr').remove();
+        updateIndices2();
+    });
 
     // Update the indices of the accused details rows
     function updateIndices() {
         $('#accused-details-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
+    function updateIndices2(){
+        $('#arrested-accused-details-table tbody tr').each(function(index) {
             $(this).find('input').each(function() {
                 var name = $(this).attr('name');
                 var newName = name.replace(/\d+/, index);
