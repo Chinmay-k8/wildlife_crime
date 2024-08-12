@@ -253,11 +253,15 @@
                                             <div class="collapse" id="sidebarMultilevel2">
                                                 <ul class="nav-second-level">
                                                 <li>
-                                                    <a href="{{ route('form.show') }}">Add Data</a>
+                                                    <a href="{{ route('form.show') }}">Add Form Data</a>
                                                 </li> 
-                                                    <li>
-                                                        <a href="javascript: void(0);">View Data</a>
-                                                    </li>
+                                                <li>
+                                                    <a href="{{ route('excel.show') }}">Add Excel Data</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript: void(0);">View Data</a>
+                                                </li>
+
                                                 </ul>
                                             </div>
                                         </li>

@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Api\MasterController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ExcelController;
+
 
 
 // Route::get('/', function () {
@@ -30,5 +32,7 @@ Route::get('/divisions/{division}/forest_blocks', [MasterController::class, 'get
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
     Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
+    Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
+
 });
 Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
