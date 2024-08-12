@@ -141,7 +141,7 @@
                     </div>
                     <div class="col-md-6">
                             <div class="form-group">
-                                <label for="investigating_agency">Case Detection Agency</label>
+                                <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
                                     <option value="">Select Agency</option>
                                     <option value="Forest">Forest</option>
@@ -150,7 +150,75 @@
                             </div>
                     </div>
                     </div>
-                   
+                    <div class="row mt-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="detection_agency">Name Of the Species</label>
+                                    <select id="species_name" name="species_name" class="form-control" required>
+                                        <!-- <option value="">Select Agency</option>
+                                        <option value="Forest">Forest</option>
+                                        <option value="Other">Other</option> -->
+                                    </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="species_age">Age of the Species</label>
+                                        <input type="text" id="species_age" name="species_age" class="form-control" required>
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="species_sex">Sex Of the Species</label>
+                                    <select id="species_sex" name="species_sex" class="form-control" required>
+                                        <option value="">Select Sex</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
+                                    <select id="old_wlpa" name="old_wlpa" class="form-control" required>
+                                        <!-- <option value="">Select Agency</option>
+                                        <option value="Forest">Forest</option>
+                                        <option value="Other">Other</option> -->
+                                    </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="new_wlpa">New Schedule Of Species under WLPA</label>
+                                    <select id="new_wlpa" name="new_wlpa" class="form-control" required>
+                                        <!-- <option value="">Select Agency</option>
+                                        <option value="Forest">Forest</option>
+                                        <option value="Other">Other</option> -->
+                                    </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="property_recovered_type">Property Recovered Type</label>
+                                    <select id="property_recovered_type" name="property_recovered_type" class="form-control" required>
+                                        <!-- <option value="">Select Sex</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option> -->
+                                    </select>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                    <div class="form-group row">
+                        <label for="briefFact" class="col-sm-2 col-form-label">Brief Fact:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="briefFact" name="briefFact" rows="6" style="resize: none;"></textarea>
+                        </div>
+                    </div>
                     <div class="row mt-4">
                         <div class="col-12">
                             <h5>Accused Detail</h5>
@@ -181,7 +249,7 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <div class="col-12">
+                        <div class="col-12">    
                             <h5>Arrested Accused Detail</h5>
                             <table class="table table-bordered" id="arrested-accused-details-table">
                                 <thead>
