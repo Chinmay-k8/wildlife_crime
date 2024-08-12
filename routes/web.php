@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
     Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
+    Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');
+
 
 });
 Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
