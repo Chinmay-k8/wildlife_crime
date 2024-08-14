@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -30,10 +32,15 @@ class ExcelController extends Controller
 
         // Convert the worksheet data into an array
         $sheetData = $worksheet->toArray();
+        $userId = Auth::user()->id;
 
+        $output = [
+            'user_id' => $userId,
+            'data' => $sheetData,
+        ];
         // Print the data as a POST array
         echo '<pre>';
-        print_r($sheetData);
+        print_r($output);
         echo '</pre>';
         exit;
 
