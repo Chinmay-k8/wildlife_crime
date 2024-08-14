@@ -155,7 +155,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="detection_agency">Name Of the Species</label>
-                                    <select id="species_name" name="species_name" class="form-control" required>
+                                    <select id="species_name" name="species_name" class="form-control">
                                         <!-- <option value="">Select Agency</option>
                                         <option value="Forest">Forest</option>
                                         <option value="Other">Other</option> -->
@@ -184,7 +184,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
-                                    <select id="old_wlpa" name="old_wlpa" class="form-control" required>
+                                    <select id="old_wlpa" name="old_wlpa" class="form-control" >
                                         <!-- <option value="">Select Agency</option>
                                         <option value="Forest">Forest</option>
                                         <option value="Other">Other</option> -->
@@ -194,7 +194,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="new_wlpa">New Schedule Of Species under WLPA</label>
-                                    <select id="new_wlpa" name="new_wlpa" class="form-control" required>
+                                    <select id="new_wlpa" name="new_wlpa" class="form-control" >
                                         <!-- <option value="">Select Agency</option>
                                         <option value="Forest">Forest</option>
                                         <option value="Other">Other</option> -->
@@ -204,7 +204,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="property_recovered_type">Property Recovered Type</label>
-                                    <select id="property_recovered_type" name="property_recovered_type" class="form-control" required>
+                                    <select id="property_recovered_type" name="property_recovered_type" class="form-control" >
                                         <!-- <option value="">Select Sex</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option> -->

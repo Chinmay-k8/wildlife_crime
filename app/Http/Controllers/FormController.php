@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class FormController extends Controller
 {
@@ -26,8 +28,14 @@ class FormController extends Controller
 
         // Process the form data
         $formData = $request->all();
+        $userId = Auth::user()->id;
+
+        $output = [
+            'user_id' => $userId,
+            'data' => $formData,
+        ];
          echo '<pre>';
-        print_r($formData);
+        print_r($output);
         echo '</pre>';
         exit;
 
