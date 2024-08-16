@@ -95,36 +95,20 @@
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
-                            <h5>Case Detection GPS Location</h5 >
+                            <h5>Case Detection GPS Location</h5>
                         </div>
+
                         <div class="col-md-6">
-                            <h5>Latitude</h5>
                             <div class="form-group">
-                                <label for="latitude_degrees">Degrees</label>
-                                <input type="number" id="latitude_degrees" name="latitude_degrees" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="latitude_minutes">Minutes</label>
-                                <input type="number" id="latitude_minutes" name="latitude_minutes" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="latitude_seconds">Seconds</label>
-                                <input type="number" id="latitude_seconds" name="latitude_seconds" class="form-control" required>
+                                <label for="latitude">Latitude</label>
+                                <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Enter latitude in decimal format" required>
                             </div>
                         </div>
+
                         <div class="col-md-6">
-                            <h5>Longitude</h5>
                             <div class="form-group">
-                                <label for="longitude_degrees">Degrees</label>
-                                <input type="number" id="longitude_degrees" name="longitude_degrees" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="longitude_minutes">Minutes</label>
-                                <input type="number" id="longitude_minutes" name="longitude_minutes" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="longitude_seconds">Seconds</label>
-                                <input type="number" id="longitude_seconds" name="longitude_seconds" class="form-control" required>
+                                <label for="longitude">Longitude</label>
+                                <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Enter longitude in decimal format" required>
                             </div>
                         </div>
                     </div>
