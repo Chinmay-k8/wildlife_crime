@@ -200,7 +200,7 @@
                     <div class="form-group row">
                         <label for="briefFact" class="col-sm-2 col-form-label">Brief Fact:</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" id="briefFact" name="briefFact" rows="6" style="resize: none;"></textarea>
+                            <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;"></textarea>
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -271,10 +271,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 
 <script>
