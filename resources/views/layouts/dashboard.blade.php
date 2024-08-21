@@ -259,7 +259,7 @@
                                                     <a href="{{ route('excel.show') }}">Add Excel Data</a>
                                                 </li>
                                                 <li>
-                                                    <a href="javascript: void(0);">View Data</a>
+                                                    <a href="{{ route('list.show') }}">View Data</a>
                                                 </li>
 
                                                 </ul>

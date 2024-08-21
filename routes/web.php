@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Api\MasterController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\ListController;
+
 
 
 
@@ -34,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
     Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');
+    Route::get('/list', [ListController::class, 'showList'])->name('list.show');
+
 
 
 });
