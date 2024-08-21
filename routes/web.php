@@ -11,6 +11,7 @@ use App\Http\Controllers\ListController;
 
 
 
+
 // Route::get('/', function () {
 //     return view('');
 // });
@@ -30,6 +31,12 @@ Route::get('/divisions/{division}/ranges', [MasterController::class, 'getRanges'
 Route::get('/ranges/{range}/sections', [MasterController::class, 'getSections']);
 Route::get('/sections/{section}/beats', [MasterController::class, 'getBeats']);
 Route::get('/divisions/{division}/forest_blocks', [MasterController::class, 'getForestblocks']);
+Route::get('circle-name/{id}', [MasterController::class, 'getCircleNameById']);
+Route::get('division-name/{id}', [MasterController::class, 'getDivisionNameById']);
+Route::get('range-name/{id}', [MasterController::class, 'getRangeNameById']);
+Route::get('section-name/{id}', [MasterController::class, 'getSectionNameById']);
+Route::get('beat-name/{id}', [MasterController::class, 'getBeatNameById']);
+Route::get('forestblock-name/{id}', [MasterController::class, 'getForestblockNameById']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
