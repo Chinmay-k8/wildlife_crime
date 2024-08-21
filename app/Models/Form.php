@@ -13,6 +13,17 @@ class Form extends Model
     // Fillable properties to allow mass assignment
     protected $guarded = [];
 
+    // Relationship with Accused model
+    public function accused()
+    {
+        return $this->hasMany(Accused::class, 'form_data_id');
+    }
+
+    // Relationship with ArrestedAccused model
+    public function arrestedAccused()
+    {
+        return $this->hasMany(ArrestedAccused::class, 'form_data_id');
+    }
     // Dynamic save method
     public function saveFormData($data)
     {
