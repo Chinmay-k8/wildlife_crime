@@ -5,6 +5,18 @@
 @endsection
 
 @section('form-content')
+<style>
+.table thead th {
+    background-color: rgb(0, 80, 64); 
+    color: white; 
+    text-align: center; 
+    vertical-align: middle; 
+}
+td {
+        text-align: center; 
+        vertical-align: middle; 
+    }
+</style>
 <div class="container mt-5">
     <div class="col-12">
         <div class="card">
@@ -13,7 +25,7 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Sl. No.</th>
+                                <th>Sl. No.</th>    
                                 <th>Case-id</th>
                                 <th>Circle</th>
                                 <th>Division</th>
@@ -40,7 +52,7 @@
                                 <th>Arrested Accused Details</th>
                             </tr>
                         </thead>
-                        <tbody id="data-table-body">
+                        <tbody id="data-table-body" style="text-align: center;">
                             <!-- Data will be populated here via AJAX -->
                         </tbody>
                     </table>

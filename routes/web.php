@@ -37,7 +37,7 @@ Route::get('range-name/{id}', [MasterController::class, 'getRangeNameById']);
 Route::get('section-name/{id}', [MasterController::class, 'getSectionNameById']);
 Route::get('beat-name/{id}', [MasterController::class, 'getBeatNameById']);
 Route::get('forestblock-name/{id}', [MasterController::class, 'getForestblockNameById']);
-Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
+// Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
