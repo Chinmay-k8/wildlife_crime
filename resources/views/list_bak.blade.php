@@ -1,7 +1,9 @@
 @extends('layouts.dashboard')
+
 @section('user-info')
 <h1>Complain 1</h1>
 @endsection
+
 @section('form-content')
 <div class="container mt-5">
     <div class="col-12">
@@ -43,14 +45,14 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $data->id }}</td>
-                                    <td>{{ $data->circle }}</td>
-                                    <td>{{ $data->division }}</td>
-                                    <td>{{ $data->range }}</td>
-                                    <td>{{ $data->section }}</td>
-                                    <td>{{ $data->beat }}</td>
+                                    <td class="circle-name" data-id="{{ $data->circle }}">{{ $data->circle }}</td>
+                                    <td class="division-name" data-id="{{ $data->division }}">{{ $data->division }}</td>
+                                    <td class="range-name" data-id="{{ $data->range }}">{{ $data->range }}</td>
+                                    <td class="section-name" data-id="{{ $data->section }}">{{ $data->section }}</td>
+                                    <td class="beat-name" data-id="{{ $data->beat }}">{{ $data->beat }}</td>
                                     <td>{{ $data->case_type }}</td>
                                     <td>{{ $data->case_no }}</td>
-                                    <td>{{ $data->detection_place }}</td>
+                                    <td class="place-name" data-id="{{ $data->detection_place }}">{{ $data->detection_place }}</td>
                                     <td>{{ $data->case_date }}</td>
                                     <td>{{ $data->detection_date }}</td>
                                     <td>{{ $data->latitude }}</td>
@@ -116,5 +118,42 @@
     </div>        
 </div>
 
+<script>
+$(document).ready(function() {
+    function fetchAndPopulateName(url, id, $element) {
+        // If the element has already been populated, do not fetch again
+        if ($element.text() !== id.toString()) return;
+
+        $.ajax({
+            url: url + '/' + id,
+            method: 'GET',
+            success: function(response) {
+                $element.text(response.name_e || 'Not Found');
+            },
+            error: function() {
+                $element.text('Error fetching data');
+            }
+        });
+    }
+
+    $('tr').each(function() {
+        var $row = $(this);
+        var circleId = $row.find('.circle-name').data('id');
+        var divisionId = $row.find('.division-name').data('id');
+        var rangeId = $row.find('.range-name').data('id');
+        var sectionId = $row.find('.section-name').data('id');
+        var beatId = $row.find('.beat-name').data('id');
+        var forestblockId = $row.find('.place-name').data('id');
+
+        // Fetch and populate names only if not already populated
+        if (circleId) fetchAndPopulateName('/circle-name', circleId, $row.find('.circle-name'));
+        if (divisionId) fetchAndPopulateName('/division-name', divisionId, $row.find('.division-name'));
+        if (rangeId) fetchAndPopulateName('/range-name', rangeId, $row.find('.range-name'));
+        if (sectionId) fetchAndPopulateName('/section-name', sectionId, $row.find('.section-name'));
+        if (beatId) fetchAndPopulateName('/beat-name', beatId, $row.find('.beat-name'));
+        if (forestblockId) fetchAndPopulateName('/forestblock-name', forestblockId, $row.find('.place-name'));
+    });
+});
+</script>
 
 @endsection

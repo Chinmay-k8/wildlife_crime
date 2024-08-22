@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Api\MasterController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ExcelController;
-use App\Http\Controllers\ListController;
+use App\Http\Controllers\Api\ListController;
 
 
 
@@ -37,6 +37,7 @@ Route::get('range-name/{id}', [MasterController::class, 'getRangeNameById']);
 Route::get('section-name/{id}', [MasterController::class, 'getSectionNameById']);
 Route::get('beat-name/{id}', [MasterController::class, 'getBeatNameById']);
 Route::get('forestblock-name/{id}', [MasterController::class, 'getForestblockNameById']);
+Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
@@ -44,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
     Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');
     Route::get('/list', [ListController::class, 'showList'])->name('list.show');
-
+    Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
 
 
 });
