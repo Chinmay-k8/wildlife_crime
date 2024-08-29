@@ -197,8 +197,24 @@
                         </div>
                     </div>
                     <div class="row mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="officer_name">Name of the Incharge Officer</label>
+                                    <input type="text" id="officer_name" name="officer_name" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="officer_number">Mobile Number of Incharge Officer</label>
+                                    <input type="text" id="officer_number" name="officer_number" class="form-control" required>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row mt-4">
                     <div class="form-group row">
-                        <label for="briefFact" class="col-sm-2 col-form-label">Brief Fact:</label>
+                        <label for="briefFact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;"></textarea>
                         </div>
