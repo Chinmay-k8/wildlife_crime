@@ -284,6 +284,26 @@
                             </table>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="case_date">Date of forwarding to court</label>
+                                <input type="date" id="court_forward_date" name="court_forward_date" class="form-control" max="{{ date('Y-m-d') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="officer_name">Court name</label>
+                                    <input type="text" id="court_name" name="court_name" class="form-control" required>
+                                </div>
+                        </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="officer_name">Case (2bcc) number</label>
+                                    <input type="text" id="number" name="court_case_number" class="form-control" required>
+                                </div>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Submit</button>
