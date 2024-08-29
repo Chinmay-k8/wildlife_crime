@@ -229,8 +229,6 @@
                                         <th>Alias</th>
                                         <th>Father's Name</th>
                                         <th>Address</th>
-                                        <th>Mobile Number</th>
-                                        <th>IMEI Number</th>
                                         <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
                                     </tr>
                                 </thead>
@@ -240,8 +238,27 @@
                                         <td><input type="text" name="accused[0][alias]" class="form-control"></td>
                                         <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
                                         <td><input type="text" name="accused[0][address]" class="form-control"></td>
-                                        <td><input type="text" name="accused[0][mobile]" class="form-control"></td>
-                                        <td><input type="text" name="accused[0][imei]" class="form-control"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Mobiles recovered</h5>
+                            <table class="table table-bordered" id="mobiles-recovered-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mobile Number</th>
+                                        <th>IMEI Number</th>
+                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row3" style="cursor: pointer; width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="accused_mobile[0][mobile_no]" class="form-control"></td>
+                                        <td><input type="text" name="accused_mobile[0][imei_no]" class="form-control"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -255,22 +272,12 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th>Alias</th>
-                                        <th>Father's Name</th>
-                                        <th>Address</th>
-                                        <th>Mobile Number</th>
-                                        <th>IMEI Number</th>
                                         <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row2" style="cursor: pointer; width: 24px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td><input type="text" name="arrested_accused[0][name]" class="form-control"></td>
-                                        <td><input type="text" name="arrested_accused[0][alias]" class="form-control"></td>
-                                        <td><input type="text" name="arrested_accused[0][father_name]" class="form-control"></td>
-                                        <td><input type="text" name="arrested_accused[0][address]" class="form-control"></td>
-                                        <td><input type="text" name="arrested_accused[0][mobile]" class="form-control"></td>
-                                        <td><input type="text" name="arrested_accused[0][imei]" class="form-control"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -303,8 +310,6 @@ $(document).ready(function() {
                 <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
                 <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
                 <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
-                <td><input type="text" name="accused[${index}][mobile]" class="form-control"></td>
-                <td><input type="text" name="accused[${index}][imei]" class="form-control"></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#accused-details-table tbody').append(newRow);
@@ -315,15 +320,21 @@ $(document).ready(function() {
         var newRow = `
             <tr>
                 <td><input type="text" name="arrested_accused[${index}][name]" class="form-control"></td>
-                <td><input type="text" name="arrested_accused[${index}][alias]" class="form-control"></td>
-                <td><input type="text" name="arrested_accused[${index}][father_name]" class="form-control"></td>
-                <td><input type="text" name="arrested_accused[${index}][address]" class="form-control"></td>
-                <td><input type="text" name="arrested_accused[${index}][mobile]" class="form-control"></td>
-                <td><input type="text" name="arrested_accused[${index}][imei]" class="form-control"></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#arrested-accused-details-table tbody').append(newRow);
         updateIndices2();
+    });
+    $('#add-row3').click(function() {
+        var index = $('#mobiles-recovered-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="accused_mobile[${index}][mobile_no]" class="form-control"></td>
+                <td><input type="text" name="accused_mobile[${index}][imei_no]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-mobile" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#mobiles-recovered-table tbody').append(newRow);
+        updateIndices3();
     });
 
     // Delete accused details row
@@ -335,7 +346,10 @@ $(document).ready(function() {
         $(this).closest('tr').remove();
         updateIndices2();
     });
-
+    $(document).on('click', '.delete-mobile', function() {
+        $(this).closest('tr').remove();
+        updateIndices3();
+    });
     // Update the indices of the accused details rows
     function updateIndices() {
         $('#accused-details-table tbody tr').each(function(index) {
@@ -348,6 +362,15 @@ $(document).ready(function() {
     }
     function updateIndices2(){
         $('#arrested-accused-details-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
+    function updateIndices3(){
+        $('#mobiles-recovered-table tbody tr').each(function(index) {
             $(this).find('input').each(function() {
                 var name = $(this).attr('name');
                 var newName = name.replace(/\d+/, index);

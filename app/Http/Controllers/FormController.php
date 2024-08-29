@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Form; 
 use App\Models\Accused; 
 use App\Models\ArrestedAccused;
+use App\Models\AccusedMobiles;
 
 class FormController extends Controller
 {
@@ -19,9 +20,10 @@ class FormController extends Controller
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
-        $formData = $request->except(['accused', 'arrested_accused']);
+        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile']);
         $accusedData = $request->input('accused');
         $arrestedAccusedData = $request->input('arrested_accused');
+        $MobileData = $request->input('accused_mobile');
 
         $formData['user_id'] = Auth::id(); // Include user_id from Auth
         
@@ -50,6 +52,12 @@ class FormController extends Controller
                 // Create and save each arrested accused record
                 $arrestedItem['form_data_id'] = $formId; // Add form_data_id to each arrested accused item
                 ArrestedAccused::create($arrestedItem); // Use the create method for mass assignment
+            }
+        }
+        if (!empty($MobileData)){
+            foreach($MobileData as $MobileItem){
+                $MobileItem['form_data_id'] = $formId;
+                AccusedMobiles::create($MobileItem);
             }
         }
 
