@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Form; 
 use App\Models\Accused; 
 use App\Models\ArrestedAccused;
+use App\Models\ReleasedAccused;
 use App\Models\AccusedMobiles;
+use App\Models\NbwAccused;
+
 
 class FormController extends Controller
 {
@@ -20,10 +23,12 @@ class FormController extends Controller
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
-        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile']);
+        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused']);
         $accusedData = $request->input('accused');
         $arrestedAccusedData = $request->input('arrested_accused');
         $MobileData = $request->input('accused_mobile');
+        $ReleasedData = $request->input('released_accused');
+        $NbwData = $request->input('nbw_accused');
 
         $formData['user_id'] = Auth::id(); // Include user_id from Auth
         
@@ -58,6 +63,18 @@ class FormController extends Controller
             foreach($MobileData as $MobileItem){
                 $MobileItem['form_data_id'] = $formId;
                 AccusedMobiles::create($MobileItem);
+            }
+        }
+        if (!empty($ReleasedData)){
+            foreach($ReleasedData as $ReleasedItem){
+                $ReleasedItem['form_data_id'] = $formId;
+                ReleasedAccused::create($ReleasedItem);
+            }
+        }
+        if(!empty($NbwData)){
+            foreach($NbwData as $NbwItem){
+                $NbwItem['form_data_id'] = $formId;
+                NbwAccused::create($NbwItem);
             }
         }
 

@@ -32,3 +32,29 @@ class ArrestedAccused extends Model
         }
     }
 }
+class ReleasedAccused extends Model
+{
+    protected $table = 'released_accused';
+    protected $guarded = [];
+
+    public function saveReleasedAccused($releasedData)
+    {
+        // Save multiple arrested accused records
+        foreach ($releasedData as $data) {
+            $this->create($data);
+        }
+    }
+}
+class NbwAccused extends Model
+{
+    protected $table = 'nbw_accused';
+    protected $guarded = [];
+
+    public function saveNbwAccused($nbwData)
+    {
+        foreach($nbwData as $data){
+            $this->create($data);
+        }
+        
+    }
+}

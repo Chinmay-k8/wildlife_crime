@@ -189,11 +189,22 @@
                             <div class="form-group">
                                     <label for="property_recovered_type">Property Recovered Type</label>
                                     <select id="property_recovered_type" name="property_recovered_type" class="form-control" >
-                                        <!-- <option value="">Select Sex</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option> -->
+                                        <option value="Live animal">Live animal</option>
+                                        <option value="Carcass">Carcass</option>
+                                        <option value="Body parts">Body parts</option>
+                                        <option value="Arms and Ammunition">Arms and Ammunition</option>
+                                        <option value="GI wire">GI wire</option>
+                                        <option value="Vehicles">Vehicles</option>
+                                        <option value="Other Material">Other Material</option>
                                     </select>
                             </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                    <div class="form-group row">
+                        <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="2" style="resize: none;"></textarea>
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -304,6 +315,87 @@
                                 </div>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Name of accused against whom NBW issued & status of NBW execution</h5>
+                            <table class="table table-bordered" id="nbw-accused-table">
+                                <thead>
+                                    <tr>
+                                        <th>Accused Name</th>
+                                        <th>NBW Execution Status</th>
+                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row5" style="cursor: pointer; width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="nbw_accused[0][name]" class="form-control"></td>
+                                        <td><input type="text" name="nbw_accused[0][status]" class="form-control"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Name of the accused released on bail with date</h5>
+                            <table class="table table-bordered" id="released-accused-table">
+                                <thead>
+                                    <tr>
+                                        <th>Accused name </th>
+                                        <th>Date</th>
+                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row4" style="cursor: pointer; width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="released_accused[0][name]" class="form-control"></td>
+                                        <td><input type="date" id="release_date" name="released_accused[0][date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <h5>Submission of final PR</h5>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="officer_name">Final PR number</label>
+                                    <input type="text" id="pr_number" name="pr_number" class="form-control" required>
+                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="case_date">Date</label>
+                                <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="pr_status">Status</label>
+                                    <input type="text" id="pr_status" name="pr_status" class="form-control" required>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="form-group">
+                                    <label for="action_against_staff">Action taken against any staff(Departmental Staff)</label>
+                                    <select id="action_against_staff" name="action_against_staff" class="form-control" required>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                        <option value="Under trial">Under trial</option>
+                                    </select>
+                            </div> 
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                    <label for="case_present_status">Present Status of the case</label>
+                                    <input type="text" id="case_present_status" name="case_present_status" class="form-control" required>
+                            </div> 
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -320,6 +412,7 @@
 $(document).ready(function() {
      $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
      $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
+
 
 
     $('#add-row').click(function() {
@@ -356,7 +449,28 @@ $(document).ready(function() {
         $('#mobiles-recovered-table tbody').append(newRow);
         updateIndices3();
     });
-
+    $('#add-row4').click(function() {
+        var index = $('#released-accused-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="released_accused[${index}][name]" class="form-control"></td>
+                <td><input type="date" name="released_accused[${index}][date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#released-accused-table tbody').append(newRow);
+        updateIndices4();
+    });
+    $('#add-row5').click(function() {
+        var index = $('#nbw-accused-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="nbw_accused[${index}][name]" class="form-control"></td>
+                <td><input type="text" name="nbw_accused[${index}][status]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#nbw-accused-table tbody').append(newRow);
+        updateIndices4();
+    });
     // Delete accused details row
     $(document).on('click', '.delete-accused', function() {
         $(this).closest('tr').remove();
@@ -369,6 +483,14 @@ $(document).ready(function() {
     $(document).on('click', '.delete-mobile', function() {
         $(this).closest('tr').remove();
         updateIndices3();
+    });
+    $(document).on('click', '.delete-released-accused', function() {
+        $(this).closest('tr').remove();
+        updateIndices4();
+    });
+    $(document).on('click', '.delete-nbw-accused', function() {
+        $(this).closest('tr').remove();
+        updateIndices5();
     });
     // Update the indices of the accused details rows
     function updateIndices() {
@@ -391,6 +513,24 @@ $(document).ready(function() {
     }
     function updateIndices3(){
         $('#mobiles-recovered-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
+    function updateIndices4(){
+        $('#released-accused-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
+    function updateIndices5(){
+        $('#nbw-accused-table tbody tr').each(function(index) {
             $(this).find('input').each(function() {
                 var name = $(this).attr('name');
                 var newName = name.replace(/\d+/, index);
