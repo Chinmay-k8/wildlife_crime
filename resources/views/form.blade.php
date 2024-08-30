@@ -396,6 +396,34 @@
                             </div> 
                         </div>
                     </div>
+                    <div class="row mt-4">
+                    <div class="row">
+                        <h5>Uploads</h5>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="post_mortem_report">Post Mortem Report</label>
+                                <input type="file" class="form-control" id="post_mortem_report" name="post_mortem_report" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="electrical_inspector_report">Report from Electrical Inspector</label>
+                                <input type="file" class="form-control" id="electrical_inspector_report" name="electrical_inspector_report" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="lab_report">Laboratory Report/Other Report</label>
+                                <input type="file" class="form-control" id="lab_report" name="lab_report" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="court_judgement">Judgement of the Court</label>
+                                <input type="file" class="form-control" id="court_judgement" name="court_judgement" accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Submit</button>
