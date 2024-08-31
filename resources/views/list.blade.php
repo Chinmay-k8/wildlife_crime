@@ -21,19 +21,20 @@ td {
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; max-height: 500px;">
-                    <table class="table table-bordered">
+                <div class="table-responsive" >
+                    <table class="table table-bordered" style="border-collapse: collapse;">
                         <thead>
                             <tr>
-                                <th>Sl. No.</th>    
-                                <th>Case-id</th>
-                                <th>Circle</th>
-                                <th>Division</th>
+                                <th>Sl. No.</th>     
                                 <th>Range</th>
                                 <th>Section</th>
                                 <th>Beat</th>
-                                <th>Case Type</th>
                                 <th>Case Number</th>
+                                <th>Approval Status</th>
+                                <!-- <th>Case-id</th>
+                                <th>Circle</th>
+                                <th>Division</th> -->
+                                <!-- <th>Case Type</th>
                                 <th>Place of Detection</th>
                                 <th>Case Date</th>
                                 <th>Detection Date</th>
@@ -49,7 +50,7 @@ td {
                                 <th>Property Recovered Type</th>
                                 <th>Brief Fact</th>
                                 <th>Accused Details</th>
-                                <th>Arrested Accused Details</th>
+                                <th>Arrested Accused Details</th> -->
                             </tr>
                         </thead>
                         <tbody id="data-table-body" style="text-align: center;">
@@ -86,56 +87,56 @@ $(document).ready(function() {
         data.forEach(function(item, index) {
             var $row = $('<tr>');
             $row.append('<td>' + (index + 1) + '</td>');
-            $row.append('<td>' + item.id + '</td>');
-            $row.append('<td class="circle-name" data-id="' + item.circle + '">' + item.circle + '</td>');
-            $row.append('<td class="division-name" data-id="' + item.division + '">' + item.division + '</td>');
+            //$row.append('<td>' + item.id + '</td>');
+            //$row.append('<td class="circle-name" data-id="' + item.circle + '">' + item.circle + '</td>');
+            //$row.append('<td class="division-name" data-id="' + item.division + '">' + item.division + '</td>');
             $row.append('<td class="range-name" data-id="' + item.range + '">' + item.range + '</td>');
             $row.append('<td class="section-name" data-id="' + item.section + '">' + item.section + '</td>');
             $row.append('<td class="beat-name" data-id="' + item.beat + '">' + item.beat + '</td>');
-            $row.append('<td>' + item.case_type + '</td>');
             $row.append('<td>' + item.case_no + '</td>');
-            $row.append('<td class="place-name" data-id="' + item.detection_place + '">' + item.detection_place + '</td>');
-            $row.append('<td>' + item.case_date + '</td>');
-            $row.append('<td>' + item.detection_date + '</td>');
-            $row.append('<td>' + item.latitude + '</td>');
-            $row.append('<td>' + item.longitude + '</td>');
-            $row.append('<td>' + item.detection_agency + '</td>');
-            $row.append('<td>' + item.investigating_agency + '</td>');
-            $row.append('<td>' + item.species_name + '</td>');
-            $row.append('<td>' + item.species_age + '</td>');
-            $row.append('<td>' + item.species_sex + '</td>');
-            $row.append('<td>' + item.old_schedule_species + '</td>');
-            $row.append('<td>' + item.new_schedule_species + '</td>');
-            $row.append('<td>' + item.property_recovered_type + '</td>');
-            $row.append('<td>' + item.brief_fact + '</td>');
+            //$row.append('<td>' + item.case_type + '</td>');
+            // $row.append('<td class="place-name" data-id="' + item.detection_place + '">' + item.detection_place + '</td>');
+            // $row.append('<td>' + item.case_date + '</td>');
+            // $row.append('<td>' + item.detection_date + '</td>');
+            // $row.append('<td>' + item.latitude + '</td>');
+            // $row.append('<td>' + item.longitude + '</td>');
+            // $row.append('<td>' + item.detection_agency + '</td>');
+            // $row.append('<td>' + item.investigating_agency + '</td>');
+            // $row.append('<td>' + item.species_name + '</td>');
+            // $row.append('<td>' + item.species_age + '</td>');
+            // $row.append('<td>' + item.species_sex + '</td>');
+            // $row.append('<td>' + item.old_schedule_species + '</td>');
+            // $row.append('<td>' + item.new_schedule_species + '</td>');
+            // $row.append('<td>' + item.property_recovered_type + '</td>');
+            // $row.append('<td>' + item.brief_fact + '</td>');
 
-            var accusedDetails = item.accused.length ? '<ul>' : 'No Accused Details';
-            item.accused.forEach(function(accused) {
-                accusedDetails += '<li>' +
-                                  '<strong>Name:</strong> ' + accused.name + '<br>' +
-                                  '<strong>Alias:</strong> ' + accused.alias + '<br>' +
-                                  '<strong>Father\'s Name:</strong> ' + accused.father_name + '<br>' +
-                                  '<strong>Address:</strong> ' + accused.address + '<br>' +
-                                  '<strong>Mobile:</strong> ' + accused.mobile + '<br>' +
-                                  '<strong>IMEI:</strong> ' + accused.imei +
-                                  '</li><hr>';
-            });
-            if (item.accused.length) accusedDetails += '</ul>';
-            $row.append('<td>' + accusedDetails + '</td>');
+            // var accusedDetails = item.accused.length ? '<ul>' : 'No Accused Details';
+            // item.accused.forEach(function(accused) {
+            //     accusedDetails += '<li>' +
+            //                       '<strong>Name:</strong> ' + accused.name + '<br>' +
+            //                       '<strong>Alias:</strong> ' + accused.alias + '<br>' +
+            //                       '<strong>Father\'s Name:</strong> ' + accused.father_name + '<br>' +
+            //                       '<strong>Address:</strong> ' + accused.address + '<br>' +
+            //                       '<strong>Mobile:</strong> ' + accused.mobile + '<br>' +
+            //                       '<strong>IMEI:</strong> ' + accused.imei +
+            //                       '</li><hr>';
+            // });
+            // if (item.accused.length) accusedDetails += '</ul>';
+            // $row.append('<td>' + accusedDetails + '</td>');
 
-            var arrestedDetails = item.arrested_accused.length ? '<ul>' : 'No Arrested Accused Details';
-            item.arrested_accused.forEach(function(arrested) {
-                arrestedDetails += '<li>' +
-                                   '<strong>Name:</strong> ' + arrested.name + '<br>' +
-                                   '<strong>Alias:</strong> ' + arrested.alias + '<br>' +
-                                   '<strong>Father\'s Name:</strong> ' + arrested.fathers_name + '<br>' +
-                                   '<strong>Address:</strong> ' + arrested.address + '<br>' +
-                                   '<strong>Mobile:</strong> ' + arrested.mobile + '<br>' +
-                                   '<strong>IMEI:</strong> ' + arrested.imei +
-                                   '</li><hr>';
-            });
-            if (item.arrested_accused.length) arrestedDetails += '</ul>';
-            $row.append('<td>' + arrestedDetails + '</td>');
+            // var arrestedDetails = item.arrested_accused.length ? '<ul>' : 'No Arrested Accused Details';
+            // item.arrested_accused.forEach(function(arrested) {
+            //     arrestedDetails += '<li>' +
+            //                        '<strong>Name:</strong> ' + arrested.name + '<br>' +
+            //                        '<strong>Alias:</strong> ' + arrested.alias + '<br>' +
+            //                        '<strong>Father\'s Name:</strong> ' + arrested.fathers_name + '<br>' +
+            //                        '<strong>Address:</strong> ' + arrested.address + '<br>' +
+            //                        '<strong>Mobile:</strong> ' + arrested.mobile + '<br>' +
+            //                        '<strong>IMEI:</strong> ' + arrested.imei +
+            //                        '</li><hr>';
+            // });
+            // if (item.arrested_accused.length) arrestedDetails += '</ul>';
+            // $row.append('<td>' + arrestedDetails + '</td>');
 
             $tableBody.append($row);
         });
