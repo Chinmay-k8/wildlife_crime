@@ -5,10 +5,15 @@
 @endsection
 @section('form-content')
 <div class="container mt-5">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form id="data-form" action="{{ route('submit-form') }}" method="POST">
+                <form id="data-form" action="{{ route('submit-form') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">

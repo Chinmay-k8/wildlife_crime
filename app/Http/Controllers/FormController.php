@@ -81,15 +81,15 @@ class FormController extends Controller
         // Handle file uploads
         $uploadsData = [
             'form_data_id' => $formId,
-            'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post_mortem_report', $formId),
-            'electrical_inspector_report' => $this->handleFileUpload($request->file('electrical_inspector_report'), 'electrical_inspector_report', $formId),
-            'laboratory_report' => $this->handleFileUpload($request->file('laboratory_report'), 'laboratory_report', $formId),
-            'court_judgement' => $this->handleFileUpload($request->file('court_judgement'), 'court_judgement', $formId),
+            'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post-mortem-report', $formId),
+            'electrical_inspector_report' => $this->handleFileUpload($request->file('electrical_inspector_report'), 'electrical-inspector-report', $formId),
+            'laboratory_report' => $this->handleFileUpload($request->file('laboratory_report'), 'laboratory-report', $formId),
+            'court_judgement' => $this->handleFileUpload($request->file('court_judgement'), 'court-judgement', $formId),
         ];
 
         // Save upload details
-        $upload = new Upload();
-        $upload->saveUploads($uploadsData);
+        $uploads = new Uploads();
+        $uploads->saveUploads($uploadsData);
 
         // Redirect or return response
         return redirect()->back()->with('success', 'Form submitted and data saved successfully.');
@@ -131,13 +131,14 @@ class FormController extends Controller
     public function handleFileUpload($file, $type, $formId)
     {
         if ($file) {
-            // Generate a unique file name with form_data_id and timestamp
-            $fileName = $formId . '_' . time() . '_' . $file->getClientOriginalName();
+
+            $dateTime = now()->format('dmy_His');
+            $fileName = $formId . '_' . $dateTime . '_' . $file->getClientOriginalName();
 
             // Save the file to the appropriate subfolder inside 'uploads'
-            $path = $file->storeAs('uploads/' . $type, $fileName, 'public');
+            $file->storeAs('uploads/' . $type, $fileName, 'public');
 
-            return $path; // Return the file path to be saved in the database
+            return $fileName; // Return the file path to be saved in the database
         }
         return null; // Return null if no file was uploaded
     }
