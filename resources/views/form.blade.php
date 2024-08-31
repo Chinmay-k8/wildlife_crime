@@ -414,7 +414,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="lab_report">Laboratory Report/Other Report</label>
-                                <input type="file" class="form-control" id="lab_report" name="lab_report" accept=".pdf,.doc,.docx">
+                                <input type="file" class="form-control" id="laboratory_report" name="laboratory_report" accept=".pdf,.doc,.docx">
                             </div>
                         </div>
                         <div class="col-md-3">
