@@ -10,7 +10,7 @@ use App\Models\ArrestedAccused;
 use App\Models\ReleasedAccused;
 use App\Models\AccusedMobiles;
 use App\Models\NbwAccused;
-
+use App\Models\Uploads;
 
 class FormController extends Controller
 {
@@ -23,7 +23,8 @@ class FormController extends Controller
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
-        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused']);
+        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
+        'laboratory_report', 'court_judgement']);
         $accusedData = $request->input('accused');
         $arrestedAccusedData = $request->input('arrested_accused');
         $MobileData = $request->input('accused_mobile');
@@ -77,6 +78,18 @@ class FormController extends Controller
                 NbwAccused::create($NbwItem);
             }
         }
+        // Handle file uploads
+        $uploadsData = [
+            'form_data_id' => $formId,
+            'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post_mortem_report', $formId),
+            'electrical_inspector_report' => $this->handleFileUpload($request->file('electrical_inspector_report'), 'electrical_inspector_report', $formId),
+            'laboratory_report' => $this->handleFileUpload($request->file('laboratory_report'), 'laboratory_report', $formId),
+            'court_judgement' => $this->handleFileUpload($request->file('court_judgement'), 'court_judgement', $formId),
+        ];
+
+        // Save upload details
+        $upload = new Upload();
+        $upload->saveUploads($uploadsData);
 
         // Redirect or return response
         return redirect()->back()->with('success', 'Form submitted and data saved successfully.');
@@ -114,5 +127,18 @@ class FormController extends Controller
         // exit; // Stop execution for debugging
 
 
+    }
+    public function handleFileUpload($file, $type, $formId)
+    {
+        if ($file) {
+            // Generate a unique file name with form_data_id and timestamp
+            $fileName = $formId . '_' . time() . '_' . $file->getClientOriginalName();
+
+            // Save the file to the appropriate subfolder inside 'uploads'
+            $path = $file->storeAs('uploads/' . $type, $fileName, 'public');
+
+            return $path; // Return the file path to be saved in the database
+        }
+        return null; // Return null if no file was uploaded
     }
 }
