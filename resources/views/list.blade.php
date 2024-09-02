@@ -21,21 +21,20 @@ td {
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; max-height: 500px;">
-                    <table class="table table-bordered">
+                <div class="table-responsive" >
+                    <table class="table table-bordered" style="border-collapse: collapse;">
                         <thead>
                             <tr>
                                 <th>Sl. No.</th>    
-                                <!-- <th>Case-id</th> -->
-                                <!-- <th>Circle</th>
-                                <th>Division</th> -->
-                                <th>Case Number</th>
+                                <th>Case-id</th>
+                                <th>Circle</th>
+                                <th>Division</th>
                                 <th>Range</th>
                                 <th>Section</th>
                                 <th>Beat</th>
-                                <!-- <th>Case Type</th> -->
-                                
-                                <!-- <th>Place of Detection</th>
+                                <th>Case Type</th>
+                                <th>Case Number</th>
+                                <th>Place of Detection</th>
                                 <th>Case Date</th>
                                 <th>Detection Date</th>
                                 <th>Latitude</th>
@@ -48,9 +47,9 @@ td {
                                 <th>Old Schedule Of Species under WLPA</th>
                                 <th>New Schedule Of Species under WLPA</th>
                                 <th>Property Recovered Type</th>
-                                <th>Brief Fact</th> -->
-                                <!-- <th>Accused Details</th>
-                                <th>Arrested Accused Details</th> -->
+                                <th>Brief Fact</th>
+                                <th>Accused Details</th>
+                                <th>Arrested Accused Details</th>
                             </tr>
                         </thead>
                         <tbody id="data-table-body" style="text-align: center;">
@@ -72,29 +71,28 @@ $(document).ready(function() {
         data.forEach(function(item, index) {
             var $row = $('<tr>');
             $row.append('<td>' + (index + 1) + '</td>');
-            // $row.append('<td>' + item.id + '</td>');
-            // $row.append('<td>' + (item.circle.name_e || item.circle_id) + '</td>');
-            // $row.append('<td>' + (item.division.name_e || item.division_id) + '</td>');
+            $row.append('<td>' + item.id + '</td>');
+            $row.append('<td class="circle-name" data-id="' + item.circle + '">' + item.circle + '</td>');
+            $row.append('<td class="division-name" data-id="' + item.division + '">' + item.division + '</td>');
+            $row.append('<td class="range-name" data-id="' + item.range + '">' + item.range + '</td>');
+            $row.append('<td class="section-name" data-id="' + item.section + '">' + item.section + '</td>');
+            $row.append('<td class="beat-name" data-id="' + item.beat + '">' + item.beat + '</td>');
+            $row.append('<td>' + item.case_type + '</td>');
             $row.append('<td>' + item.case_no + '</td>');
-            $row.append('<td>' + (item.range.name_e || item.range_id) + '</td>');
-            $row.append('<td>' + (item.section.name_e || item.section_id) + '</td>');
-            $row.append('<td>' + (item.beat.name_e || item.beat_id) + '</td>');
-            // $row.append('<td>' + item.case_type + '</td>');
-            
-            // $row.append('<td>' + (item.forestblock.name_e || item.detection_place) + '</td>');
-            // $row.append('<td>' + item.case_date + '</td>');
-            // $row.append('<td>' + item.detection_date + '</td>');
-            // $row.append('<td>' + item.latitude + '</td>');
-            // $row.append('<td>' + item.longitude + '</td>');
-            // $row.append('<td>' + item.detection_agency + '</td>');
-            // $row.append('<td>' + item.investigating_agency + '</td>');
-            // $row.append('<td>' + item.species_name + '</td>');
-            // $row.append('<td>' + item.species_age + '</td>');
-            // $row.append('<td>' + item.species_sex + '</td>');
-            // $row.append('<td>' + item.old_schedule_species + '</td>');
-            // $row.append('<td>' + item.new_schedule_species + '</td>');
-            // $row.append('<td>' + item.property_recovered_type + '</td>');
-            // $row.append('<td>' + item.brief_fact + '</td>');
+            $row.append('<td class="place-name" data-id="' + item.detection_place + '">' + item.detection_place + '</td>');
+            $row.append('<td>' + item.case_date + '</td>');
+            $row.append('<td>' + item.detection_date + '</td>');
+            $row.append('<td>' + item.latitude + '</td>');
+            $row.append('<td>' + item.longitude + '</td>');
+            $row.append('<td>' + item.detection_agency + '</td>');
+            $row.append('<td>' + item.investigating_agency + '</td>');
+            $row.append('<td>' + item.species_name + '</td>');
+            $row.append('<td>' + item.species_age + '</td>');
+            $row.append('<td>' + item.species_sex + '</td>');
+            $row.append('<td>' + item.old_schedule_species + '</td>');
+            $row.append('<td>' + item.new_schedule_species + '</td>');
+            $row.append('<td>' + item.property_recovered_type + '</td>');
+            $row.append('<td>' + item.brief_fact + '</td>');
 
             // var accusedDetails = item.accused.length ? '<ul>' : 'No Accused Details';
             // item.accused.forEach(function(accused) {
