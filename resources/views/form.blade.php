@@ -123,7 +123,7 @@
                                 <label for="detection_agency">Case Detection Agency</label>
                                 <select id="detection_agency" name="detection_agency" class="form-control" required>
                                     <option value="">Select Agency</option>
-                                    <option value="Forest">Forest</option>
+                                    <option value="Forest Department">Forest Department</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
@@ -133,7 +133,7 @@
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
                                     <option value="">Select Agency</option>
-                                    <option value="Forest">Forest</option>
+                                    <option value="Forest Department">Forest Department</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
