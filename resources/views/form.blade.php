@@ -174,9 +174,14 @@
                             <div class="form-group">
                                     <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
                                     <select id="old_wlpa" name="old_wlpa" class="form-control" >
-                                        <!-- <option value="">Select Agency</option>
-                                        <option value="Forest">Forest</option>
-                                        <option value="Other">Other</option> -->
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                                        <option value="VII">VII</option>
+                                        <option value="VIII">VIII</option>
                                     </select>
                             </div> 
                         </div>
@@ -184,9 +189,14 @@
                             <div class="form-group">
                                     <label for="new_wlpa">New Schedule Of Species under WLPA</label>
                                     <select id="new_wlpa" name="new_wlpa" class="form-control" >
-                                        <!-- <option value="">Select Agency</option>
-                                        <option value="Forest">Forest</option>
-                                        <option value="Other">Other</option> -->
+                                    <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                                        <option value="VII">VII</option>
+                                        <option value="VIII">VIII</option>
                                     </select>
                             </div> 
                         </div>

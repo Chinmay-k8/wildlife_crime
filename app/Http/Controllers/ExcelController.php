@@ -32,11 +32,27 @@ class ExcelController extends Controller
 
         // Convert the worksheet data into an array
         $sheetData = $worksheet->toArray();
+
+         // Extract headers
+         $headers = array_shift($sheetData);
+
+         // Initialize an array to store the associative array
+         $outputData = [];
+ 
+         // Loop through each row in the sheet data
+         foreach ($sheetData as $row) {
+             $rowData = [];
+             foreach ($headers as $index => $header) {
+                 $rowData[$header] = $row[$index] ?? null;
+             }
+             $outputData[] = $rowData;
+         }
+ 
         $userId = Auth::user()->id;
 
         $output = [
             'user_id' => $userId,
-            'data' => $sheetData,
+            'data' => $outputData,
         ];
         // Print the data as a POST array
         echo '<pre>';
