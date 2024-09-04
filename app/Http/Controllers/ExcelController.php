@@ -35,58 +35,108 @@ class ExcelController extends Controller
 
          // Extract headers
          $headers = array_shift($sheetData);
-
+        // echo '<pre>';
+        //     print_r($headers);
+        //     echo '</pre>';
+        // exit;
          // Initialize an array to store the associative array
          $outputData = [];
- 
-         // Loop through each row in the sheet data
+        
+         // Define the mapping of cell numbers to key names
+        $keyMapping = [
+            0 => 'serial_number', // Example mapping
+            1 => 'division',
+            2 => 'range',
+            3 => 'section',
+            4 => 'beat',
+            5 => 'case_type',
+            6 => 'case_no',
+            7 => 'case_date',
+            8 => 'penal_code',
+            9 => 'detection_date',
+            10 => 'detection_place',
+            11 => 'latitude',
+            12 => 'longitude',
+            13 => 'dectection_agency',
+            14 => 'investigating_agency',
+            15 => 'species_name',
+            16 => 'species_age',
+            17 => 'species_sex',
+            18 => 'old_wlpa',
+            19 => 'property_recovered_type',
+            20 => 'property_recovered_details',
+            21 => 'brief_fact',
+            22 => 'officer_name',
+            23 => 'officer_number',
+            24 => 'accused_name',
+            25 => 'accused_alias',
+            26 => 'accused_father',
+            27 => 'accused_address',
+            28 => 'accused_mobile',
+            29 => 'accused_imei',
+            30 => 'arrested_accused_name',
+            41 => 'court_forward_date',
+            32 => 'nbw_accused_name',
+            33 => 'nbw_accused_status',
+            34 => 'court_name',
+            35 => 'court_case_number',
+            36 => 'released_accused_name',
+            37 => 'released_accused_date',
+            38 => 'pr_status',
+            39 => 'action_against_staff',
+            40 => 'case_present_status'
+
+            // Add more mappings as needed
+        ];
+          // Loop through each row in the sheet data
         foreach ($sheetData as $row) {
             $rowData = [];
-            foreach ($headers as $index => $header) {
+
+            foreach ($keyMapping as $cellIndex => $keyName) {
                 // Split the values based on pipelines for specific fields
-                if (in_array($header, [
-                    'Name of the accused persons',
-                    'Alias',
-                    'Fathers Name',
-                    'Address of the accused persons',
-                    'Name of the accused arrested',
-                    'Name of the accused against whom NBW issued',
-                    'status of NBW execution',
-                    'Mobile Number (all SIM) of the phone seized',
-                    'IMEI (all SIM) of the phone seized',
-                    'Name of the accused released on bail',
-                    'Date of the accused released on bail'
+                if (in_array($keyName, [
+                    'accused_name', // Example field that requires splitting
+                    'accused_alias',
+                    'accused_father',
+                    'accused_address',
+                    'arrested_accused_name',
+                    'nbw_accused_name',
+                    'nbw_accused_status',
+                    'accused_mobile',
+                    'accused_imei',
+                    'released_accused_name',
+                    'released_accused_date'
                 ])) {
-                    $rowData[$header] = explode('|', $row[$index]);
+                    $rowData[$keyName] = explode('|', $row[$cellIndex]);
                 } else {
-                    $rowData[$header] = $row[$index] ?? null;
+                    $rowData[$keyName] = $row[$cellIndex] ?? null;
                 }
             }
 
 
-
             // Create subarrays
-            $rowData['accused_details'] = [
-                'name' => $rowData['Name of the accused persons'] ?? [],
-                'alias' => $rowData['Alias'] ?? [],
-                'fathers_name' => $rowData['Fathers Name'] ?? [],
-                'address' => $rowData['Address of the accused persons'] ?? [],
+            $rowData['accused'] = [
+                'name' => $rowData['accused_name'] ?? [],
+                'alias' => $rowData['accused_alias'] ?? [],
+                'father_name' => $rowData['accused_father'] ?? [],
+                'address' => $rowData['accused_address'] ?? [],
             ];
 
-            $rowData['mobiles_recovered'] = [
-                'mobile_numbers' => $rowData['Mobile Number (all SIM) of the phone seized'] ?? [],
-                'imei_numbers' => $rowData['IMEI (all SIM) of the phone seized'] ?? [],
+            $rowData['accused_mobile'] = [
+                'mobile_no' => $rowData['accused_mobile'] ?? [],
+                'imei_no' => $rowData['accused_imei'] ?? [],
             ];
 
-            $rowData['arrested_accused'] = $rowData['Name of the accused arrested'] ?? [];
+            $rowData['arrested_accused'] = ['name' => $rowData['arrested_accused_name'] ?? [],];
             $rowData['nbw_accused'] = [
-                'name' => $rowData['Name of the accused against whom NBW issued'] ?? [],
-                'status' => $rowData['status of NBW execution'] ?? [],
+                'name' => $rowData['nbw_accused_name'] ?? [],
+                'status' => $rowData['nbw_accused_status'] ?? [],
             ];
             $rowData['released_accused'] = [
-                'name' => $rowData['Name of the accused released on bail'] ?? [],
-                'date' => $rowData['Date of the accused released on bail'] ?? [],
+                'name' => $rowData['released_accused_name'] ?? [],
+                'date' => $rowData['released_accused_date'] ?? [],
             ];
+
 
             // echo '<pre>';
             // print_r($rowData['released_accused']);
@@ -94,20 +144,21 @@ class ExcelController extends Controller
 
             // Remove original fields from main array
             unset(
-                $rowData['Name of the accused persons'],
-                $rowData['Alias'],
-                $rowData['Fathers Name'],
-                $rowData['Address of the accused persons'],
-                $rowData['Mobile Number (all SIM) of the phone seized'],
-                $rowData['IMEI (all SIM) of the phone seized'],
-                $rowData['Name of the accused arrested'],
-                $rowData['Name of the accused against whom NBW issued'],
-                $rowData['status of NBW execution'],
-                $rowData['Name of the accused released on bail'],
-                $rowData['Date of the accused released on bail']
+                $rowData['serial_number'],
+                $rowData['accused_name'],
+                $rowData['accused_alias'],
+                $rowData['accused_father'],
+                $rowData['accused_address'],
+                $rowData['accused_mobile'],
+                $rowData['accused_imei'],
+                $rowData['arrested_accused_name'],
+                $rowData['nbw_accused_name'],
+                $rowData['nbw_accused_status'],
+                $rowData['released_accused_name'],
+                $rowData['released_accused_date']
             );
 
-             // echo '<pre>';
+            // echo '<pre>';
             // print_r($rowData['released_accused']);
             // echo '</pre>';
 
@@ -117,19 +168,19 @@ class ExcelController extends Controller
             $outputData[] = $rowData;
         }
  
-        $userId = Auth::user()->id;
+        return redirect()->back()->with('success', 'Data imported and saved successfully.');
+        // Print the data as a POST array     
+        // $userId = Auth::user()->id;
 
-        $output = [
-            'user_id' => $userId,
-            'data' => $outputData,
-        ];
-        // Print the data as a POST array
-                     echo '<pre>';
-            print_r($output);
-            echo '</pre>';
-        exit;
-
-        return;
+        // $output = [
+        //     'user_id' => $userId,
+        //     'data' => $outputData,
+        // ];
+        // echo '<pre>';
+        // print_r($output);
+        // echo '</pre>';
+        // exit;
+        // return;
     }
     // public function upload(Request $request)
     // {
