@@ -11,11 +11,6 @@ use App\Models\ArrestedAccused;
 use App\Models\ReleasedAccused;
 use App\Models\AccusedMobiles;
 use App\Models\NbwAccused;
-use App\Models\Circle;
-use App\Models\Division;
-use App\Models\Range;
-use App\Models\Section;
-use App\Models\Beat;
 
 class ExcelController extends Controller
 {
@@ -101,20 +96,9 @@ class ExcelController extends Controller
                     if (in_array($keyName, ['case_date', 'detection_date', 'court_forward_date', 'released_accused_date'])) {
                         $value = $this->convertToDate($value);
                     }
-                    
-                     // Save IDs instead of names
-                     if ($keyName === 'division') {
-                        $value = $this->getDivisionId($value);
-                    } elseif ($keyName === 'range') {
-                        $value = $this->getRangeId($value);
-                    } elseif ($keyName === 'section') {
-                        $value = $this->getSectionId($value);
-                    } elseif ($keyName === 'beat') {
-                        $value = $this->getBeatId($value);
-                    }
+            
                     // Set empty values to null
                     $rowData[$keyName] = empty($value) ? null : $value;
-
                 } else {
                     $rowData[$keyName] = null; // Handle the case where the cell is not set
                 }
@@ -230,24 +214,5 @@ class ExcelController extends Controller
         
         // Return null or handle invalid date formats
         return null;
-    }
-    private function getDivisionId($name)
-    {
-        return Division::where('name_e', trim($name))->value('id');
-    }
-
-    private function getRangeId($name)
-    {
-        return Range::where('name_e', trim($name))->value('id');
-    }
-
-    private function getSectionId($name)
-    {
-        return Section::where('name_e', trim($name))->value('id');
-    }
-
-    private function getBeatId($name)
-    {
-        return Beat::where('name_e', trim($name))->value('id');
     }
 }

@@ -76,9 +76,9 @@ $(document).ready(function() {
             // $row.append('<td>' + (item.circle.name_e || item.circle_id) + '</td>');
             // $row.append('<td>' + (item.division.name_e || item.division_id) + '</td>');
             $row.append('<td>' + item.case_no + '</td>');
-            $row.append('<td>' + (item.range.name_e || item.range_id) + '</td>');
-            $row.append('<td>' + (item.section.name_e || item.section_id) + '</td>');
-            $row.append('<td>' + (item.beat.name_e || item.beat_id) + '</td>');
+            $row.append('<td>' + (item.range ? item.range.name_e : item.range_id) + '</td>');
+            $row.append('<td>' + (item.section ? item.section.name_e : item.section_id) + '</td>');
+            $row.append('<td>' + (item.beat ? item.beat.name_e : item.beat_id) + '</td>');
             $row.append('<td> </td>');
             // $row.append('<td>' + item.case_type + '</td>');
             // $row.append('<td>' + (item.forestblock.name_e || item.detection_place) + '</td>');
@@ -133,6 +133,7 @@ $(document).ready(function() {
         url: '{{ route('list.data') }}',
         method: 'GET',
         success: function(response) {
+            console.log('Received Data:', response);
             populateTable(response);
         },
         error: function() {
