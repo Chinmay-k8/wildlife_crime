@@ -33,6 +33,7 @@ td {
                                 <th>Range</th>
                                 <th>Section</th>
                                 <th>Beat</th>
+                                <th>Approval Status</th>
                                 <!-- <th>Case Type</th>
                                 <th>Place of Detection</th>
                                 <th>Case Date</th>
@@ -78,6 +79,7 @@ $(document).ready(function() {
             $row.append('<td>' + (item.range.name_e || item.range_id) + '</td>');
             $row.append('<td>' + (item.section.name_e || item.section_id) + '</td>');
             $row.append('<td>' + (item.beat.name_e || item.beat_id) + '</td>');
+            $row.append('<td> </td>');
             // $row.append('<td>' + item.case_type + '</td>');
             // $row.append('<td>' + (item.forestblock.name_e || item.detection_place) + '</td>');
             // $row.append('<td>' + item.case_date + '</td>');
