@@ -16,6 +16,7 @@ use App\Models\Division;
 use App\Models\Range;
 use App\Models\Section;
 use App\Models\Beat;
+use App\Models\Forestblock;
 
 class ExcelController extends Controller
 {
@@ -28,9 +29,11 @@ class ExcelController extends Controller
     {
         $request->validate([
             'excel_file' => 'required|file|mimes:xlsx,xls',
+            
         ]);
 
         $file = $request->file('excel_file');
+        $circleId = $request->input('circle');
 
         // Load the uploaded file into PhpSpreadsheet
         $spreadsheet = IOFactory::load($file->getRealPath());
@@ -102,15 +105,21 @@ class ExcelController extends Controller
                         $value = $this->convertToDate($value);
                     }
                     
-                     // Save IDs instead of names
-                     if ($keyName === 'division') {
-                        $value = $this->getDivisionId($value);
+                     // Validate and convert values using models
+                    if ($keyName === 'division') {
+                        $divisionId = $this->validateDivisionWithModel($value, $circleId); // Validate division
+                        if (!$divisionId) {
+                            return redirect()->back()->withErrors("Division '{$value}' does not belong to the selected circle.");
+                        }
+                        $value = $divisionId;
                     } elseif ($keyName === 'range') {
                         $value = $this->getRangeId($value);
                     } elseif ($keyName === 'section') {
                         $value = $this->getSectionId($value);
                     } elseif ($keyName === 'beat') {
                         $value = $this->getBeatId($value);
+                    }elseif ($keyName === 'detection_place'){
+                        $value = $this->getForestblockId($value);   
                     }
                     // Set empty values to null
                     $rowData[$keyName] = empty($value) ? null : $value;
@@ -158,7 +167,7 @@ class ExcelController extends Controller
             $rowData['released_accused_date']  );  
             
             // echo '<pre>'; print_r($rowData); echo '</pre>';exit;
-
+            $rowData['circle'] = $circleId;
             $formData = $rowData;
             // echo '<pre>'; print_r($formData); echo '</pre>';exit;
 
@@ -250,4 +259,17 @@ class ExcelController extends Controller
     {
         return Beat::where('name_e', trim($name))->value('id');
     }
+    private function getForestblockId($name)
+    {
+        return Forestblock::where('name_e', trim($name))->value('id');
+    }
+    private function validateDivisionWithModel($divisionName, $circleId)
+{
+    // Fetch the division by its name and circle (parent_id)
+    $division = Division::where('name_e', trim($divisionName))
+        ->where('parent_id', $circleId)
+        ->first();
+
+    return $division ? $division->id : null;
+}
 }

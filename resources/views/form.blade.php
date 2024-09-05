@@ -1,7 +1,7 @@
 <!-- resources/views/form.blade.php -->
 @extends('layouts.dashboard')
 @section('user-info')
-<h1>Complain 1</h1>
+<h1>Form DX</h1>
 @endsection
 @section('form-content')
 <div class="container mt-5">

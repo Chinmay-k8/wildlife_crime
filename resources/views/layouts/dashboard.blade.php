@@ -234,13 +234,13 @@
                 
                             <li>
                                 <a href="{{ route('dashboard') }}">
-                                    <i data-feather="gift"></i>
+                                    <!-- <i data-feather="gift"></i> -->
                                     <span> Dashboard </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#sidebarMultilevel" data-bs-toggle="collapse">
-                                    <i data-feather="share-2"></i>
+                                    <!-- <i data-feather="share-2"></i> -->
                                     <span> Complains </span>
                                     <span class="menu-arrow"></span>
                                 </a>
@@ -248,7 +248,7 @@
                                     <ul class="nav-second-level">
                                         <li>
                                             <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
-                                                Complain 1 <span class="menu-arrow"></span>
+                                                Form DX <span class="menu-arrow"></span>
                                             </a>
                                             <div class="collapse" id="sidebarMultilevel2">
                                                 <ul class="nav-second-level">
@@ -266,7 +266,7 @@
                                             </div>
                                         </li>
 
-                                        <li>
+                                        <!-- <li>
                                             <a href="#sidebarMultilevel3" data-bs-toggle="collapse">
                                                 Third Level <span class="menu-arrow"></span>
                                             </a>
@@ -292,7 +292,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </li>
