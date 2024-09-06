@@ -38,7 +38,7 @@ class ExcelController extends Controller
         // Load the uploaded file into PhpSpreadsheet
         $spreadsheet = IOFactory::load($file->getRealPath());
 
-        // Assuming you want the data from the first worksheet
+      
         $worksheet = $spreadsheet->getActiveSheet();
 
         // Convert the worksheet data into an array
@@ -47,6 +47,7 @@ class ExcelController extends Controller
         // Extract headers
         $headers = array_shift($sheetData);
         // echo '<pre>'; print_r($headers); echo '</pre>';exit;
+
         // Define the mapping of cell numbers to key names
         $keyMapping = [
             0 => 'serial_number',
@@ -91,9 +92,11 @@ class ExcelController extends Controller
             39 => 'action_against_staff',
             40 => 'case_present_status'
         ];
+         // Array to collect errors
+         $validationErrors = [];
 
         // Loop through each row in the sheet data
-        foreach ($sheetData as $row) {
+        foreach ($sheetData as $rowIndex => $row) {
             $rowData = [];
 
             foreach ($keyMapping as $cellIndex => $keyName) {
@@ -107,25 +110,54 @@ class ExcelController extends Controller
                     
                      // Validate and convert values using models
                     if ($keyName === 'division') {
-                        $divisionId = $this->validateDivisionWithModel($value, $circleId); // Validate division
+                        $divisionId = $this->validateDivisionWithModel($value, $circleId); 
                         if (!$divisionId) {
-                            return redirect()->back()->withErrors("Division '{$value}' does not belong to the selected circle.");
+                            if (!$divisionId) {
+                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Division '{$value}' does not belong to the selected circle.";
+                            }
                         }
                         $value = $divisionId;
                     } elseif ($keyName === 'range') {
-                        $value = $this->getRangeId($value);
+                        $rangeId = $this->validateRangeWithModel($value, $divisionId); 
+                        if (!$rangeId) {
+                            if (!$rangeId) {
+                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Range '{$value}' does not belong to the entered division.";
+                            }
+                        }
+                        $value = $rangeId;
                     } elseif ($keyName === 'section') {
-                        $value = $this->getSectionId($value);
+                        $sectionId = $this->validateSectionWithModel($value, $rangeId); 
+                        if (!$sectionId) {
+                            if (!$sectionId) {
+                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Section '{$value}' does not belong to the entered range.";
+                            }
+                        }
+                        $value = $sectionId;
                     } elseif ($keyName === 'beat') {
-                        $value = $this->getBeatId($value);
+                        $beatId = $this->validateBeatWithModel($value, $sectionId); 
+                        if (!$beatId) {
+                            if (!$beatId) {
+                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Beat '{$value}' does not belong to the entered section.";
+                            }
+                        }
+                        $value = $beatId;
                     }elseif ($keyName === 'detection_place'){
-                        $value = $this->getForestblockId($value);   
+                        $forestblockId = $this->validateForestblockWithModel($value, $divisionId); 
+                        if (!$forestblockId) {
+                            if (!$forestblockId) {
+                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Forest block '{$value}' does not belong to the entered division.";
+                            }
+                        }
+                        $value = $forestblockId;   
                     }
                     // Set empty values to null
                     $rowData[$keyName] = empty($value) ? null : $value;
 
                 } else {
                     $rowData[$keyName] = null; // Handle the case where the cell is not set
+                }
+                if (!empty($validationErrors)) {
+                    return redirect()->back()->withErrors($validationErrors);
                 }
             }
 
@@ -175,7 +207,6 @@ class ExcelController extends Controller
             $form = Form::create($formData);
             $formId = $form->id;
 
-            // Debug: Make sure form ID is saved and fetched correctly
             if (!$formId) {
                 return redirect()->back()->withErrors('Failed to save form data.');
             }
@@ -240,36 +271,48 @@ class ExcelController extends Controller
         // Return null or handle invalid date formats
         return null;
     }
-    private function getDivisionId($name)
-    {
-        return Division::where('name_e', trim($name))->value('id');
-    }
 
-    private function getRangeId($name)
-    {
-        return Range::where('name_e', trim($name))->value('id');
-    }
-
-    private function getSectionId($name)
-    {
-        return Section::where('name_e', trim($name))->value('id');
-    }
-
-    private function getBeatId($name)
-    {
-        return Beat::where('name_e', trim($name))->value('id');
-    }
-    private function getForestblockId($name)
-    {
-        return Forestblock::where('name_e', trim($name))->value('id');
-    }
     private function validateDivisionWithModel($divisionName, $circleId)
-{
-    // Fetch the division by its name and circle (parent_id)
-    $division = Division::where('name_e', trim($divisionName))
-        ->where('parent_id', $circleId)
-        ->first();
+    {
+        // Fetch the division by its name and circle (parent_id)
+        $division = Division::where('name_e', trim($divisionName))
+            ->where('parent_id', $circleId)
+            ->first();
 
-    return $division ? $division->id : null;
-}
+        return $division ? $division->id : null;
+    }
+    private function validateRangeWithModel($rangeName, $divisionId)
+    {
+        
+        $range= Range::where('name_e', trim($rangeName))
+            ->where('parent_id', $divisionId)
+            ->first();
+
+        return $range ? $range->id : null;
+    }
+    private function validateSectionWithModel($sectionName, $rangeId)
+    {
+        $section= Section::where('name_e', trim($sectionName))
+            ->where('parent_id', $rangeId)
+            ->first();
+
+        return $section ? $section->id : null;
+    }
+    private function validateBeatWithModel($beatName, $sectionId)
+    {
+        $beat= Beat::where('name_e', trim($beatName))
+            ->where('parent_id', $sectionId)
+            ->first();
+
+        return $beat ? $beat->id : null;
+    }
+    private function validateForestblockWithModel($forestblockName, $divisionId)
+    {
+        $forestblock= Forestblock::where('name_e', trim($forestblockName))
+            ->where('parent_id', $divisionId)
+            ->first();
+
+        return $forestblock ? $forestblock->id : null;
+    }
+
 }
