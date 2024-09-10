@@ -76,27 +76,35 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="detection_place">Place of Detection</label>
-                                <select id="detection_place" name="detection_place" class="form-control" disabled>
-                                    <option value="">Select Forest Block</option>
+                                <label for="detection_place_type">Place of Detection Type</label>
+                                <select id="detection_place_type" name="detection_place_type" class="form-control">
+                                    <option value="forest">Forest Block</option>
+                                    <option value="revenue">Revenue Forest</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="detection_place">Place of Detection</label>
+                                    <input type="text" id="detection_place" name="detection_place" class="form-control" required>
+                                </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="case_date">Case Date</label>
                                 <input type="date" id="case_date" name="case_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="case_date">Detection Date</label>
                                 <input type="date" id="detection_date" name="detection_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
@@ -180,8 +188,6 @@
                                         <option value="IV">IV</option>
                                         <option value="V">V</option>
                                         <option value="VI">VI</option>
-                                        <option value="VII">VII</option>
-                                        <option value="VIII">VIII</option>
                                     </select>
                             </div> 
                         </div>
@@ -195,8 +201,6 @@
                                         <option value="IV">IV</option>
                                         <option value="V">V</option>
                                         <option value="VI">VI</option>
-                                        <option value="VII">VII</option>
-                                        <option value="VIII">VIII</option>
                                     </select>
                             </div> 
                         </div>
@@ -604,8 +608,8 @@ $(document).ready(function() {
     // Fetch ranges based on selected division
     $('#division').change(function() {
         const divisionId = $(this).val();
-        $('#detection_place').prop('disabled', !divisionId);
-        $('#detection_place').empty().append('<option value="">Select Forest Block</option>');
+        // $('#detection_place').prop('disabled', !divisionId);
+        // $('#detection_place').empty().append('<option value="">Select Forest Block</option>');
         $('#range').prop('disabled', !divisionId);
         $('#range').empty().append('<option value="">Select Range</option>');
         $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
@@ -615,9 +619,9 @@ $(document).ready(function() {
             $.getJSON(`divisions/${divisionId}/ranges`, function(data) {
                 $('#range').append(data.map(range => `<option value="${range.id}">${range.name_e}</option>`));
             });
-            $.getJSON(`divisions/${divisionId}/forest_blocks`, function(data) {
-                $('#detection_place').append(data.map(forest_block => `<option value="${forest_block.id}">${forest_block.name_e}</option>`));
-            });
+            // $.getJSON(`divisions/${divisionId}/forest_blocks`, function(data) {
+            //     $('#detection_place').append(data.map(forest_block => `<option value="${forest_block.id}">${forest_block.name_e}</option>`));
+            // });
         }
     });
 

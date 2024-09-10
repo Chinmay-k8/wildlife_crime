@@ -60,37 +60,38 @@ class ExcelController extends Controller
             7 => 'case_date',
             8 => 'penal_code',
             9 => 'detection_date',
-            10 => 'detection_place',
-            11 => 'latitude',
-            12 => 'longitude',
-            13 => 'detection_agency',
-            14 => 'investigating_agency',
-            15 => 'species_name',
-            16 => 'species_age',
-            17 => 'species_sex',
-            18 => 'old_wlpa',
-            19 => 'property_recovered_type',
-            20 => 'property_recovered_details',
-            21 => 'brief_fact',
-            22 => 'officer_name',
-            23 => 'officer_number',
-            24 => 'accused_name',
-            25 => 'accused_alias',
-            26 => 'accused_father',
-            27 => 'accused_address',
-            28 => 'accused_mobile',
-            29 => 'accused_imei',
-            30 => 'arrested_accused_name',
-            31 => 'court_forward_date',
-            32 => 'nbw_accused_name',
-            33 => 'nbw_accused_status',
-            34 => 'court_name',
-            35 => 'court_case_number',
-            36 => 'released_accused_name',
-            37 => 'released_accused_date',
-            38 => 'pr_status',
-            39 => 'action_against_staff',
-            40 => 'case_present_status'
+            10 => 'detection_place_type',
+            11 => 'detection_place',
+            12 => 'latitude',
+            13 => 'longitude',
+            14 => 'detection_agency',
+            15 => 'investigating_agency',
+            16 => 'species_name',
+            17 => 'species_age',
+            18 => 'species_sex',
+            19 => 'old_wlpa',
+            20 => 'property_recovered_type',
+            21 => 'property_recovered_details',
+            22 => 'brief_fact',
+            23 => 'officer_name',
+            24 => 'officer_number',
+            25 => 'accused_name',
+            26 => 'accused_alias',
+            27 => 'accused_father',
+            28 => 'accused_address',
+            29 => 'accused_mobile',
+            30 => 'accused_imei',
+            31 => 'arrested_accused_name',
+            32 => 'court_forward_date',
+            33 => 'nbw_accused_name',
+            34 => 'nbw_accused_status',
+            35 => 'court_name',
+            36 => 'court_case_number',
+            37 => 'released_accused_name',
+            38 => 'released_accused_date',
+            39 => 'pr_status',
+            40 => 'action_against_staff',
+            41 => 'case_present_status'
         ];
          // Array to collect errors
          $validationErrors = [];
@@ -141,14 +142,6 @@ class ExcelController extends Controller
                             }
                         }
                         $value = $beatId;
-                    }elseif ($keyName === 'detection_place'){
-                        $forestblockId = $this->validateForestblockWithModel($value, $divisionId); 
-                        if (!$forestblockId) {
-                            if (!$forestblockId) {
-                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Forest block '{$value}' does not belong to the entered division.";
-                            }
-                        }
-                        $value = $forestblockId;   
                     }
                     // Set empty values to null
                     $rowData[$keyName] = empty($value) ? null : $value;
@@ -306,13 +299,13 @@ class ExcelController extends Controller
 
         return $beat ? $beat->id : null;
     }
-    private function validateForestblockWithModel($forestblockName, $divisionId)
-    {
-        $forestblock= Forestblock::where('name_e', trim($forestblockName))
-            ->where('parent_id', $divisionId)
-            ->first();
+    // private function validateForestblockWithModel($forestblockName, $divisionId)
+    // {
+    //     $forestblock= Forestblock::where('name_e', trim($forestblockName))
+    //         ->where('parent_id', $divisionId)
+    //         ->first();
 
-        return $forestblock ? $forestblock->id : null;
-    }
+    //     return $forestblock ? $forestblock->id : null;
+    // }
 
 }
