@@ -2203,7 +2203,7 @@ body.authentication-bg-pattern {
     width: 140px;
 }
 .auth-bgc {
-    display: flex;
+    display:inherit;
     align-items: center;
     min-height: 100vh;
     flex-direction: row;
