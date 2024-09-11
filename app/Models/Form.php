@@ -58,6 +58,23 @@ class Form extends Model
     {
         return $this->hasMany(ArrestedAccused::class, 'form_data_id');
     }
+    public function nbwAccused()
+    {
+        return $this->hasMany(NbwAccused::class, 'form_data_id');
+    }
+    public function releasedAccused()
+    {
+        return $this->hasMany(ReleasedAccused::class, 'form_data_id');
+
+    }
+    public function accusedMobiles()
+    {
+        return $this->hasMany(AccusedMobiles::class, 'form_data_id');
+    }
+    public function uploads()
+    {
+        return $this->hasMany(Uploads::class, 'form_data_id');
+    }
     // Dynamic save method
     public function saveFormData($data)
     {

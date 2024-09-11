@@ -151,7 +151,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                    <label for="detection_agency">Name Of the Species</label>
+                                    <label for="species_name">Name Of the Species</label>
                                     <select id="species_name" name="species_name" class="form-control">
                                         <!-- <option value="">Select Agency</option>
                                         <option value="Forest">Forest</option>
@@ -314,23 +314,23 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-4">  
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="case_date">Date of forwarding to court</label>
+                                <label for="court_forward_date">Date of forwarding to court</label>
                                 <input type="date" id="court_forward_date" name="court_forward_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="officer_name">Court name</label>
+                                    <label for="court_name">Court name</label>
                                     <input type="text" id="court_name" name="court_name" class="form-control" required>
                                 </div>
                         </div>
                         <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="officer_name">Case (2bcc) number</label>
-                                    <input type="text" id="number" name="court_case_number" class="form-control" required>
+                                    <label for="court_case_number">Case (2bcc) number</label>
+                                    <input type="text" id="court_case_number" name="court_case_number" class="form-control" required>
                                 </div>
                         </div>
                     </div>
@@ -386,7 +386,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="case_date">Date</label>
+                                <label for="pr_date">Date</label>
                                 <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
