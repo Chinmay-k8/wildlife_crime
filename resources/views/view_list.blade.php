@@ -56,25 +56,31 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
+                            <label for="penal_code" id="penal_code">Penal Code</label>
+                                <input type="text" id="penal_code" name="penal_code" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label for="detection_place_type">Place of Detection Type</label>
                                 <input type="text" id="detection_place_type" name="detection_place_type" class="form-control" readonly>
                             </div>
                         </div>   
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="detection_place">Place of Detection</label>
                                     <input type="text" id="detection_place" name="detection_place" class="form-control" readonly>
                                 </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="case_date">Case Date</label>
                                 <input type="date" id="case_date" name="case_date" class="form-control" readonly>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="detection_date">Detection Date</label>
                                 <input type="date" id="detection_date" name="detection_date" class="form-control" readonly>
