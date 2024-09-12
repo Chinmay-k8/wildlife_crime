@@ -125,9 +125,25 @@ td {
             }
         });
       
+        // Fetch and populate circle dropdown once
+        $.getJSON('circles', function(data) {
+            $('#edit-modal #circle-dropdown').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
+        });
+
+        // Attach click event for the circle-text only once
+        $('#edit-modal #circle-text').on('click', function() {
+            $(this).hide(); // Hide the textbox
+            $('#edit-modal #circle-dropdown').show(); // Show the dropdown
+        });
+
+        // Attach change event for the dropdown only once
+        $('#edit-modal #circle-dropdown').on('change', function() {
+            let selectedText = $(this).find('option:selected').text();
+            $('#edit-modal #circle-text').val(selectedText); // Update textbox with selected value
+        });
         // When the Edit Details button is clicked
         $(document).on('click', '.edit-details', function (e) {
-
+            
             e.preventDefault();
             var id = $(this).data('id');
             var selectedItem = fetchedData.find(item => item.id === id);
@@ -135,7 +151,7 @@ td {
             if (selectedItem) {
                   
                 $('#edit-modal #case_no').val(selectedItem.case_no);
-                $('#edit-modal #circle').val(selectedItem.circle ? selectedItem.circle.name_e : '');
+                $('#edit-modal #circle-text').val(selectedItem.circle ? selectedItem.circle.name_e : '');
                 $('#edit-modal #division').val(selectedItem.division ? selectedItem.division.name_e : '');
                 $('#edit-modal #range').val(selectedItem.range ? selectedItem.range.name_e : '');
                 $('#edit-modal #section').val(selectedItem.section ? selectedItem.section.name_e : '');
@@ -389,6 +405,7 @@ td {
             } else {
                 alert('Error: Record not found.');
             }
+            
         });
 
     });

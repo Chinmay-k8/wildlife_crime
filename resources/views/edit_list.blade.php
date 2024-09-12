@@ -9,7 +9,10 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="circle">Circle</label>
-                                    <input type="text" id="circle" name="circle" class="form-control">
+                                    <input type="text" id="circle-text" class="form-control" readonly>
+                                    <select id="circle-dropdown" name="circle" class="form-control" style="display: none;">
+                                        <option value="">Select Circle</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
