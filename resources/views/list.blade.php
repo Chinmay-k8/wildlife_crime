@@ -137,21 +137,23 @@ td {
             var id = $(this).data('id');
             var selectedItem = fetchedData.find(item => item.id === id);
             // Reset modal fields to default values
-            $('#edit-modal #circle-text').val('');      // Reset the circle text input
-            $('#edit-modal #circle-dropdown').val('');  // Reset the dropdown to default
-            $('#edit-modal #circle-dropdown').hide();   // Hide dropdown by default
-            $('#edit-modal #circle-text').show();       // Show text input by default
+            //$('#edit-modal #circle-text').val('');      // Reset the circle text input
+            //$('#edit-modal #circle-dropdown').val('');  // Reset the dropdown to default
+            //$('#edit-modal #circle-dropdown').hide();   // Hide dropdown by default
+            $('#edit-modal #circle-dropdown').show();       // Show text input by default
 
             // Empty dropdown and re-populate it with the fetched circle data
-            $('#edit-modal #circle-dropdown').empty();
-            $('#edit-modal #circle-dropdown').append(`<option value="">Select Circle</option>`);
+            //$('#edit-modal #circle-dropdown').empty();
+            //$('#edit-modal #circle-dropdown').append(`<option value="">Select Circle</option>`);
+            //$('#edit-modal #circle-dropdown').val(selectedItem.circle ? selectedItem.circle.name_e : '');
+            //$('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle}">${selectedItem.circle.name_e}</option>`);
             circleData.forEach(circle => {
                 $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);
             });
             if (selectedItem) {
                   
                
-                $('#edit-modal #circle-text').val(selectedItem.circle ? selectedItem.circle.name_e : '');
+                $('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle}">${selectedItem.circle.name_e}</option>`);
 
             // When the text field is clicked, show the dropdown
             $('#edit-modal #circle-text').on('click', function() {
