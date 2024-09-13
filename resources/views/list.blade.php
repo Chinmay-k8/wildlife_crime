@@ -78,7 +78,7 @@ td {
             },
             error: function() {
                 alert('Error fetching data.');
-            }
+            }   
         });
         
         var fetchedData = [];  // Store the fetched data here   
@@ -125,21 +125,10 @@ td {
             }
         });
       
-        // Fetch and populate circle dropdown once
+         // Fetch circle data once and store it
+        var circleData = [];
         $.getJSON('circles', function(data) {
-            $('#edit-modal #circle-dropdown').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
-        });
-
-        // Attach click event for the circle-text only once
-        $('#edit-modal #circle-text').on('click', function() {
-            $(this).hide(); // Hide the textbox
-            $('#edit-modal #circle-dropdown').show(); // Show the dropdown
-        });
-
-        // Attach change event for the dropdown only once
-        $('#edit-modal #circle-dropdown').on('change', function() {
-            let selectedText = $(this).find('option:selected').text();
-            $('#edit-modal #circle-text').val(selectedText); // Update textbox with selected value
+            circleData = data;  // Store the circle data for future use
         });
         // When the Edit Details button is clicked
         $(document).on('click', '.edit-details', function (e) {
@@ -147,11 +136,40 @@ td {
             e.preventDefault();
             var id = $(this).data('id');
             var selectedItem = fetchedData.find(item => item.id === id);
-            
+            // Reset modal fields to default values
+            $('#edit-modal #circle-text').val('');      // Reset the circle text input
+            $('#edit-modal #circle-dropdown').val('');  // Reset the dropdown to default
+            $('#edit-modal #circle-dropdown').hide();   // Hide dropdown by default
+            $('#edit-modal #circle-text').show();       // Show text input by default
+
+            // Empty dropdown and re-populate it with the fetched circle data
+            $('#edit-modal #circle-dropdown').empty();
+            $('#edit-modal #circle-dropdown').append(`<option value="">Select Circle</option>`);
+            circleData.forEach(circle => {
+                $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);
+            });
             if (selectedItem) {
                   
-                $('#edit-modal #case_no').val(selectedItem.case_no);
+               
                 $('#edit-modal #circle-text').val(selectedItem.circle ? selectedItem.circle.name_e : '');
+
+            // When the text field is clicked, show the dropdown
+            $('#edit-modal #circle-text').on('click', function() {
+                $(this).hide(); // Hide the textbox
+                $('#edit-modal #circle-dropdown').show(); // Show the dropdown
+
+                // If the selected circle is available, set it as selected in the dropdown
+                if (selectedItem.circle) {
+                    $('#edit-modal #circle-dropdown').val(selectedItem.circle.id);
+                }
+            });
+
+            // When the dropdown value is changed, update the textbox
+            $('#edit-modal #circle-dropdown').on('change', function() {
+                let selectedText = $(this).find('option:selected').text();
+                $('#edit-modal #circle-text').val(selectedText); // Update textbox with selected value
+            });
+                $('#edit-modal #case_no').val(selectedItem.case_no);
                 $('#edit-modal #division').val(selectedItem.division ? selectedItem.division.name_e : '');
                 $('#edit-modal #range').val(selectedItem.range ? selectedItem.range.name_e : '');
                 $('#edit-modal #section').val(selectedItem.section ? selectedItem.section.name_e : '');

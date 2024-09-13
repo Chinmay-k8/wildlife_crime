@@ -17,6 +17,8 @@ use App\Models\Range;
 use App\Models\Section;
 use App\Models\Beat;
 use App\Models\Forestblock;
+use Illuminate\Support\Facades\Storage;
+
 
 class ExcelController extends Controller
 {
@@ -34,6 +36,7 @@ class ExcelController extends Controller
 
         $file = $request->file('excel_file');
         $circleId = $request->input('circle');
+        $division = $request->input('division');
 
         // Load the uploaded file into PhpSpreadsheet
         $spreadsheet = IOFactory::load($file->getRealPath());
@@ -89,9 +92,11 @@ class ExcelController extends Controller
             36 => 'court_case_number',
             37 => 'released_accused_name',
             38 => 'released_accused_date',
-            39 => 'pr_status',
-            40 => 'action_against_staff',
-            41 => 'case_present_status'
+            39 => 'pr_number',
+            40 => 'pr_date',
+            41 => 'pr_status',
+            42 => 'action_against_staff',
+            43 => 'case_present_status'
         ];
          // Array to collect errors
          $validationErrors = [];
@@ -111,11 +116,9 @@ class ExcelController extends Controller
                     
                      // Validate and convert values using models
                     if ($keyName === 'division') {
-                        $divisionId = $this->validateDivisionWithModel($value, $circleId); 
+                        $divisionId = $this->validateDivisionWithModel($value, $division); 
                         if (!$divisionId) {
-                            if (!$divisionId) {
-                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Division '{$value}' does not belong to the selected circle.";
-                            }
+                                $validationErrors[] = "Row " . ($rowIndex + 2) . ": Division '{$value}' does not belong to the provided division.";
                         }
                         $value = $divisionId;
                     } elseif ($keyName === 'range') {
@@ -265,11 +268,11 @@ class ExcelController extends Controller
         return null;
     }
 
-    private function validateDivisionWithModel($divisionName, $circleId)
+    private function validateDivisionWithModel($divisionName, $divisionId)
     {
         // Fetch the division by its name and circle (parent_id)
         $division = Division::where('name_e', trim($divisionName))
-            ->where('parent_id', $circleId)
+            ->where('id', $divisionId)
             ->first();
 
         return $division ? $division->id : null;
@@ -307,5 +310,19 @@ class ExcelController extends Controller
 
     //     return $forestblock ? $forestblock->id : null;
     // }
+    public function download_demo_excel()
+    {
+       
+        $filePath = 'uploads/demo_excel.xlsx';
+    
+        // Check if the file exists in the storage
+        if (Storage::disk('public')->exists($filePath)) {
+            // Return the file as a response to download
+            return Storage::disk('public')->download($filePath);
+        }
+    
+        // If the file does not exist, return a 404 error
+        abort(404, 'File not found.');
+    }
 
 }
