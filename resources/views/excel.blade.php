@@ -27,22 +27,31 @@
                 <form action="{{ route('excel.upload') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="circle">Circle</label>
                             <select id="circle" name="circle" class="form-control" required>
                                 <option value="">Select Circle</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="divison">Division</label>
                             <select id="division" name="division" class="form-control" required>
                                 <option value="">Select Division </option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="excel_file">Upload Excel File</label>
                             <input type="file" id="excel_file" name="excel_file" class="form-control" required>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="demo_excel">Please Download the Demo Excel Format</label>
+                                <div id="demo_excel_container">
+                                    <!-- The file name will be dynamically inserted here -->
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="text-right mt-4">
                         <button type="submit" class="btn" style="background-color: rgb(0, 80, 64); color: white;">Save</button>
@@ -73,11 +82,11 @@
     $('#division').change(function() {
         const divisionId = $(this).val();
         // $('#detection_place').prop('disabled', !divisionId);
-        // $('#detection_place').empty().append('<option value="">Select Forest Block</option>');
-        $('#range').prop('disabled', !divisionId);
-        $('#range').empty().append('<option value="">Select Range</option>');
-        $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
-        $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
+        // // $('#detection_place').empty().append('<option value="">Select Forest Block</option>');
+        // $('#range').prop('disabled', !divisionId);
+        // $('#range').empty().append('<option value="">Select Range</option>');
+        // $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
+        // $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
 
         if (divisionId) {
             $.getJSON(`divisions/${divisionId}/ranges`, function(data) {
@@ -88,6 +97,11 @@
             // });
         }
     });
+    const baseUrl = '{{ url("download_excel") }}';
+    $('#demo_excel_container').html(`
+                            <button class="btn btn-primary btn-sm" onclick="window.open('${baseUrl}', '_blank')">Download</button>
+    `);
+
 </script>
 
 @endsection
