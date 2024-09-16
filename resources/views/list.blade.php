@@ -135,7 +135,19 @@ td {
             
             e.preventDefault();
             var id = $(this).data('id');
+            $('#editForm').attr('action', '{{ route("update-form", "") }}/' + id);  // Update the action attribute dynamically
+            
+            // $('#edit-modal #saveChangesButton').on('click', function() {
+            //     console.log('Save Changes button clicked');
+            //     console.log($('#editForm').attr('action'));
+            // });
             var selectedItem = fetchedData.find(item => item.id === id);
+
+            $('#edit-modal #circle-dropdown').empty();
+            $('#edit-modal #division-dropdown').empty();
+            $('#edit-modal #range-dropdown').empty();       //Empty the dropdowns each time the modal loads
+            $('#edit-modal #section-dropdown').empty();
+            $('#edit-modal #beat-dropdown').empty();
 
             $('#edit-modal #circle-dropdown').show();       // Show text input by default
             $('#edit-modal #division-dropdown').show();
@@ -146,12 +158,14 @@ td {
 
 
 
-            circleData.forEach(circle => {
-                $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);
-            }); //Populate the circle dropdown with master data.
+           
             if (selectedItem) {
-                  
+                
                 $('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle.id}" selected>${selectedItem.circle.name_e}</option>`); //Append the fetched circle data
+                circleData.forEach(circle => {
+                $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);});  //Populate the circle dropdown with master data.
+
+                
 
                 // When the dropdown value is changed, update the textbox
                 $('#edit-modal #circle-dropdown').on('change', function() {
