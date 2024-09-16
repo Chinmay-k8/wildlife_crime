@@ -142,4 +142,45 @@ class FormController extends Controller
         }
         return null; // Return null if no file was uploaded
     }
+    public function updateForm(Request $request, $id)
+    {
+        dd($request->all());
+
+        // Fetch form by ID and update main form data
+        $form = Form::findOrFail($id); // Find the form by its ID
+        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused']);
+        $form->update($formData);
+
+        // Update accused details
+        Accused::where('form_data_id', $id)->delete(); // Delete existing accused records
+        if (!empty($request->input('accused'))) {
+            foreach ($request->input('accused') as $accusedItem) {
+                $accusedItem['form_data_id'] = $id;
+                Accused::create($accusedItem);
+            }
+        }
+
+        // Update arrested accused details
+        ArrestedAccused::where('form_data_id', $id)->delete(); // Delete existing arrested accused records
+        if (!empty($request->input('arrested_accused'))) {
+            foreach ($request->input('arrested_accused') as $arrestedItem) {
+                $arrestedItem['form_data_id'] = $id;
+                ArrestedAccused::create($arrestedItem);
+            }
+        }
+
+        // Similar logic for mobiles, released accused, and nbw accused tables...
+
+        // Update uploaded documents
+        $uploadsData = [
+            'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post-mortem-report', $id),
+            'electrical_inspector_report' => $this->handleFileUpload($request->file('electrical_inspector_report'), 'electrical-inspector-report', $id),
+            'laboratory_report' => $this->handleFileUpload($request->file('laboratory_report'), 'laboratory-report', $id),
+            'court_judgement' => $this->handleFileUpload($request->file('court_judgement'), 'court-judgement', $id),
+        ];
+        Uploads::where('form_data_id', $id)->update($uploadsData);
+
+        return response()->json(['success' => 'Form updated successfully!']);
+    }
+
 }
