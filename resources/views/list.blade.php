@@ -136,46 +136,90 @@ td {
             e.preventDefault();
             var id = $(this).data('id');
             var selectedItem = fetchedData.find(item => item.id === id);
-            // Reset modal fields to default values
-            //$('#edit-modal #circle-text').val('');      // Reset the circle text input
-            //$('#edit-modal #circle-dropdown').val('');  // Reset the dropdown to default
-            //$('#edit-modal #circle-dropdown').hide();   // Hide dropdown by default
-            $('#edit-modal #circle-dropdown').show();       // Show text input by default
 
-            // Empty dropdown and re-populate it with the fetched circle data
-            //$('#edit-modal #circle-dropdown').empty();
-            //$('#edit-modal #circle-dropdown').append(`<option value="">Select Circle</option>`);
-            //$('#edit-modal #circle-dropdown').val(selectedItem.circle ? selectedItem.circle.name_e : '');
-            //$('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle}">${selectedItem.circle.name_e}</option>`);
+            $('#edit-modal #circle-dropdown').show();       // Show text input by default
+            $('#edit-modal #division-dropdown').show();
+            $('#edit-modal #range-dropdown').show();
+            $('#edit-modal #section-dropdown').show();
+            $('#edit-modal #beat-dropdown').show();
+
+
+
+
             circleData.forEach(circle => {
                 $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);
-            });
+            }); //Populate the circle dropdown with master data.
             if (selectedItem) {
                   
-               
-                $('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle}">${selectedItem.circle.name_e}</option>`);
+                $('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle.id}" selected>${selectedItem.circle.name_e}</option>`); //Append the fetched circle data
 
-            // When the text field is clicked, show the dropdown
-            $('#edit-modal #circle-text').on('click', function() {
-                $(this).hide(); // Hide the textbox
-                $('#edit-modal #circle-dropdown').show(); // Show the dropdown
+                // When the dropdown value is changed, update the textbox
+                $('#edit-modal #circle-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); //fetch the name of the newly slected circle
+                    let selectedValue = $(this).find('option:selected').attr('value'); //fetch the id of newly selected circle
+                    if (selectedValue) {
+                        $.getJSON(`circles/${selectedValue}/divisions`, function(data) {
+                            $('#edit-modal #division-dropdown').empty();
+                            $('#edit-modal #division-dropdown').append(`<option value="">Select Division</option>`);  // Default option
+                            data.forEach(function(division) {
+                                $('#edit-modal #division-dropdown').append(`<option value="${division.id}">${division.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                });
+                $('#edit-modal #division-dropdown').append(`<option value="${selectedItem.division.id}" selected>${selectedItem.division.name_e}</option>`);
+                $('#edit-modal #division-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); 
+                    let selectedValue = $(this).find('option:selected').attr('value'); 
+                    if (selectedValue) {
+                        $.getJSON(`divisions/${selectedValue}/ranges`, function(data) {
+                            $('#edit-modal #range-dropdown').empty();
+                            $('#edit-modal #range-dropdown').append(`<option value="">Select Range</option>`);  // Default option
+                            data.forEach(function(range) {
+                                $('#edit-modal #range-dropdown').append(`<option value="${range.id}">${range.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                });
 
-                // If the selected circle is available, set it as selected in the dropdown
-                if (selectedItem.circle) {
-                    $('#edit-modal #circle-dropdown').val(selectedItem.circle.id);
-                }
-            });
-
-            // When the dropdown value is changed, update the textbox
-            $('#edit-modal #circle-dropdown').on('change', function() {
-                let selectedText = $(this).find('option:selected').text();
-                $('#edit-modal #circle-text').val(selectedText); // Update textbox with selected value
-            });
+                $('#edit-modal #range-dropdown').append(`<option value="${selectedItem.range.id}" selected>${selectedItem.range.name_e}</option>`); //Append the fetched circle data
+                $('#edit-modal #range-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); 
+                    let selectedValue = $(this).find('option:selected').attr('value'); 
+                    if (selectedValue) {
+                        $.getJSON(`ranges/${selectedValue}/sections`, function(data) {
+                            $('#edit-modal #section-dropdown').empty();
+                            $('#edit-modal #section-dropdown').append(`<option value="">Select Section</option>`);  
+                            data.forEach(function(section) {
+                                $('#edit-modal #section-dropdown').append(`<option value="${section.id}">${section.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                });
+                $('#edit-modal #section-dropdown').append(`<option value="${selectedItem.section.id}" selected>${selectedItem.section.name_e}</option>`);
+                $('#edit-modal #section-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); 
+                    let selectedValue = $(this).find('option:selected').attr('value'); 
+                    if (selectedValue) {
+                        $.getJSON(`sections/${selectedValue}/beats`, function(data) {
+                            $('#edit-modal #beat-dropdown').empty();
+                            $('#edit-modal #beat-dropdown').append(`<option value="">Select Section</option>`);  // Default option
+                            data.forEach(function(beat) {
+                                $('#edit-modal #beat-dropdown').append(`<option value="${beat.id}">${beat.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                }); 
+                $('#edit-modal #beat-dropdown').append(`<option value="${selectedItem.beat.id}" selected>${selectedItem.beat.name_e}</option>`);
                 $('#edit-modal #case_no').val(selectedItem.case_no);
-                $('#edit-modal #division').val(selectedItem.division ? selectedItem.division.name_e : '');
-                $('#edit-modal #range').val(selectedItem.range ? selectedItem.range.name_e : '');
-                $('#edit-modal #section').val(selectedItem.section ? selectedItem.section.name_e : '');
-                $('#edit-modal #beat').val(selectedItem.beat ? selectedItem.beat.name_e : '');
                 $('#edit-modal #case_type').val(selectedItem.case_type);
                 $('#edit-modal #case_no').val(selectedItem.case_no);
                 $('#edit-modal #penal_code').val(selectedItem.penal_code);

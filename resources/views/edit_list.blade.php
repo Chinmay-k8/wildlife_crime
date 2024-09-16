@@ -17,19 +17,25 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="division">Division</label>
-                                    <input type="text" id="division" name="division" class="form-control" >
+                                    <select id="division-dropdown" name="division" class="form-control" style="display: none;">
+                                        <option value="">Select Division</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="range">Range</label>
-                                    <input type="text" id="range" name="range" class="form-control" >
+                                    <select id="range-dropdown" name="range" class="form-control" style="display: none;">
+                                        <option value="">Select Range</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="section">Section</label>
-                                    <input type="text" id="section" name="section" class="form-control" >
+                                    <select id="section-dropdown" name="section" class="form-control" style="display: none;">
+                                        <option value="">Select Range</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +43,9 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="beat">Beat</label>
-                                    <input type="text" id="beat" name="beat" class="form-control" >
+                                    <select id="beat-dropdown" name="beat" class="form-control" style="display: none;">
+                                        <option value="">Select Beat</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
