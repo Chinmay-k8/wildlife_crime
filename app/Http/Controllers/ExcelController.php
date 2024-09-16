@@ -92,9 +92,11 @@ class ExcelController extends Controller
             36 => 'court_case_number',
             37 => 'released_accused_name',
             38 => 'released_accused_date',
-            39 => 'pr_status',
-            40 => 'action_against_staff',
-            41 => 'case_present_status'
+            39 => 'pr_number',
+            40 => 'pr_date',
+            41 => 'pr_status',
+            42 => 'action_against_staff',
+            43 => 'case_present_status'
         ];
          // Array to collect errors
          $validationErrors = [];

@@ -78,7 +78,7 @@ td {
             },
             error: function() {
                 alert('Error fetching data.');
-            }
+            }   
         });
         
         var fetchedData = [];  // Store the fetched data here   
@@ -125,21 +125,10 @@ td {
             }
         });
       
-        // Fetch and populate circle dropdown once
+         // Fetch circle data once and store it
+        var circleData = [];
         $.getJSON('circles', function(data) {
-            $('#edit-modal #circle-dropdown').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
-        });
-
-        // Attach click event for the circle-text only once
-        $('#edit-modal #circle-text').on('click', function() {
-            $(this).hide(); // Hide the textbox
-            $('#edit-modal #circle-dropdown').show(); // Show the dropdown
-        });
-
-        // Attach change event for the dropdown only once
-        $('#edit-modal #circle-dropdown').on('change', function() {
-            let selectedText = $(this).find('option:selected').text();
-            $('#edit-modal #circle-text').val(selectedText); // Update textbox with selected value
+            circleData = data;  // Store the circle data for future use
         });
         // When the Edit Details button is clicked
         $(document).on('click', '.edit-details', function (e) {
@@ -147,15 +136,90 @@ td {
             e.preventDefault();
             var id = $(this).data('id');
             var selectedItem = fetchedData.find(item => item.id === id);
-            
+
+            $('#edit-modal #circle-dropdown').show();       // Show text input by default
+            $('#edit-modal #division-dropdown').show();
+            $('#edit-modal #range-dropdown').show();
+            $('#edit-modal #section-dropdown').show();
+            $('#edit-modal #beat-dropdown').show();
+
+
+
+
+            circleData.forEach(circle => {
+                $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);
+            }); //Populate the circle dropdown with master data.
             if (selectedItem) {
                   
+                $('#edit-modal #circle-dropdown').append(`<option value="${selectedItem.circle.id}" selected>${selectedItem.circle.name_e}</option>`); //Append the fetched circle data
+
+                // When the dropdown value is changed, update the textbox
+                $('#edit-modal #circle-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); //fetch the name of the newly slected circle
+                    let selectedValue = $(this).find('option:selected').attr('value'); //fetch the id of newly selected circle
+                    if (selectedValue) {
+                        $.getJSON(`circles/${selectedValue}/divisions`, function(data) {
+                            $('#edit-modal #division-dropdown').empty();
+                            $('#edit-modal #division-dropdown').append(`<option value="">Select Division</option>`);  // Default option
+                            data.forEach(function(division) {
+                                $('#edit-modal #division-dropdown').append(`<option value="${division.id}">${division.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                });
+                $('#edit-modal #division-dropdown').append(`<option value="${selectedItem.division.id}" selected>${selectedItem.division.name_e}</option>`);
+                $('#edit-modal #division-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); 
+                    let selectedValue = $(this).find('option:selected').attr('value'); 
+                    if (selectedValue) {
+                        $.getJSON(`divisions/${selectedValue}/ranges`, function(data) {
+                            $('#edit-modal #range-dropdown').empty();
+                            $('#edit-modal #range-dropdown').append(`<option value="">Select Range</option>`);  // Default option
+                            data.forEach(function(range) {
+                                $('#edit-modal #range-dropdown').append(`<option value="${range.id}">${range.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                });
+
+                $('#edit-modal #range-dropdown').append(`<option value="${selectedItem.range.id}" selected>${selectedItem.range.name_e}</option>`); //Append the fetched circle data
+                $('#edit-modal #range-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); 
+                    let selectedValue = $(this).find('option:selected').attr('value'); 
+                    if (selectedValue) {
+                        $.getJSON(`ranges/${selectedValue}/sections`, function(data) {
+                            $('#edit-modal #section-dropdown').empty();
+                            $('#edit-modal #section-dropdown').append(`<option value="">Select Section</option>`);  
+                            data.forEach(function(section) {
+                                $('#edit-modal #section-dropdown').append(`<option value="${section.id}">${section.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                });
+                $('#edit-modal #section-dropdown').append(`<option value="${selectedItem.section.id}" selected>${selectedItem.section.name_e}</option>`);
+                $('#edit-modal #section-dropdown').on('change', function() {
+                    let selectedText = $(this).find('option:selected').text(); 
+                    let selectedValue = $(this).find('option:selected').attr('value'); 
+                    if (selectedValue) {
+                        $.getJSON(`sections/${selectedValue}/beats`, function(data) {
+                            $('#edit-modal #beat-dropdown').empty();
+                            $('#edit-modal #beat-dropdown').append(`<option value="">Select Section</option>`);  // Default option
+                            data.forEach(function(beat) {
+                                $('#edit-modal #beat-dropdown').append(`<option value="${beat.id}">${beat.name_e}</option>`);
+                            });
+                        });
+                    }
+                    // console.log( selectedValue);
+                   
+                }); 
+                $('#edit-modal #beat-dropdown').append(`<option value="${selectedItem.beat.id}" selected>${selectedItem.beat.name_e}</option>`);
                 $('#edit-modal #case_no').val(selectedItem.case_no);
-                $('#edit-modal #circle-text').val(selectedItem.circle ? selectedItem.circle.name_e : '');
-                $('#edit-modal #division').val(selectedItem.division ? selectedItem.division.name_e : '');
-                $('#edit-modal #range').val(selectedItem.range ? selectedItem.range.name_e : '');
-                $('#edit-modal #section').val(selectedItem.section ? selectedItem.section.name_e : '');
-                $('#edit-modal #beat').val(selectedItem.beat ? selectedItem.beat.name_e : '');
                 $('#edit-modal #case_type').val(selectedItem.case_type);
                 $('#edit-modal #case_no').val(selectedItem.case_no);
                 $('#edit-modal #penal_code').val(selectedItem.penal_code);
