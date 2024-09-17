@@ -165,8 +165,6 @@ td {
                 circleData.forEach(circle => {
                 $('#edit-modal #circle-dropdown').append(`<option value="${circle.id}">${circle.name_e}</option>`);});  //Populate the circle dropdown with master data.
 
-                
-
                 // When the dropdown value is changed, update the textbox
                 $('#edit-modal #circle-dropdown').on('change', function() {
                     let selectedText = $(this).find('option:selected').text(); //fetch the name of the newly slected circle
@@ -216,6 +214,7 @@ td {
                     // console.log( selectedValue);
                    
                 });
+
                 $('#edit-modal #section-dropdown').append(`<option value="${selectedItem.section.id}" selected>${selectedItem.section.name_e}</option>`);
                 $('#edit-modal #section-dropdown').on('change', function() {
                     let selectedText = $(this).find('option:selected').text(); 
@@ -231,25 +230,36 @@ td {
                     }
                     // console.log( selectedValue);
                    
-                }); 
+                });
+
                 $('#edit-modal #beat-dropdown').append(`<option value="${selectedItem.beat.id}" selected>${selectedItem.beat.name_e}</option>`);
-                $('#edit-modal #case_no').val(selectedItem.case_no);
-                $('#edit-modal #case_type').val(selectedItem.case_type);
+                 
+                $('#edit-modal #case_type-dropdown').val(selectedItem.case_type);
+                updateCaseNumberLabel();
+                function updateCaseNumberLabel() {
+                    const caseType = $('#edit-modal #case_type-dropdown').val();
+                    const label = caseType ? caseType + ' Case Number' : 'Case Number';
+                    
+                    $('#edit-modal #case_no_label').text(label); // Update the label text
+                }
+                $('#edit-modal #case_type-dropdown').on('change', function() {
+                    updateCaseNumberLabel();
+                });
                 $('#edit-modal #case_no').val(selectedItem.case_no);
                 $('#edit-modal #penal_code').val(selectedItem.penal_code);
-                $('#edit-modal #detection_place_type').val(selectedItem.detection_place_type);
+                $('#edit-modal #detection_place_type-dropdown').val(selectedItem.detection_place_type);
                 $('#edit-modal #detection_place').val(selectedItem.detection_place);
                 $('#edit-modal #case_date').val(selectedItem.case_date);
                 $('#edit-modal #detection_date').val(selectedItem.detection_date);
                 $('#edit-modal #latitude').val(selectedItem.latitude);
                 $('#edit-modal #longitude').val(selectedItem.longitude);
-                $('#edit-modal #detection_agency').val(selectedItem.detection_agency);
-                $('#edit-modal #investigating_agency').val(selectedItem.investigating_agency);
+                $('#edit-modal #detection_agency-dropdown').val(selectedItem.detection_agency);
+                $('#edit-modal #investigating_agency-dropdown').val(selectedItem.investigating_agency);
                 $('#edit-modal #species_name').val(selectedItem.species_name);
                 $('#edit-modal #species_age').val(selectedItem.species_age);
-                $('#edit-modal #species_sex').val(selectedItem.species_sex);
+                $('#edit-modal #species_sex-dropdown').val(selectedItem.species_sex);
                 $('#edit-modal #old_wlpa').val(selectedItem.old_wlpa);
-                $('#edit-modal #property_recovered_type').val(selectedItem.property_recovered_type);
+                $('#edit-modal #property_recovered_type-dropdown').val(selectedItem.property_recovered_type);
                 $('#edit-modal #property_recovered_details').val(selectedItem.property_recovered_details);
                 $('#edit-modal #officer_name').val(selectedItem.officer_name);
                 $('#edit-modal #officer_number').val(selectedItem.officer_number);
@@ -260,65 +270,272 @@ td {
                 $('#edit-modal #pr_number').val(selectedItem.pr_number);
                 $('#edit-modal #pr_date').val(selectedItem.pr_date);
                 $('#edit-modal #pr_status').val(selectedItem.pr_status);
-                $('#edit-modal #action_against_staff').val(selectedItem.action_against_staff);
+                $('#edit-modal #action_against_staff-dropdown').val(selectedItem.action_against_staff);
                 $('#edit-modal #case_present_status').val(selectedItem.case_present_status);
                 
                 $('#edit-modal #accused-details-table tbody').empty();
                 selectedItem.accused.forEach((accused, index) => {
+                    var index = $('#edit-modal #accused-details-table tbody tr').length;
+
                     var newRow = `
                         <tr>
                             <td><input type="text" value="${accused.name}" class="form-control"></td>
                             <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control"></td>
                             <td><input type="text" value="${accused.father_name}" class="form-control"></td>
                             <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control"></td>
+                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-acc" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #accused-details-table tbody').append(newRow);
+                    updateIndices();
+                });
+                function updateIndices() {
+                    $('#accused-details-table tbody tr').each(function(index) {
+                        $(this).find('input').each(function() {
+                            var name = $(this).attr('name');
+                            
+                            // Log the current name value to debug
+                            console.log('Current name:', name);
+
+                            // Only try to update if the name attribute exists
+                            if (name !== undefined) {
+                                var newName = name.replace(/\d+/, index);
+                                console.log('Updated name:', newName); // Log the new name for debugging
+                                $(this).attr('name', newName);
+                            }
+                        });
+                    });
+                }
+                $('#edit-modal #add-row').click(function() {
+                    var index = $('#edit-modal #accused-details-table tbody tr').length;
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" name="accused[${index}][name]" class="form-control"></td>
+                            <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
+                            <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
+                            <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id= "delete-acc" style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#edit-modal #accused-details-table tbody').append(newRow);
+                    updateIndices();
+                });
+                $(document).on('click', '#edit-modal #delete-acc', function() {
+                    $(this).closest('tr').remove();
+                    updateIndices();
                 });
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
                 selectedItem.accused_mobiles.forEach((accused_mobiles, index) => {
+                    var index = $('#edit-modal #mobiles-recovered-table tbody tr').length;
                     var newRow = `
                         <tr>
                             <td><input type="text" value="${accused_mobiles.mobile_no}" class="form-control"></td>
                             <td><input type="text" value="${accused_mobiles.imei_no}" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-mob" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #mobiles-recovered-table tbody').append(newRow);
+                    updateIndices3();
+                });
+                function updateIndices3() {
+                    $('#edit-modal #mobiles-recovered-table tbody tr').each(function(index) {
+                        $(this).find('input').each(function() {
+                            var name = $(this).attr('name');
+                            
+                            // Log the current name value to debug
+                            // console.log('Current name:', name);
+
+                            // Only try to update if the name attribute exists
+                            if (name !== undefined) {
+                                var newName = name.replace(/\d+/, index);
+                                console.log('Updated name:', newName); // Log the new name for debugging
+                                $(this).attr('name', newName);
+                            }
+                        });
+                    });
+                }
+                $('#add-row3').click(function() {
+                    var index = $('#edit-modal #mobiles-recovered-table tbody tr').length;
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" name="accused_mobile[${index}][mobile_no]" class="form-control"></td>
+                            <td><input type="text" name="accused_mobile[${index}][imei_no]" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-mobile" id="delete-mob" style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#edit-modal #mobiles-recovered-table tbody').append(newRow);
+                    updateIndices3();
+                });
+                $(document).on('click', '#edit-modal #delete-mob', function() {
+                    $(this).closest('tr').remove();
+                    updateIndices3();
                 });
 
                 $('#edit-modal #arrested-accused-details-table tbody').empty();
                 selectedItem.arrested_accused.forEach((arrested_accused, index) => {
+                    var index = $('#edit-modal arrested-accused-details-table tbody tr').length;
                     var newRow = `
                         <tr>
                             <td><input type="text" value="${arrested_accused.name}" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" id="delete-acc2" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #arrested-accused-details-table tbody').append(newRow);
+                    updateIndices2();
+                });
+                $('#edit-modal #add-row2').click(function() {
+                    var index = $('#arrested-accused-details-table tbody tr').length;
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" name="arrested_accused[${index}][name]" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" id="delete-acc2"  style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#arrested-accused-details-table tbody').append(newRow);
+                    updateIndices2();
+                });
+                function updateIndices2(){
+                    $('#edit-modal #arrested-accused-details-table tbody tr').each(function(index) {
+                        $(this).find('input').each(function() {
+                            var name = $(this).attr('name');
+                            if (name !== undefined) {
+                                var newName = name.replace(/\d+/, index);
+                                console.log('Updated name:', newName); // Log the new name for debugging
+                                $(this).attr('name', newName);
+                            }
+                        });
+                    });
+                }
+                $(document).on('click', '#edit-modal #delete-acc2', function() {
+                    $(this).closest('tr').remove();
+                    updateIndices2();
                 });
 
                 $('#edit-modal #nbw-accused-table tbody').empty();
                 selectedItem.nbw_accused.forEach((nbw_accused, index) => {
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${nbw_accused.name}" class="form-control"></td>
-                            <td><input type="text" value="${nbw_accused.status}" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.name}" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][status]" value="${nbw_accused.status}" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #nbw-accused-table tbody').append(newRow);
+                    updateIndices5(); // Update the indices after appending each row
+                });
+                $('#edit-modal #add-row5').click(function() {
+                    var index = $('#edit-modal #nbw-accused-table tbody tr').length; // Get the current row count
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" name="nbw_accused[${index}][name]" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][status]" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#edit-modal #nbw-accused-table tbody').append(newRow);
+                    updateIndices5(); // Update the indices after appending a new row
+                });
+                function updateIndices5() {
+                    $('#edit-modal #nbw-accused-table tbody tr').each(function(index) {
+                        $(this).find('input').each(function() {
+                            var name = $(this).attr('name');
+                            if (name !== undefined) {
+                                var newName = name.replace(/\d+/, index); // Replace the number in the name attribute
+                                console.log('Updated name:', newName); // Debugging output
+                                $(this).attr('name', newName);
+                            }
+                        });
+                    });
+                }
+                $(document).on('click', '.delete-nbw-accused', function() {
+                    $(this).closest('tr').remove();
+                    updateIndices5(); // Update the indices after removing a row
                 });
 
                 $('#edit-modal #released-accused-table tbody').empty();
                 selectedItem.released_accused.forEach((released_accused, index) => {
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${released_accused.name}" class="form-control"></td>
-                            <td><input type="date" value="${released_accused.date}" class="form-control"></td>
+                            <td><input type="text" name="released_accused[${index}][name]" value="${released_accused.name}" class="form-control"></td>
+                            <td><input type="date" name="released_accused[${index}][date]" value="${released_accused.date}" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #released-accused-table tbody').append(newRow);
+                    updateIndices4();
                 });
-                
+                $('#edit-modal #add-row4').click(function() {
+                    var index = $('#edit-modal #released-accused-table tbody tr').length; // Get the current row count
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" name="released_accused[${index}][name]" class="form-control"></td>
+                            <td><input type="date" name="released_accused[${index}][date]" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#edit-modal #released-accused-table tbody').append(newRow);
+                    updateIndices4();
+                });
+                function updateIndices4() {
+                    $('#edit-modal #released-accused-table tbody tr').each(function(index) {
+                        $(this).find('input').each(function() {
+                            var name = $(this).attr('name');
+                            if (name !== undefined) {
+                                var newName = name.replace(/\d+/, index); // Replace the number in the name attribute
+                                console.log('Updated name:', newName); // Debugging output
+                                $(this).attr('name', newName);
+                            }
+                        });
+                    });
+                }
+                $(document).on('click', '#edit-modal .delete-released-accused', function() {
+                    $(this).closest('tr').remove();
+                    updateIndices4(); // Update the indices after removing a row
+                });
+
+                // Use the Laravel route helper to generate URLs for the download route
+                const baseUrl = '{{ url("download") }}';
+
+                if (selectedItem.uploads && selectedItem.uploads.length > 0) {
+                    const upload = selectedItem.uploads[0]; // Assuming only one set of uploads per form
+
+                    // Populate Post Mortem Report
+                    if (upload.post_mortem_report) {
+                        $('#edit-modal #post_mortem_report_container').html(`
+                            <a href="${baseUrl}/post-mortem-report/${upload.post_mortem_report}" target="_blank">${upload.post_mortem_report}</a>
+                        `);
+                    } else {
+                        $('#edit-modal #post_mortem_report_container').text('No document uploaded');
+                    }
+
+                    // Populate Electrical Inspector Report
+                    if (upload.electrical_inspector_report) {
+                        $('#edit-modal #electrical_inspector_report_container').html(`
+                            <a href="${baseUrl}/electrical-inspector-report/${upload.electrical_inspector_report}" target="_blank">${upload.electrical_inspector_report}</a>
+                        `);
+                    } else {
+                        $('#edit-modal #electrical_inspector_report_container').text('No document uploaded');
+                    }
+
+                    // // Populate Laboratory Report
+                    if (upload.laboratory_report) {
+                        $('#edit-modal #lab_report_container').html(`
+                            <a href="${baseUrl}/laboratory-report/${upload.laboratory_report}" target="_blank">${upload.laboratory_report}</a>
+                        `);
+                    } else {
+                        $('#edit-modal #lab_report_container').text('No document uploaded');
+                    }
+
+                    // // Populate Court Judgement
+                    if (upload.court_judgement) {
+                        $('#edit-modal #court_judgement_container').html(`
+                            <a href="${baseUrl}/court-judgement/${upload.court_judgement}" target="_blank">${upload.court_judgement}</a>
+                        `);
+                    } else {
+                        $('#edit-modal #court_judgement_container').text('No document uploaded');
+                    }
+                } else {
+                    // If no uploads data exists
+                    $('#edit-modal #post_mortem_report_container').text('No document uploaded');
+                    $('#edit-modal #electrical_inspector_report_container').text('No document uploaded');
+                    $('#edit-modal #lab_report_container').text('No document uploaded');
+                    $('#edit-modal #court_judgement_container').text('No document uploaded');
+                }
+
                 // Show the edit modal
                 $('#edit-modal').modal('show');
-                const caseType = $('#edit-modal #case_type').val(); 
-                const label = caseType ? caseType + ' Case Number' : 'Case Number';
-                $('#edit-modal #case_no_label').text(label); 
+                
             } else {
                 alert('Error: Record not found.');
             }
@@ -432,7 +649,6 @@ td {
                     if (upload.post_mortem_report) {
                         $('#view-full-width-modal #post_mortem_report_container').html(`
                             <a href="${baseUrl}/post-mortem-report/${upload.post_mortem_report}" target="_blank">${upload.post_mortem_report}</a>
-                            <button class="btn btn-primary btn-sm" onclick="window.open('${baseUrl}/post-mortem-report/${upload.post_mortem_report}', '_blank')">Download</button>
                         `);
                     } else {
                         $('#view-full-width-modal #post_mortem_report_container').text('No document uploaded');
@@ -442,7 +658,6 @@ td {
                     if (upload.electrical_inspector_report) {
                         $('#view-full-width-modal #electrical_inspector_report_container').html(`
                             <a href="${baseUrl}/electrical-inspector-report/${upload.electrical_inspector_report}" target="_blank">${upload.electrical_inspector_report}</a>
-                            <button class="btn btn-primary btn-sm" onclick="window.open('${baseUrl}/electrical-inspector-report/${upload.electrical_inspector_report}', '_blank')">Download</button>
                         `);
                     } else {
                         $('#view-full-width-modal #electrical_inspector_report_container').text('No document uploaded');
@@ -452,7 +667,6 @@ td {
                     if (upload.laboratory_report) {
                         $('#view-full-width-modal #lab_report_container').html(`
                             <a href="${baseUrl}/laboratory-report/${upload.laboratory_report}" target="_blank">${upload.laboratory_report}</a>
-                            <button class="btn btn-primary btn-sm" onclick="window.open('${baseUrl}/laboratory-report/${upload.laboratory_report}', '_blank')">Download</button>
                         `);
                     } else {
                         $('#view-full-width-modal #lab_report_container').text('No document uploaded');
@@ -462,7 +676,6 @@ td {
                     if (upload.court_judgement) {
                         $('#view-full-width-modal #court_judgement_container').html(`
                             <a href="${baseUrl}/court-judgement/${upload.court_judgement}" target="_blank">${upload.court_judgement}</a>
-                            <button class="btn btn-primary btn-sm" onclick="window.open('${baseUrl}/court-judgement/${upload.court_judgement}', '_blank')">Download</button>
                         `);
                     } else {
                         $('#view-full-width-modal #court_judgement_container').text('No document uploaded');

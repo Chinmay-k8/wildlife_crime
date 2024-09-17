@@ -6,7 +6,7 @@
                 <div class="card-body">    
                     <form id="editForm" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <!-- @method('PUT') -->
+                        @method('PUT')
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label for="section">Section</label>
                                     <select id="section-dropdown" name="section" class="form-control" style="display: none;">
-                                        <option value="">Select Range</option>
+                                        <option value="">Select Section</option>
                                     </select>
                                 </div>
                             </div>
@@ -53,7 +53,11 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="case_type">Case Type</label>
-                                    <input type="text" id="case_type" name="case_type" class="form-control" >
+                                    <select id="case_type-dropdown" name="case_type" class="form-control" required>
+                                        <option value="">Select Case Type</option>
+                                        <option value="UD">UD</option>
+                                        <option value="OR">OR</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -73,7 +77,11 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="detection_place_type">Place of Detection Type</label>
-                                    <input type="text" id="detection_place_type" name="detection_place_type" class="form-control" >
+                                    <select id="detection_place_type-dropdown" name="detection_place_type" class="form-control">
+                                        <option value="forest">Forest Block</option>
+                                        <option value="revenue">Revenue Forest</option>
+                                        <option value="other">Other</option>
+                                    </select>
                                 </div>
                             </div>   
                             <div class="col-md-3">
@@ -95,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row">
                             <div class="col-12">
                                 <h5>Case Detection GPS Location</h5>
                             </div>
@@ -118,13 +126,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="detection_agency">Case Detection Agency</label>
-                                    <input type="text" id="detection_agency" name="detection_agency" class="form-control" >
+                                    <select id="detection_agency-dropdown" name="detection_agency" class="form-control" required>
+                                        <option value="">Select Agency</option>
+                                        <option value="Forest Department">Forest Department</option>
+                                        <option value="Other">Other</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="investigating_agency">Case Investigating Agency</label>
-                                    <input type="text" id="investigating_agency" name="investigating_agency" class="form-control" >
+                                    <select id="investigating_agency-dropdown" name="investigating_agency" class="form-control" required>
+                                        <option value="">Select Agency</option>
+                                        <option value="Forest Department">Forest Department</option>
+                                        <option value="Other">Other</option>
+                                    </select>
                                 </div>
                             </div>
                         </div >
@@ -144,7 +160,11 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                         <label for="species_sex">Sex Of the Species</label>
-                                        <input type="text" id="species_sex" name="species_sex" class="form-control" >
+                                        <select id="species_sex-dropdown" name="species_sex" class="form-control" required>
+                                            <option value="">Select Sex</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
                                 </div> 
                             </div>
                         </div>
@@ -158,7 +178,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="property_recovered_type">Property Recovered Type</label>
-                                    <input type="text" id="property_recovered_type" name="property_recovered_type" class="form-control" >
+                                    <select id="property_recovered_type-dropdown" name="property_recovered_type" class="form-control" >
+                                        <option value="Live animal">Live animal</option>
+                                        <option value="Carcass">Carcass</option>
+                                        <option value="Body parts">Body parts</option>
+                                        <option value="Arms and Ammunition">Arms and Ammunition</option>
+                                        <option value="GI wire">GI wire</option>
+                                        <option value="Vehicles">Vehicles</option>
+                                        <option value="Other Material">Other Material</option>
+                                    </select>
                                 </div> 
                             </div>
                         </div>
@@ -203,6 +231,7 @@
                                             <th>Alias</th>
                                             <th>Father's Name</th>
                                             <th>Address</th>
+                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -211,6 +240,7 @@
                                             <td><input type="text" name="accused[0][alias]" class="form-control"></td>
                                             <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
                                             <td><input type="text" name="accused[0][address]" class="form-control"></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -224,12 +254,14 @@
                                         <tr>
                                             <th>Mobile Number</th>
                                             <th>IMEI Number</th>
+                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row3" style="cursor: pointer; width: 24px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><input type="text" name="accused_mobile[0][mobile_no]" class="form-control"></td>
                                             <td><input type="text" name="accused_mobile[0][imei_no]" class="form-control"></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -242,11 +274,13 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row2" style="cursor: pointer; width: 24px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><input type="text" name="arrested_accused[0][name]" class="form-control"></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -280,18 +314,20 @@
                                         <tr>
                                             <th>Accused Name</th>
                                             <th>NBW Execution Status</th>
+                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row5" style="cursor: pointer; width: 24px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><input type="text" name="nbw_accused[0][name]" class="form-control"></td>
                                             <td><input type="text" name="nbw_accused[0][status]" class="form-control"></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="row mt-4">
+                        <div class="row">
                             <div class="col-12">
                                 <h5>Name of the accused released on bail with date</h5>
                                 <table class="table table-bordered" id="released-accused-table">
@@ -299,12 +335,14 @@
                                         <tr>
                                             <th>Accused name </th>
                                             <th>Date</th>
+                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row4" style="cursor: pointer; width: 24px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <td><input type="text" name="released_accused[0][name]" class="form-control"></td>
                                             <td><input type="date" id="release_date" name="released_accused[0][date]" class="form-control" ></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -335,7 +373,11 @@
                             <div class="col md-6">
                                 <div class="form-group">
                                     <label for="action_against_staff">Action taken against any staff(Departmental Staff)</label>
-                                    <input type="text" id="action_against_staff" name="action_against_staff" class="form-control" >
+                                    <select id="action_against_staff-dropdown" name="action_against_staff" class="form-control" required>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                        <option value="Under trial">Under trial</option>
+                                    </select>
                                 </div> 
                             </div>
                             <div class="col md-6">
@@ -353,6 +395,7 @@
                                     <div id="post_mortem_report_container">
                                         <!-- The file name will be dynamically inserted here -->
                                     </div>
+                                    <input type="file" class="form-control" id="post_mortem_report" name="post_mortem_report" accept=".pdf,.doc,.docx">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -361,24 +404,27 @@
                                     <div id="electrical_inspector_report_container">
                                         <!-- The file name will be dynamically inserted here -->
                                     </div>
+                                    <input type="file" class="form-control" id="electrical_inspector_report" name="electrical_inspector_report" accept=".pdf,.doc,.docx">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="laboratory_report">Laboratory Report/Other Report</label>
+                                    <label for="lab_report">Laboratory Report/Other Report</label>
                                     <div id="lab_report_container">
                                         <!-- The file name will be dynamically inserted here -->
                                     </div>
+                                    <input type="file" class="form-control" id="laboratory_report" name="laboratory_report" accept=".pdf,.doc,.docx">
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="court_judgement">Judgement of the Court</label>
-                                    <div id="court_judgement_container">
-                                        <!-- The file name will be dynamically inserted here -->
-                                    </div>
+                            <div class="form-group">
+                                <label for="court_judgement">Judgement of the Court</label>
+                                <div id="court_judgement_container">
+                                    <!-- The file name will be dynamically inserted here -->
                                 </div>
+                                <input type="file" class="form-control" id="court_judgement" name="court_judgement" accept=".pdf,.doc,.docx">
                             </div>
+                        </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" id="saveChangesButton" class="btn btn-primary">Save Changes</button>
