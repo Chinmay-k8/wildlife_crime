@@ -6,7 +6,7 @@
                 <div class="card-body">    
                     <form id="editForm" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
+                        <!-- @method('PUT') -->
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -379,10 +379,10 @@
                                     </div>
                                 </div>
                             </div>
-                            @section('modal-footer')
+                            <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" id="saveChangesButton" class="btn btn-primary">Save Changes</button>
-                            @endsection
+                            </div>                               
                         </div>
                     </form>
                 </div>
