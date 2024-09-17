@@ -9,9 +9,6 @@
             <div class="modal-body">
                 @yield('edit-details')
             </div>
-            <div class="modal-footer">
-                @yield('modal-footer')
-            </div>
         </div>
     </div>
 </div>

@@ -42,7 +42,7 @@ Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data'
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
     Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
-    Route::put('/update-form/{id}', [FormController::class, 'updateForm'])->name('update-form');
+    Route::post('/update-form/{id}', [FormController::class, 'updateForm'])->name('update-form');
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
     Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');
     Route::get('/list', [ListController::class, 'showList'])->name('list.show');
