@@ -274,6 +274,17 @@ td {
                 $('#edit-modal #case_present_status').val(selectedItem.case_present_status);
                 
                 $('#edit-modal #accused-details-table tbody').empty();
+                function checkRowCount1() {
+                    var rowCount = $('#edit-modal #accused-details-table tbody tr').length;
+
+                    if (rowCount === 1) {
+                        // If only one row is left, hide the delete button
+                        $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').hide();
+                    } else {
+                        // If more than one row, show the delete button
+                        $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').show();
+                    }
+                }
                 selectedItem.accused.forEach((accused, index) => {
                     var index = $('#edit-modal #accused-details-table tbody tr').length;
 
@@ -287,6 +298,7 @@ td {
                         </tr>`;
                     $('#edit-modal #accused-details-table tbody').append(newRow);
                     updateIndices();
+                    checkRowCount1();
                 });
                 function updateIndices() {
                     $('#accused-details-table tbody tr').each(function(index) {
@@ -305,7 +317,7 @@ td {
                         });
                     });
                 }
-                $('#edit-modal #add-row').click(function() {
+                $('#edit-modal #add-row').off('click').click(function() {
                     var index = $('#edit-modal #accused-details-table tbody tr').length;
                     var newRow = `
                         <tr>
@@ -317,13 +329,27 @@ td {
                         </tr>`;
                     $('#edit-modal #accused-details-table tbody').append(newRow);
                     updateIndices();
+                    checkRowCount1();
                 });
                 $(document).on('click', '#edit-modal #delete-acc', function() {
                     $(this).closest('tr').remove();
                     updateIndices();
+                    checkRowCount1();
                 });
 
+
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
+                function checkRowCount2() {
+                    var rowCount = $('#edit-modal #mobiles-recovered-table tbody tr').length;
+
+                    if (rowCount === 1) {
+                        // If only one row is left, hide the delete button
+                        $('#edit-modal #mobiles-recovered-table tbody tr').find('.delete-mobile').hide();
+                    } else {
+                        // If more than one row, show the delete button
+                        $('#edit-modal #mobiles-recovered-table tbody tr').find('.delete-mobile').show();
+                    }
+                }
                 selectedItem.accused_mobiles.forEach((accused_mobiles, index) => {
                     var index = $('#edit-modal #mobiles-recovered-table tbody tr').length;
                     var newRow = `
@@ -334,6 +360,7 @@ td {
                         </tr>`;
                     $('#edit-modal #mobiles-recovered-table tbody').append(newRow);
                     updateIndices3();
+                    checkRowCount2();
                 });
                 function updateIndices3() {
                     $('#edit-modal #mobiles-recovered-table tbody tr').each(function(index) {
@@ -352,7 +379,7 @@ td {
                         });
                     });
                 }
-                $('#add-row3').click(function() {
+                $('#add-row3').off('click').click(function() {
                     var index = $('#edit-modal #mobiles-recovered-table tbody tr').length;
                     var newRow = `
                         <tr>
@@ -362,15 +389,28 @@ td {
                         </tr>`;
                     $('#edit-modal #mobiles-recovered-table tbody').append(newRow);
                     updateIndices3();
+                    checkRowCount2();
                 });
                 $(document).on('click', '#edit-modal #delete-mob', function() {
                     $(this).closest('tr').remove();
                     updateIndices3();
+                    checkRowCount2();
                 });
 
                 $('#edit-modal #arrested-accused-details-table tbody').empty();
+                function checkRowCount3() {
+                    var rowCount = $('#edit-modal #arrested-accused-details-table tbody tr').length;
+
+                    if (rowCount === 1) {
+                        // If only one row is left, hide the delete button
+                        $('#edit-modal #arrested-accused-details-table tbody tr').find('.delete-accused2').hide();
+                    } else {
+                        // If more than one row, show the delete button
+                        $('#edit-modal #arrested-accused-details-table tbody tr').find('.delete-accused2').show();
+                    }
+                }
                 selectedItem.arrested_accused.forEach((arrested_accused, index) => {
-                    var index = $('#edit-modal arrested-accused-details-table tbody tr').length;
+                    var index = $('#edit-modal #arrested-accused-details-table tbody tr').length;
                     var newRow = `
                         <tr>
                             <td><input type="text" value="${arrested_accused.name}" class="form-control"></td>
@@ -378,8 +418,9 @@ td {
                         </tr>`;
                     $('#edit-modal #arrested-accused-details-table tbody').append(newRow);
                     updateIndices2();
+                    checkRowCount3();
                 });
-                $('#edit-modal #add-row2').click(function() {
+                $('#edit-modal #add-row2').off('click').click(function() {
                     var index = $('#arrested-accused-details-table tbody tr').length;
                     var newRow = `
                         <tr>
@@ -388,6 +429,7 @@ td {
                         </tr>`;
                     $('#arrested-accused-details-table tbody').append(newRow);
                     updateIndices2();
+                    checkRowCount3();
                 });
                 function updateIndices2(){
                     $('#edit-modal #arrested-accused-details-table tbody tr').each(function(index) {
@@ -404,10 +446,23 @@ td {
                 $(document).on('click', '#edit-modal #delete-acc2', function() {
                     $(this).closest('tr').remove();
                     updateIndices2();
+                    checkRowCount3();
                 });
 
                 $('#edit-modal #nbw-accused-table tbody').empty();
+                function checkRowCount4() {
+                    var rowCount = $('#edit-modal #nbw-accused-table tbody tr').length;
+
+                    if (rowCount === 1) {
+                        // If only one row is left, hide the delete button
+                        $('#edit-modal #nbw-accused-table tbody tr').find('.delete-nbw-accused').hide();
+                    } else {
+                        // If more than one row, show the delete button
+                        $('#edit-modal #nbw-accused-table tbody tr').find('.delete-nbw-accused').show();
+                    }
+                }
                 selectedItem.nbw_accused.forEach((nbw_accused, index) => {
+                    var index = $('#edit-modal #nbw-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
                             <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.name}" class="form-control"></td>
@@ -416,8 +471,9 @@ td {
                         </tr>`;
                     $('#edit-modal #nbw-accused-table tbody').append(newRow);
                     updateIndices5(); // Update the indices after appending each row
+                    checkRowCount4();
                 });
-                $('#edit-modal #add-row5').click(function() {
+                $('#edit-modal #add-row5').off('click').click(function() {
                     var index = $('#edit-modal #nbw-accused-table tbody tr').length; // Get the current row count
                     var newRow = `
                         <tr>
@@ -427,6 +483,7 @@ td {
                         </tr>`;
                     $('#edit-modal #nbw-accused-table tbody').append(newRow);
                     updateIndices5(); // Update the indices after appending a new row
+                    checkRowCount4();
                 });
                 function updateIndices5() {
                     $('#edit-modal #nbw-accused-table tbody tr').each(function(index) {
@@ -443,10 +500,23 @@ td {
                 $(document).on('click', '.delete-nbw-accused', function() {
                     $(this).closest('tr').remove();
                     updateIndices5(); // Update the indices after removing a row
+                    checkRowCount4();
                 });
 
                 $('#edit-modal #released-accused-table tbody').empty();
+                function checkRowCount5() {
+                    var rowCount = $('#edit-modal #released-accused-table tbody tr').length;
+
+                    if (rowCount === 1) {
+                        // If only one row is left, hide the delete button
+                        $('#edit-modal #released-accused-table tbody tr').find('.delete-released-accused').hide();
+                    } else {
+                        // If more than one row, show the delete button
+                        $('#edit-modal #released-accused-table tbody tr').find('.delete-released-accused').show();
+                    }
+                }
                 selectedItem.released_accused.forEach((released_accused, index) => {
+                    var index = $('#edit-modal #released-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
                             <td><input type="text" name="released_accused[${index}][name]" value="${released_accused.name}" class="form-control"></td>
@@ -455,8 +525,9 @@ td {
                         </tr>`;
                     $('#edit-modal #released-accused-table tbody').append(newRow);
                     updateIndices4();
+                    checkRowCount5();
                 });
-                $('#edit-modal #add-row4').click(function() {
+                $('#edit-modal #add-row4').off('click').click(function() {
                     var index = $('#edit-modal #released-accused-table tbody tr').length; // Get the current row count
                     var newRow = `
                         <tr>
@@ -466,6 +537,7 @@ td {
                         </tr>`;
                     $('#edit-modal #released-accused-table tbody').append(newRow);
                     updateIndices4();
+                    checkRowCount5();
                 });
                 function updateIndices4() {
                     $('#edit-modal #released-accused-table tbody tr').each(function(index) {
@@ -482,6 +554,7 @@ td {
                 $(document).on('click', '#edit-modal .delete-released-accused', function() {
                     $(this).closest('tr').remove();
                     updateIndices4(); // Update the indices after removing a row
+                    checkRowCount5();
                 });
 
                 // Use the Laravel route helper to generate URLs for the download route
