@@ -1,6 +1,6 @@
 @extends('layouts.edit-modal')
 @section('edit-details')
-    <div class="container mt-5">
+    <div>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">    

@@ -234,65 +234,27 @@
                 
                             <li>
                                 <a href="{{ route('dashboard') }}">
-                                    <!-- <i data-feather="gift"></i> -->
+                                    <i data-feather="airplay"></i>
                                     <span> Dashboard </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#sidebarMultilevel" data-bs-toggle="collapse">
-                                    <!-- <i data-feather="share-2"></i> -->
-                                    <span> Complains </span>
+                                <a href="#sidebarDashboards" data-bs-toggle="collapse">
+                                    <i data-feather="file-text"></i>
                                     <span class="menu-arrow"></span>
+                                    <span>Form-X</span>
                                 </a>
-                                <div class="collapse" id="sidebarMultilevel">
+                                <div class="collapse" id="sidebarDashboards">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a href="#sidebarMultilevel2" data-bs-toggle="collapse">
-                                                Form DX <span class="menu-arrow"></span>
-                                            </a>
-                                            <div class="collapse" id="sidebarMultilevel2">
-                                                <ul class="nav-second-level">
-                                                <li>
-                                                    <a href="{{ route('form.show') }}">Add Form Data</a>
-                                                </li> 
-                                                <li>
-                                                    <a href="{{ route('excel.show') }}">Add Excel Data</a>
-                                                </li>
-                                                <li>
-                                                    <a href="{{ route('list.show') }}">View Data</a>
-                                                </li>
-
-                                                </ul>
-                                            </div>
+                                            <a href="{{ route('form.show') }}">Add Data</a>
+                                        </li> 
+                                        <li>
+                                            <a href="{{ route('excel.show') }}">Upload Excel Data</a>
                                         </li>
-
-                                        <!-- <li>
-                                            <a href="#sidebarMultilevel3" data-bs-toggle="collapse">
-                                                Third Level <span class="menu-arrow"></span>
-                                            </a>
-                                            <div class="collapse" id="sidebarMultilevel3">
-                                                <ul class="nav-second-level">
-                                                    <li>
-                                                        <a href="javascript: void(0);">Item 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#sidebarMultilevel4" data-bs-toggle="collapse">
-                                                            Item 2 <span class="menu-arrow"></span>
-                                                        </a>
-                                                        <div class="collapse" id="sidebarMultilevel4">
-                                                            <ul class="nav-second-level">
-                                                                <li>
-                                                                    <a href="javascript: void(0);">Item 1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript: void(0);">Item 2</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li> -->
+                                        <li>
+                                            <a href="{{ route('list.show') }}">View Data</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -339,6 +301,7 @@
                         <!-- end row -->
                          @yield('form-content')
                          @yield('list-content')
+                         @yield('excel-content')
                         <!-- end row -->
                         
                     </div> <!-- container -->
@@ -359,7 +322,14 @@
 
             </div>
             <!-- Footer Start -->
-                <!-- <footer class="footer">
+                
+                <!-- end Footer -->
+            <!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- END wrapper -->
+        <footer class="footer">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
@@ -367,14 +337,7 @@
                             </div>
                         </div>
                     </div>
-                </footer> -->
-                <!-- end Footer -->
-            <!-- ============================================================== -->
-            <!-- End Page content -->
-            <!-- ============================================================== -->
-        </div>
-        <!-- END wrapper -->
-      
+                </footer>
         <!-- Vendor js -->
         <script src="assets/js/vendor.min.js"></script>
 
