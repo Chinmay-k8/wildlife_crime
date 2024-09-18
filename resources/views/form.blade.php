@@ -1,10 +1,10 @@
 <!-- resources/views/form.blade.php -->
 @extends('layouts.dashboard')
 @section('user-info')
-<h1>Form DX</h1>
+<h1>Form-X</h1>
 @endsection
 @section('form-content')
-<div class="container mt-5">
+<div>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

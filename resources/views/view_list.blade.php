@@ -4,7 +4,7 @@
 @section('modal-title', 'View Details')
 
 @section('modal-body')
-<div class="container mt-5">
+<div>
     <div class="col-12">
         <div class="card">
             <div class="card-body">

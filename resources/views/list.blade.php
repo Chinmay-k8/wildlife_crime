@@ -2,7 +2,7 @@
 @include('edit_list')
 @include('view_list')
 @section('user-info')
-<h1>Complain 1</h1>
+<h1>Form-X</h1>
 @endsection
 
 @section('form-content')
@@ -100,13 +100,15 @@ td {
                 $row.append('<td>' + (item.approval_status ? item.approval_status : 'Pending') + '</td>');
                 $row.append(`
                     <td>
-                        <div style="position: relative; display: inline-block;">
-                            <img src="{{ asset('assets/images/users/setting.png') }}" alt="Actions" class="actions" style="cursor: pointer; width: 24px;">
-                            <div class="action-options" style="display: none;">
-                                <a href="#" class="view-details" data-id="${item.id}">View Details</a>
-                                <a href="#" class="edit-details" data-id="${item.id}">Edit Details</a>
-                            </div>
-                        </div>
+                         <div class="dropdown">
+                                            <a href="#" class="dropdown-toggle arrow-none card-drop" id="actions" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="dripicons-document-edit"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end" id="action-options">
+                                                <a href="#" class="dropdown-item" id="view-details" data-id="${item.id}"><i class="mdi mdi-eye me-1"></i>View Details</a>
+                                                <a href="#" class="dropdown-item" id="edit-details" data-id="${item.id}"><i class="mdi mdi-pencil me-1"></i>Edit Details</a>
+                                            </div>
+                                        </div>
                     </td>
                 `);
 
@@ -114,14 +116,14 @@ td {
             });
         }
 
-        $(document).on('click', '.actions', function () {
-            $(this).siblings('.action-options').toggle(); 
+        $(document).on('click', '#actions', function () {
+            $(this).siblings('#action-options').toggle(); 
         });
 
         // Hide the div if clicked outside
         $(document).on('click', function (e) {
-            if (!$(e.target).closest('.actions, .action-options').length) {
-                $('.action-options').hide();
+            if (!$(e.target).closest('#actions, #action-options').length) {
+                $('#action-options').hide();
             }
         });
       
@@ -131,7 +133,7 @@ td {
             circleData = data;  // Store the circle data for future use
         });
         // When the Edit Details button is clicked
-        $(document).on('click', '.edit-details', function (e) {
+        $(document).on('click', '#edit-details', function (e) {
             
             e.preventDefault();
             var id = $(this).data('id');
@@ -615,7 +617,7 @@ td {
         });
 
          // Handle View Details
-         $(document).on('click', '.view-details', function (e) {
+         $(document).on('click', '#view-details', function (e) {
             e.preventDefault();
             var id = $(this).data('id');
             

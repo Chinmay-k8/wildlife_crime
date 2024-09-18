@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('form-content')
+@section('excel-content')
 
 @if (session('success'))
     <div class="alert alert-success">
@@ -17,7 +17,7 @@
     </div>
 @endif
 
-<div class="container mt-5">
+<div class="mt-2">
     <div class="col-12">
         <div class="card" style="border-color: rgb(0, 80, 64);">
             <div class="card-header" style="background-color: rgb(0, 80, 64); color: white;">
