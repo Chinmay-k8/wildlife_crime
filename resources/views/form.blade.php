@@ -120,14 +120,21 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Enter latitude in decimal format" required>
+                                <div class="d-flex">
+                                    <input type="number" id="lat_deg" name="lat_deg" class="form-control" placeholder="Deg" required style="width: 30%;">
+                                    <input type="number" id="lat_min" name="lat_min" class="form-control" placeholder="Min" required style="width: 30%; margin-left: 5px;">
+                                    <input type="number" id="lat_sec" name="lat_sec" class="form-control" placeholder="Sec" required style="width: 30%; margin-left: 5px;">
+                                </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
-                                <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Enter longitude in decimal format" required>
+                                <div class="d-flex">
+                                    <input type="number" id="long_deg" name="long_deg" class="form-control" placeholder="Deg" required style="width: 30%;">
+                                    <input type="number" id="long_min" name="long_min" class="form-control" placeholder="Min" required style="width: 30%; margin-left: 5px;">
+                                    <input type="number" id="long_sec" name="long_sec" class="form-control" placeholder="Sec" required style="width: 30%; margin-left: 5px;">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -188,6 +195,7 @@
                             <div class="form-group">
                                     <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
                                     <select id="old_wlpa" name="old_wlpa" class="form-control" >
+                                        <option value="">Select Scedule</option>
                                         <option value="I">I</option>
                                         <option value="II">II</option>
                                         <option value="III">III</option>
@@ -201,7 +209,8 @@
                             <div class="form-group">
                                     <label for="new_wlpa">New Schedule Of Species under WLPA</label>
                                     <select id="new_wlpa" name="new_wlpa" class="form-control" >
-                                    <option value="I">I</option>
+                                        <option value="">Select Scedule</option>
+                                        <option value="I">I</option>
                                         <option value="II">II</option>
                                         <option value="III">III</option>
                                         <option value="IV">IV</option>
@@ -214,6 +223,7 @@
                             <div class="form-group">
                                     <label for="property_recovered_type">Property Recovered Type</label>
                                     <select id="property_recovered_type" name="property_recovered_type" class="form-control" >
+                                        <option value="">Select Type</option>
                                         <option value="Live animal">Live animal</option>
                                         <option value="Carcass">Carcass</option>
                                         <option value="Body parts">Body parts</option>
@@ -417,7 +427,16 @@
                         <div class="col-6">
                             <div class="form-group">
                                     <label for="case_present_status">Present Status of the case</label>
-                                    <input type="text" id="case_present_status" name="case_present_status" class="form-control" required>
+                                    <select id="case_present_status" name="case_present_status" class="form-control" placeholder="Test" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Under investigation prosecution not submitted">Under investigation prosecution not submitted</option>
+                                        <option value="Prosecution submitted matter not listed">Prosecution submitted matter not listed</option>
+                                        <option value="Matter listed hearing not started">Matter listed hearing not started</option>
+                                        <option value="Under trial">Under trial</option>
+                                        <option value="Hearing completed judgement reserved">Hearing completed judgement reserved</option>
+                                        <option value="Hearing completed judgement pronounced offence acquitted">Hearing completed judgement pronounced offence acquitted</option>
+                                        <option value="Hearing completed judgement pronounced offence convicted">Hearing completed judgement pronounced offence convicted</option>
+                                    </select>
                             </div> 
                         </div>
                     </div>

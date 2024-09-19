@@ -102,7 +102,7 @@ td {
                     <td>
                          <div class="dropdown">
                                             <a href="#" class="dropdown-toggle arrow-none card-drop" id="actions" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="dripicons-document-edit"></i>
+                                                <i class="dripicons-menu"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end" id="action-options">
                                                 <a href="#" class="dropdown-item" id="view-details" data-id="${item.id}"><i class="mdi mdi-eye me-1"></i>View Details</a>
@@ -358,7 +358,7 @@ td {
                         <tr>
                             <td><input type="text" value="${accused_mobiles.mobile_no}" class="form-control"></td>
                             <td><input type="text" value="${accused_mobiles.imei_no}" class="form-control"></td>
-                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-mob" style="cursor: pointer; width: 24px;"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-mobile" id="delete-mob" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #mobiles-recovered-table tbody').append(newRow);
                     updateIndices3();
