@@ -24,7 +24,7 @@ class FormController extends Controller
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
         $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
-        'laboratory_report', 'court_judgement']);
+        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec' ]);
         $accusedData = $request->input('accused');
         $arrestedAccusedData = $request->input('arrested_accused');
         $MobileData = $request->input('accused_mobile');
@@ -32,7 +32,21 @@ class FormController extends Controller
         $NbwData = $request->input('nbw_accused');
 
         $formData['user_id'] = Auth::id(); // Include user_id from Auth
-        
+        $latitude_deg = $request->input('lat_deg');
+        $latitude_min = $request->input('lat_min');
+        $latitude_sec = $request->input('lat_sec');
+        $latitude_decimal = $latitude_deg + ($latitude_min / 60) + ($latitude_sec / 3600);
+
+        // Convert Longitude (DMS) to Decimal Degrees
+        $longitude_deg = $request->input('long_deg');
+        $longitude_min = $request->input('long_min');
+        $longitude_sec = $request->input('long_sec');
+        $longitude_decimal = $longitude_deg + ($longitude_min / 60) + ($longitude_sec / 3600);
+
+        // Store the calculated Decimal Degrees in formData array
+        $formData['latitude'] = $latitude_decimal;
+        $formData['longitude'] = $longitude_decimal;
+
         // Save form data to the database
         $form = new Form();
         $formId = $form->saveFormData($formData); // Assuming this method exists in Form model
@@ -144,7 +158,23 @@ class FormController extends Controller
     }
     public function updateForm(Request $request, $id)
     {
-        dd($request->all());
+        $requestData = $request->all();
+        $accusedData = $request->input('accused') ?? 'No accused data';
+        $arrestedAccusedData = $request->input('arrested_accused') ?? 'No arrested accused data';
+        $accusedMobileData = $request->input('accused_mobile') ?? 'No accused mobile data';
+        $releasedAccusedData = $request->input('released_accused') ?? 'No released accused data';
+        $nbwAccusedData = $request->input('nbw_accused') ?? 'No NBW accused data';
+    
+        // Print all request data including subarrays
+        dd([
+            'Request Data' => $requestData,
+            'Accused' => $accusedData,
+            'Arrested Accused' => $arrestedAccusedData,
+            'Accused Mobiles' => $accusedMobileData,
+            'Released Accused' => $releasedAccusedData,
+            'NBW Accused' => $nbwAccusedData,
+        ]);
+        // dd($request->all());
 
         // Fetch form by ID and update main form data
         $form = Form::findOrFail($id); // Find the form by its ID
