@@ -24,7 +24,13 @@ class FormController extends Controller
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
         $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
-        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec' ]);
+        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year' ]);
+        $case_part_1 = $request->input('case_part_1'); // e.g. "132"
+        $case_year = $request->input('case_year');     // e.g. "2005"
+        $formData['court_case_number'] = "2(b) CC No {$case_part_1} of {$case_year}";
+        print_r($formData);
+        echo '</pre>';
+        exit; // Stop execution for debugging
         $accusedData = $request->input('accused');
         $arrestedAccusedData = $request->input('arrested_accused');
         $MobileData = $request->input('accused_mobile');
