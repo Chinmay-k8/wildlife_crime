@@ -172,6 +172,16 @@
 
                     <div class="row mt-4">
                     <div class="row">
+                         <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="schedule_type">Shedule Type of Species (New/Old)</label>
+                                    <select id="schedule_type" name="schedule_type" class="form-control">
+                                        <option value="">Select Agency</option>
+                                        <option value="Forest">Forest</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                            </div> 
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="species_name">Name Of the Species</label>
@@ -234,13 +244,14 @@
                                     <label for="property_recovered_type">Property Recovered Type</label>
                                     <select id="property_recovered_type" name="property_recovered_type" class="form-control" >
                                         <option value="">Select Type</option>
-                                        <option value="Live animal">Live animal</option>
+                                        <option value="Live_animal">Live animal</option>
+                                        <option value="Meat">Meat</option>
                                         <option value="Carcass">Carcass</option>
-                                        <option value="Body parts">Body parts</option>
-                                        <option value="Arms and Ammunition">Arms and Ammunition</option>
-                                        <option value="GI wire">GI wire</option>
+                                        <option value="Body_parts">Body parts</option>
+                                        <option value="Arms_and_Ammunition">Arms and Ammunition</option>
+                                        <option value="GI_wire">Tool</option>
                                         <option value="Vehicles">Vehicles</option>
-                                        <option value="Other Material">Other Material</option>
+                                        <option value="Other_Material">Other Material</option>
                                     </select>
                             </div> 
                         </div>
@@ -276,7 +287,7 @@
                                 </div>
                             </div>
                     </div>
-                    <div class="row mt-4">
+                    <!-- <div class="row mt-4">
                         <div class="col-12">
                             <h5>Accused Detail</h5>
                             <table class="table table-bordered" id="accused-details-table">
@@ -300,7 +311,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row mt-4">
                         <div class="col-12">
                             <h5>Mobiles recovered</h5>
@@ -355,32 +366,24 @@
                                 </div>
                         </div>
                         <div class="col-md-4">
-    <div class="form-group">
-        <label for="court_case_number">Case (2(b) CC/No.) number</label>
-        <div class="input-group">
-            <!-- Hardcoded text part (you don't need this in the backend) -->
-            <span class="input-group-text">2(b) CC No</span>
-
-            <!-- Input for the first part (the number) -->
-            <input type="text" id="case_part_1" name="case_part_1" maxlength="3" class="form-control" required>
-
-            <!-- "of" separator -->
-            <span class="input-group-text">of</span>
-
-            <!-- Dropdown for the year -->
-            <select id="case_year" name="case_year" class="form-control" required>
-                <option value="">Select Year</option>
-                <?php
-                $currentYear = date('Y');
-                for ($year = 2000; $year <= $currentYear; $year++) {
-                    echo "<option value=\"$year\">$year</option>";
-                }
-                ?>
-            </select>
-        </div>
-    </div>
-</div>
-
+                            <div class="form-group">
+                                <label for="court_case_number">Case (2(b) CC/No.) number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">2(b) CC No</span>
+                                    <input type="text" id="case_part_1" name="case_part_1" maxlength="3" class="form-control" required>
+                                    <span class="input-group-text">of</span>
+                                    <select id="case_year" name="case_year" class="form-control" required>
+                                        <option value="">Select Year</option>
+                                        <?php
+                                        $currentYear = date('Y');
+                                        for ($year = 2000; $year <= $currentYear; $year++) {
+                                            echo "<option value=\"$year\">$year</option>";
+                                        }
+                                        ?>  
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
@@ -426,23 +429,57 @@
                     </div>
                     <div class="row mt-4">
                         <h5>Submission of final PR</h5>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="officer_name">Final PR number</label>
+                                    <label for="pr_number">Final PR number</label>
                                     <input type="text" id="pr_number" name="pr_number" class="form-control" required>
                                 </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="pr_date">Date</label>
                                 <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pr_status">Status</label>
                                     <input type="text" id="pr_status" name="pr_status" class="form-control" required>
                                 </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                    <label for="additional_pr_option">Additional PR if any</label>
+                                    <select id="additional_pr_option" name="additional_pr_option" class="form-control" required>
+                                        <option value="No">No</option>    
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-4" id="additional-pr-container" style="display: none;">
+                        <div class="col-12">
+                            <h5>Submission of Additional PR</h5>
+                            <table class="table table-bordered" id="additional-pr-table">
+                                <thead>
+                                    <tr>
+                                        <th>PR Number</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>
+                                            <img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-pr-row" style="cursor: pointer; width: 24px;">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="additional_pr[0][number]" class="form-control"></td>
+                                        <td><input type="date" name="additional_pr[0][date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                                        <td><input type="text" name="additional_pr[0][status]" class="form-control"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -461,15 +498,15 @@
                                     <label for="case_present_status">Present Status of the case</label>
                                     <select id="case_present_status" name="case_present_status" class="form-control" placeholder="Test" required>
                                         <option value="">Select Status</option>
-                                        <option value="Under investigation prosecution not submitted">Under investigation prosecution not submitted</option>
-                                        <option value="Prosecution submitted matter not listed">Prosecution submitted matter not listed</option>
-                                        <option value="Matter listed hearing not started">Matter listed hearing not started</option>
-                                        <option value="Under trial">Under trial</option>
-                                        <option value="Hearing completed judgement reserved">Hearing completed judgement reserved</option>
-                                        <option value="Hearing completed judgement pronounced offence acquitted">Hearing completed judgement pronounced offence acquitted</option>
-                                        <option value="Hearing completed judgement pronounced offence convicted">Hearing completed judgement pronounced offence convicted</option>
+                                        <option value="Under_investigation_prosecution_not_submitted">Under investigation prosecution not submitted</option>
+                                        <option value="Prosecution_submitted_matter_not_listed">Prosecution submitted matter not listed</option>
+                                        <option value="Matter_listed_hearing_not_started">Matter listed hearing not started</option>
+                                        <option value="Under_trial">Under trial</option>
+                                        <option value="Hearing_completed_judgement_reserved">Hearing completed judgement reserved</option>
+                                        <option value="Hearing_completed_judgement_pronounced_offence_acquitted">Hearing completed judgement pronounced offence acquitted</option>
+                                        <option value="Hearing_completed_judgement_pronounced_offence_convicted">Hearing completed judgement pronounced offence convicted</option>
                                     </select>
-                            </div> 
+                            </div>  
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -549,7 +586,17 @@ $(document).ready(function() {
             }
         });
 
-
+        document.getElementById('additional_pr_option').addEventListener('change', function() {
+        const additionalPrContainer = document.getElementById('additional-pr-container');
+        if (this.value === 'Yes') {
+            additionalPrContainer.style.display = 'block'; // Show the additional PR table
+        } else {
+            additionalPrContainer.style.display = 'none'; // Hide the additional PR table
+            // Optionally clear the existing inputs when hidden
+            const inputs = additionalPrContainer.querySelectorAll('input');
+            inputs.forEach(input => input.value = ''); // Clear all inputs
+        }
+    });
 
     $('#add-row').click(function() {
         var index = $('#accused-details-table tbody tr').length;
@@ -607,6 +654,18 @@ $(document).ready(function() {
         $('#nbw-accused-table tbody').append(newRow);
         updateIndices4();
     });
+    $('#add-pr-row').click(function() {
+        var index = $('#additional-pr-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="additional_pr[${index}][number]" class="form-control"></td>
+                <td><input type="date" name="additional_pr[${index}][date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                 <td><input type="text" name="additional_pr[${index}][status]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-pr" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#additional-pr-table tbody').append(newRow);
+        updateIndices6();
+    });
     // Delete accused details row
     $(document).on('click', '.delete-accused', function() {
         $(this).closest('tr').remove();
@@ -627,6 +686,10 @@ $(document).ready(function() {
     $(document).on('click', '.delete-nbw-accused', function() {
         $(this).closest('tr').remove();
         updateIndices5();
+    });
+    $(document).on('click', '.delete-pr', function() {
+        $(this).closest('tr').remove();
+        updateIndices6();
     });
     // Update the indices of the accused details rows
     function updateIndices() {
@@ -674,6 +737,31 @@ $(document).ready(function() {
             });
         });
     }
+    function updateIndices6(){
+        $('#additional-pr-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
+     document.getElementById('case_present_status').addEventListener('change', function() {
+        const courtJudgementContainer = document.getElementById('court-judgement-container');
+        const courtJudgementInput = document.getElementById('court_judgement');
+        const selectedStatus = this.value;
+
+        // Check if the selected status is one of the last three options
+        if (selectedStatus === 'Hearing_completed_judgement_reserved' ||
+            selectedStatus === 'Hearing_completed_judgement_pronounced_offence_acquitted' ||
+            selectedStatus === 'Hearing_completed_judgement_pronounced_offence_convicted') {
+                
+            courtJudgementInput.setAttribute('required', 'required');  // Make it required
+        } else {
+            courtJudgementInput.removeAttribute('required');  // Remove required attribute
+            courtJudgementInput.value = '';  // Clear file input if hidden
+        }
+    });
     // Fetch circles on page load
     $.getJSON('circles', function(data) {
         $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
