@@ -33,6 +33,7 @@ class FormController extends Controller
         // print_r($formData);
         // echo '</pre>';
         // exit; // Stop execution for debugging
+
         $accusedData = $request->input('accused');
         $arrestedAccusedData = $request->input('arrested_accused');
         $MobileData = $request->input('accused_mobile');
