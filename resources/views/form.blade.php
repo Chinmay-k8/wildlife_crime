@@ -138,8 +138,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6" id="detection-agency-group">
+                    <div class="row mt-4">
+                    <div class="col-md-6">
                             <div class="form-group">
                                 <label for="detection_agency">Case Detection Agency</label>
                                 <select id="detection_agency" name="detection_agency" class="form-control" required>
@@ -148,17 +148,8 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <!-- Hidden by default -->
-                        <div class="col-md-4" id="other-agency-group" style="display: none;">
-                            <div class="form-group">
-                                <label for="other_detection_agency">Other Agency Name</label>
-                                <input type="text" id="other_detection_agency" name="other_detection_agency" class="form-control" placeholder="Enter other agency name">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6" id="investigating-agency-group">
+                    </div>
+                    <div class="col-md-6">
                             <div class="form-group">
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
@@ -167,9 +158,8 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                        </div>
                     </div>
-
+                    </div>
                     <div class="row mt-4">
                     <div class="row">
                         <div class="col-md-4">
@@ -246,35 +236,34 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="property_recovered_details" class="form-label">Property Recovered Details:</label>
-                                <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="1" style="resize: none;"></textarea>
-                            </div>
+                    <div class="form-group row">
+                        <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="2" style="resize: none;"></textarea>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="brief_fact" class="form-label">Brief Fact / Cause of Death:</label>
-                                <textarea class="form-control" id="brief_fact" name="brief_fact" rows="1" style="resize: none;"></textarea>
-                            </div>
-                        </div>
-                    </div>  
+                    </div>
                     <div class="row mt-4">
                     <div class="row">
                         <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="officer_name">Name of the Investigating Officer</label>
+                                    <label for="officer_name">Name of the Incharge Officer</label>
                                     <input type="text" id="officer_name" name="officer_name" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="officer_number">Mobile Number of Investigating Officer</label>
+                                    <label for="officer_number">Mobile Number of Incharge Officer</label>
                                     <input type="text" id="officer_number" name="officer_number" class="form-control" required>
                                 </div>
                             </div>
+                    </div>
+                    <div class="row mt-4">
+                    <div class="form-group row">
+                        <label for="briefFact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;"></textarea>
+                        </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
@@ -355,32 +344,11 @@
                                 </div>
                         </div>
                         <div class="col-md-4">
-    <div class="form-group">
-        <label for="court_case_number">Case (2(b) CC/No.) number</label>
-        <div class="input-group">
-            <!-- Hardcoded text part (you don't need this in the backend) -->
-            <span class="input-group-text">2(b) CC No</span>
-
-            <!-- Input for the first part (the number) -->
-            <input type="text" id="case_part_1" name="case_part_1" maxlength="3" class="form-control" required>
-
-            <!-- "of" separator -->
-            <span class="input-group-text">of</span>
-
-            <!-- Dropdown for the year -->
-            <select id="case_year" name="case_year" class="form-control" required>
-                <option value="">Select Year</option>
-                <?php
-                $currentYear = date('Y');
-                for ($year = 2000; $year <= $currentYear; $year++) {
-                    echo "<option value=\"$year\">$year</option>";
-                }
-                ?>
-            </select>
-        </div>
-    </div>
-</div>
-
+                                <div class="form-group">
+                                    <label for="court_case_number">Case (2bcc) number</label>
+                                    <input type="text" id="court_case_number" name="court_case_number" class="form-control" required>
+                                </div>
+                        </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-12">
@@ -514,40 +482,8 @@
 
 <script>
 $(document).ready(function() {
-        $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
-        $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
-
-        document.getElementById('detection_agency').addEventListener('change', function () {
-            var otherAgencyGroup = document.getElementById('other-agency-group');
-            var detectionAgencyGroup = document.getElementById('detection-agency-group');
-            var investigatingAgencyGroup = document.getElementById('investigating-agency-group');
-            var detectionAgency = this.value;
-
-            if (detectionAgency === 'Other') {
-                // Show the 'Other Agency Name' input field
-                otherAgencyGroup.style.display = 'block';
-
-                // Adjust all columns to fit three elements in a row
-                detectionAgencyGroup.classList.remove('col-md-6');
-                detectionAgencyGroup.classList.add('col-md-4');
-                
-                investigatingAgencyGroup.classList.remove('col-md-6');
-                investigatingAgencyGroup.classList.add('col-md-4');
-
-                otherAgencyGroup.classList.remove('col-md-6');
-                otherAgencyGroup.classList.add('col-md-4');
-            } else {
-                // Hide the 'Other Agency Name' input field
-                otherAgencyGroup.style.display = 'none';
-
-                // Reset the columns back to two elements
-                detectionAgencyGroup.classList.remove('col-md-4');
-                detectionAgencyGroup.classList.add('col-md-6');
-                
-                investigatingAgencyGroup.classList.remove('col-md-4');
-                investigatingAgencyGroup.classList.add('col-md-6');
-            }
-        });
+     $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
+     $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
 
 
 
