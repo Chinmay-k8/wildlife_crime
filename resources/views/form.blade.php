@@ -225,13 +225,21 @@
                             </div> 
                         </div>
                     </div>
-                    <div class="row mt-4">
-                    <div class="form-group row">
-                        <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="2" style="resize: none;"></textarea>
+                     <div class="row mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="property_recovered_details" class="form-label">Property Recovered Details:</label>
+                                <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="1" style="resize: none;"></textarea>
+                            </div>
                         </div>
-                    </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="brief_fact" class="form-label">Brief Fact / Cause of Death:</label>
+                                <textarea class="form-control" id="brief_fact" name="brief_fact" rows="1" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>  
                     <div class="row mt-4">
                     <div class="row">
                         <div class="col-md-6">
