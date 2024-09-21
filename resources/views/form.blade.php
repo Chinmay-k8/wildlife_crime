@@ -381,6 +381,34 @@
                             </table>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12" id="undetected-absconded-accused-container">
+                            <div class="form-group">
+                                <label for="undetected_absconded_accused_option">Undetected Absconded Accused if any</label>
+                                <select id="undetected_absconded_accused_option" name="undetected_absconded_accused_option" class="form-control" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6"  id="undetected_absconded-accused-count-container">
+                            <div class="form-group">
+                                <label for="no_of_undetected_absconded_accused">No of Undetected Absconded Accused</label>
+                                <select id="no_of_undetected_absconded_accused" name="no_of_undetected_absconded_accused" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mt-4">  
                         <div class="col-md-4">
                             <div class="form-group">
@@ -846,6 +874,21 @@ $(document).ready(function() {
         document.getElementById('absconded-accused-table-body').innerHTML = '';
         document.getElementById('absconded-accused-table-container').style.display = 'none';
     }
+    document.getElementById('undetected_absconded_accused_option').addEventListener('change', function() {
+        const unabscondedAccusedContainer = document.getElementById('undetected_absconded-accused-count-container');
+        const undetectedAccusedContainer = document.getElementById('undetected-absconded-accused-container');
+        const unabscondedAccusedDropdown = document.getElementById('no_of_undetected_absconded_accused');  // Added this line to reference the dropdown
+
+        if (this.value === 'Yes') {
+            unabscondedAccusedContainer.style.display = 'block';
+            undetectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+            unabscondedAccusedDropdown.value = '';  // Reset dropdown value when 'Yes' is selected
+        } else {
+            unabscondedAccusedContainer.style.display = 'none';
+            undetectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+            unabscondedAccusedDropdown.value = '';  // Reset dropdown value when 'No' is selected
+        }
+    });
     // Fetch circles on page load
     $.getJSON('circles', function(data) {
         $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
