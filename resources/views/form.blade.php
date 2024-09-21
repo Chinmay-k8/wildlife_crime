@@ -345,7 +345,7 @@
                     <div class="row mt-4">
                         <div class="col-md-12" id="detected-absconded-accused-container">
                             <div class="form-group">
-                                <label for="detected_absconded_accused_option">Detected Absconded Accused if any</label>
+                                <label for="detected_absconded_accused_option">Absconded Accused Detected if any</label>
                                 <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>
@@ -354,7 +354,7 @@
                         </div>
                         <div class="col-md-6"  id="absconded-accused-count-container" style="display: none;">
                             <div class="form-group">
-                                <label for="no_of_detected_absconded_accused">No of Detected Absconded Accused</label>
+                                <label for="no_of_detected_absconded_accused">No of Absconded Accused Detected</label>
                                 <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -388,7 +388,7 @@
                     <div class="row mt-4">
                         <div class="col-md-12" id="undetected-absconded-accused-container">
                             <div class="form-group">
-                                <label for="undetected_absconded_accused_option">Undetected Absconded Accused if any</label>
+                                <label for="undetected_absconded_accused_option">Absconded Accused Undetected if any</label>
                                 <select id="undetected_absconded_accused_option" name="undetected_absconded_accused_option" class="form-control" required>
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>
