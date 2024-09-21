@@ -12,6 +12,9 @@ use App\Models\AccusedMobiles;
 use App\Models\NbwAccused;
 use App\Models\Uploads;
 use App\Models\AdditionalPr;
+use App\Models\AbscondedAccused;
+
+
 
 
 class FormController extends Controller
@@ -25,20 +28,22 @@ class FormController extends Controller
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
-        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
-        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr' ]);
+        $formData = $request->except(['arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
+        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr','absconded_accused' ]);
         $case_part_1 = $request->input('case_part_1'); // e.g. "132"
         $case_year = $request->input('case_year');     // e.g. "2005"
         $formData['court_case_number'] = "2(b) CC No. {$case_part_1} of {$case_year}";
         // print_r($formData);
         // echo '</pre>';
         // exit; // Stop execution for debugging
-        $accusedData = $request->input('accused');
+        // $accusedData = $request->input('accused'); //Before uncommenting add the variable to except 
         $arrestedAccusedData = $request->input('arrested_accused');
         $MobileData = $request->input('accused_mobile');
         $ReleasedData = $request->input('released_accused');
         $NbwData = $request->input('nbw_accused');
         $additionalprData = $request->input('additional_pr');
+        $abscondedAccusedData = $request->input('absconded_accused');
+
 
         $formData['user_id'] = Auth::id(); // Include user_id from Auth
         $latitude_deg = $request->input('lat_deg');
@@ -67,13 +72,13 @@ class FormController extends Controller
         }
 
         // Save accused details
-        if (!empty($accusedData)) {
-            foreach ($accusedData as $accusedItem) {
-                // Create and save each accused record
-                $accusedItem['form_data_id'] = $formId; // Add form_data_id to each accused item
-                Accused::create($accusedItem); // Use the create method for mass assignment
-            }
-        }
+        // if (!empty($accusedData)) {
+        //     foreach ($accusedData as $accusedItem) {
+        //         // Create and save each accused record
+        //         $accusedItem['form_data_id'] = $formId; // Add form_data_id to each accused item
+        //         Accused::create($accusedItem); // Use the create method for mass assignment
+        //     }
+        // }
 
         // Save arrested accused details
         if (!empty($arrestedAccusedData)) {
@@ -105,6 +110,12 @@ class FormController extends Controller
             foreach($additionalprData as $additionalprItem){
                 $additionalprItem['form_data_id'] = $formId;
                 AdditionalPr::create( $additionalprItem);
+            }
+        }
+        if(!empty($abscondedAccusedData)){
+            foreach($abscondedAccusedData as $abscondedAccusedItem){
+                $abscondedAccusedItem['form_data_id'] = $formId;
+                AbscondedAccused::create( $abscondedAccusedItem);
             }
         }
         // Handle file uploads

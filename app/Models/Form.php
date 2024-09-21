@@ -79,6 +79,10 @@ class Form extends Model
     {
         return $this->hasMany(AdditionalPr::class, 'form_data_id');
     }
+    public function abscondedAccused()
+    {
+        return $this->hasMany(AbscondedAccused::class, 'form_data_id');
+    }
     // Dynamic save method
     public function saveFormData($data)
     {

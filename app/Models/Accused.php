@@ -58,3 +58,16 @@ class NbwAccused extends Model
         
     }
 }
+class AbscondedAccused extends Model
+{
+    protected $table = 'absconded_accused';
+    protected $guarded = [];
+
+    public function AbscondedAccused($nbwData)
+    {
+        foreach($abscondedData as $data){
+            $this->create($data);
+        }
+        
+    }
+}

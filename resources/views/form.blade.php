@@ -184,8 +184,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                    <label for="old_wlpa">Schedule Of Species under WLPA</label>
-                                    <select id="old_wlpa" name="old_wlpa" class="form-control" >
+                                    <label for="species_schedule">Schedule Of Species under WLPA</label>
+                                    <select id="species_schedule" name="species_schedule" class="form-control" >
                                         <option value="">Select Scedule</option>
                                         <option value="I">I</option>
                                         <option value="II">II</option>
@@ -334,6 +334,49 @@
                                         <td><input type="text" name="arrested_accused[0][name]" class="form-control"></td>
                                         <td></td>
                                     </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12" id="detected-absconded-accused-container">
+                            <div class="form-group">
+                                <label for="detected_absconded_accused_option">Detected Absconded Accused if any</label>
+                                <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6"  id="absconded-accused-count-container" style="display: none;">
+                            <div class="form-group">
+                                <label for="no_of_detected_absconded_accused">No of Detected Absconded Accused</label>
+                                <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" id="absconded-accused-table-container" style="display: none;">
+                        <div class="col-12">    
+                            <h5>Absconded Accused Detail</h5>
+                            <table class="table table-bordered" id="absconded-accused-details-table">
+                                <thead>
+                                    <tr>
+                                        <th>Accused Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="absconded-accused-table-body">
+                                    <!-- Rows will be dynamically inserted here -->
                                 </tbody>
                             </table>
                         </div>
@@ -537,42 +580,42 @@
 
 <script>
 $(document).ready(function() {
-        $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
-        $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
+    $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
+    $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
 
-        document.getElementById('detection_agency').addEventListener('change', function () {
-            var otherAgencyGroup = document.getElementById('other-agency-group');
-            var detectionAgencyGroup = document.getElementById('detection-agency-group');
-            var investigatingAgencyGroup = document.getElementById('investigating-agency-group');
-            var detectionAgency = this.value;
+    document.getElementById('detection_agency').addEventListener('change', function () {
+        var otherAgencyGroup = document.getElementById('other-agency-group');
+        var detectionAgencyGroup = document.getElementById('detection-agency-group');
+        var investigatingAgencyGroup = document.getElementById('investigating-agency-group');
+        var detectionAgency = this.value;
 
-            if (detectionAgency === 'Other') {
-                // Show the 'Other Agency Name' input field
-                otherAgencyGroup.style.display = 'block';
+        if (detectionAgency === 'Other') {
+            // Show the 'Other Agency Name' input field
+            otherAgencyGroup.style.display = 'block';
 
-                // Adjust all columns to fit three elements in a row
-                detectionAgencyGroup.classList.remove('col-md-6');
-                detectionAgencyGroup.classList.add('col-md-4');
-                
-                investigatingAgencyGroup.classList.remove('col-md-6');
-                investigatingAgencyGroup.classList.add('col-md-4');
+            // Adjust all columns to fit three elements in a row
+            detectionAgencyGroup.classList.remove('col-md-6');
+            detectionAgencyGroup.classList.add('col-md-4');
+            
+            investigatingAgencyGroup.classList.remove('col-md-6');
+            investigatingAgencyGroup.classList.add('col-md-4');
 
-                otherAgencyGroup.classList.remove('col-md-6');
-                otherAgencyGroup.classList.add('col-md-4');
-            } else {
-                // Hide the 'Other Agency Name' input field
-                otherAgencyGroup.style.display = 'none';
+            otherAgencyGroup.classList.remove('col-md-6');
+            otherAgencyGroup.classList.add('col-md-4');
+        } else {
+            // Hide the 'Other Agency Name' input field
+            otherAgencyGroup.style.display = 'none';
 
-                // Reset the columns back to two elements
-                detectionAgencyGroup.classList.remove('col-md-4');
-                detectionAgencyGroup.classList.add('col-md-6');
-                
-                investigatingAgencyGroup.classList.remove('col-md-4');
-                investigatingAgencyGroup.classList.add('col-md-6');
-            }
-        });
+            // Reset the columns back to two elements
+            detectionAgencyGroup.classList.remove('col-md-4');
+            detectionAgencyGroup.classList.add('col-md-6');
+            
+            investigatingAgencyGroup.classList.remove('col-md-4');
+            investigatingAgencyGroup.classList.add('col-md-6');
+        }
+    });
 
-        document.getElementById('additional_pr_option').addEventListener('change', function() {
+    document.getElementById('additional_pr_option').addEventListener('change', function() {
         const additionalPrContainer = document.getElementById('additional-pr-container');
         if (this.value === 'Yes') {
             additionalPrContainer.style.display = 'block'; // Show the additional PR table
@@ -748,6 +791,61 @@ $(document).ready(function() {
             courtJudgementInput.value = '';  // Clear file input if hidden
         }
     });
+    document.getElementById('detected_absconded_accused').addEventListener('change', function() {
+        const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
+        const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
+        const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');  // Added this line to reference the dropdown
+
+        if (this.value === 'Yes') {
+            abscondedAccusedContainer.style.display = 'block';
+            detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+            abscondedAccusedDropdown.value = '';  // Reset dropdown value when 'Yes' is selected
+        } else {
+            abscondedAccusedContainer.style.display = 'none';
+            detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+            abscondedAccusedDropdown.value = '';  // Reset dropdown value when 'No' is selected
+            resetTable(); // Reset table when 'No' is selected
+        }
+    });
+    document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
+        const tableContainer = document.getElementById('absconded-accused-table-container');
+        const tableBody = document.getElementById('absconded-accused-table-body');
+        const numAccused = parseInt(this.value);
+
+        // Show the table only if a valid number is selected
+        if (numAccused > 0) {
+            tableContainer.style.display = 'block';
+            generateTableRows(numAccused, tableBody);
+        } else {
+            tableContainer.style.display = 'none';
+        }
+    });
+
+    function generateTableRows(count, tableBody) {
+        // Clear existing rows
+        tableBody.innerHTML = '';
+
+        // Create rows based on the selected number of accused
+        for (let index = 0; insex < count; index++) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            const input = document.createElement('input');
+            
+            input.type = 'text';
+            input.name = `absconded_accused[${index}][name]`;
+            input.classList.add('form-control');
+            input.placeholder = 'Enter Accused Name';
+
+            cell.appendChild(input);
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+        }
+    }
+
+    function resetTable() {
+        document.getElementById('absconded-accused-table-body').innerHTML = '';
+        document.getElementById('absconded-accused-table-container').style.display = 'none';
+    }
     // Fetch circles on page load
     $.getJSON('circles', function(data) {
         $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));

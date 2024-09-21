@@ -88,7 +88,7 @@ return [
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '5432'),
         
-            'database' => env('DB_DATABASE', 'wildlife_crime_demo'),
+            'database' => env('DB_DATABASE', 'wildlife_crime'),
 
             'username' => env('DB_USERNAME', 'postgres'),
             'password' => env('DB_PASSWORD', 'postgres'),
@@ -102,7 +102,7 @@ return [
             'driver' => env('DB_SECONDARY_CONNECTION', 'pgsql'),
             'host' => env('DB_SECONDARY_HOST', 'localhost'),
             'port' => env('DB_SECONDARY_PORT', '5432'),
-            'database' => env('DB_SECONDARY_DATABASE', 'ofms_live_2'),
+            'database' => env('DB_SECONDARY_DATABASE', 'ofms_live'),
             'username' => env('DB_SECONDARY_USERNAME', 'postgres'),
             'password' => env('DB_SECONDARY_PASSWORD', 'postgres'),
             'charset' => 'utf8',
