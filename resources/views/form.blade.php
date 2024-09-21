@@ -1,10 +1,10 @@
 <!-- resources/views/form.blade.php -->
 @extends('layouts.dashboard')
 @section('user-info')
-<h1>Form DX</h1>
+<h1>Form-X</h1>
 @endsection
 @section('form-content')
-<div class="container mt-5">
+<div>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -120,19 +120,26 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
-                                <input type="text" id="latitude" name="latitude" class="form-control" placeholder="Enter latitude in decimal format" required>
+                                <div class="d-flex">
+                                    <input type="number" id="lat_deg" name="lat_deg" class="form-control" placeholder="Deg" required style="width: 30%;">
+                                    <input type="number" id="lat_min" name="lat_min" class="form-control" placeholder="Min" required style="width: 30%; margin-left: 5px;">
+                                    <input type="number" id="lat_sec" name="lat_sec" class="form-control" placeholder="Sec" required style="width: 30%; margin-left: 5px;">
+                                </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
-                                <input type="text" id="longitude" name="longitude" class="form-control" placeholder="Enter longitude in decimal format" required>
+                                <div class="d-flex">
+                                    <input type="number" id="long_deg" name="long_deg" class="form-control" placeholder="Deg" required style="width: 30%;">
+                                    <input type="number" id="long_min" name="long_min" class="form-control" placeholder="Min" required style="width: 30%; margin-left: 5px;">
+                                    <input type="number" id="long_sec" name="long_sec" class="form-control" placeholder="Sec" required style="width: 30%; margin-left: 5px;">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-4">
-                    <div class="col-md-6">
+                    <div class="row mt-2">
+                        <div class="col-md-6" id="detection-agency-group">
                             <div class="form-group">
                                 <label for="detection_agency">Case Detection Agency</label>
                                 <select id="detection_agency" name="detection_agency" class="form-control" required>
@@ -141,8 +148,17 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
-                    </div>
-                    <div class="col-md-6">
+                        </div>
+
+                        <!-- Hidden by default -->
+                        <div class="col-md-4" id="other-agency-group" style="display: none;">
+                            <div class="form-group">
+                                <label for="other_detection_agency">Other Agency Name</label>
+                                <input type="text" id="other_detection_agency" name="other_detection_agency" class="form-control" placeholder="Enter other agency name">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" id="investigating-agency-group">
                             <div class="form-group">
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
@@ -151,10 +167,35 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
+                        </div>
                     </div>
-                    </div>
+
                     <div class="row mt-4">
                     <div class="row">
+                         <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="schedule_type">Shedule Type of Species (New/Old)</label>
+                                    <select id="schedule_type" name="schedule_type" class="form-control">
+                                        <option value="">Select Type</option>
+                                        <option value="new">New</option>
+                                        <option value="old">Old</option>
+                                    </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="species_schedule">Schedule Of Species under WLPA</label>
+                                    <select id="species_schedule" name="species_schedule" class="form-control" >
+                                        <option value="">Select Scedule</option>
+                                        <option value="I">I</option>
+                                        <option value="II">II</option>
+                                        <option value="III">III</option>
+                                        <option value="IV">IV</option>
+                                        <option value="V">V</option>
+                                        <option value="VI">VI</option>
+                                    </select>
+                            </div> 
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="species_name">Name Of the Species</label>
@@ -165,6 +206,9 @@
                                     </select>
                             </div> 
                         </div>
+                    </div>
+                    <div class="row mt-4">
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="species_age">Age of the Species</label>
@@ -181,46 +225,19 @@
                                     </select>
                             </div> 
                         </div>
-                    </div>
-                    <div class="row mt-4">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                    <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
-                                    <select id="old_wlpa" name="old_wlpa" class="form-control" >
-                                        <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
-                                    </select>
-                            </div> 
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                    <label for="new_wlpa">New Schedule Of Species under WLPA</label>
-                                    <select id="new_wlpa" name="new_wlpa" class="form-control" >
-                                    <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
-                                    </select>
-                            </div> 
-                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="property_recovered_type">Property Recovered Type</label>
                                     <select id="property_recovered_type" name="property_recovered_type" class="form-control" >
-                                        <option value="Live animal">Live animal</option>
+                                        <option value="">Select Type</option>
+                                        <option value="Live_animal">Live animal</option>
+                                        <option value="Meat">Meat</option>
                                         <option value="Carcass">Carcass</option>
-                                        <option value="Body parts">Body parts</option>
-                                        <option value="Arms and Ammunition">Arms and Ammunition</option>
-                                        <option value="GI wire">GI wire</option>
+                                        <option value="Body_parts">Body parts</option>
+                                        <option value="Arms_and_Ammunition">Arms and Ammunition</option>
+                                        <option value="GI_wire">Tool</option>
                                         <option value="Vehicles">Vehicles</option>
-                                        <option value="Other Material">Other Material</option>
+                                        <option value="Other_Material">Other Material</option>
                                     </select>
                             </div> 
                         </div>
@@ -244,26 +261,19 @@
                     <div class="row">
                         <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="officer_name">Name of the Incharge Officer</label>
+                                    <label for="officer_name">Name of the Investigating Officer</label>
                                     <input type="text" id="officer_name" name="officer_name" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="officer_number">Mobile Number of Incharge Officer</label>
+                                    <label for="officer_number">Mobile Number of Investigating Officer</label>
                                     <input type="text" id="officer_number" name="officer_number" class="form-control" required>
                                 </div>
                             </div>
                     </div>
-                    <div class="row mt-4">
-                    <div class="form-group row">
-                        <label for="briefFact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;"></textarea>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
+                    <!-- <div class="row mt-4">
                         <div class="col-12">
                             <h5>Accused Detail</h5>
                             <table class="table table-bordered" id="accused-details-table">
@@ -287,7 +297,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row mt-4">
                         <div class="col-12">
                             <h5>Mobiles recovered</h5>
@@ -328,6 +338,49 @@
                             </table>
                         </div>
                     </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12" id="detected-absconded-accused-container">
+                            <div class="form-group">
+                                <label for="detected_absconded_accused_option">Detected Absconded Accused if any</label>
+                                <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6"  id="absconded-accused-count-container" style="display: none;">
+                            <div class="form-group">
+                                <label for="no_of_detected_absconded_accused">No of Detected Absconded Accused</label>
+                                <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4" id="absconded-accused-table-container" style="display: none;">
+                        <div class="col-12">    
+                            <h5>Absconded Accused Detail</h5>
+                            <table class="table table-bordered" id="absconded-accused-details-table">
+                                <thead>
+                                    <tr>
+                                        <th>Accused Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="absconded-accused-table-body">
+                                    <!-- Rows will be dynamically inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="row mt-4">  
                         <div class="col-md-4">
                             <div class="form-group">
@@ -342,10 +395,23 @@
                                 </div>
                         </div>
                         <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="court_case_number">Case (2bcc) number</label>
-                                    <input type="text" id="court_case_number" name="court_case_number" class="form-control" required>
+                            <div class="form-group">
+                                <label for="court_case_number">Case (2(b) CC/No.) number</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">2(b) CC No</span>
+                                    <input type="text" id="case_part_1" name="case_part_1" maxlength="3" class="form-control" required>
+                                    <span class="input-group-text">of</span>
+                                    <select id="case_year" name="case_year" class="form-control" required>
+                                        <option value="">Select Year</option>
+                                        <?php
+                                        $currentYear = date('Y');
+                                        for ($year = 2000; $year <= $currentYear; $year++) {
+                                            echo "<option value=\"$year\">$year</option>";
+                                        }
+                                        ?>  
+                                    </select>
                                 </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -392,23 +458,57 @@
                     </div>
                     <div class="row mt-4">
                         <h5>Submission of final PR</h5>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="officer_name">Final PR number</label>
+                                    <label for="pr_number">Final PR number</label>
                                     <input type="text" id="pr_number" name="pr_number" class="form-control" required>
                                 </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="pr_date">Date</label>
                                 <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pr_status">Status</label>
                                     <input type="text" id="pr_status" name="pr_status" class="form-control" required>
                                 </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                    <label for="additional_pr_option">Additional PR if any</label>
+                                    <select id="additional_pr_option" name="additional_pr_option" class="form-control" required>
+                                        <option value="No">No</option>    
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-4" id="additional-pr-container" style="display: none;">
+                        <div class="col-12">
+                            <h5>Submission of Additional PR</h5>
+                            <table class="table table-bordered" id="additional-pr-table">
+                                <thead>
+                                    <tr>
+                                        <th>PR Number</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>
+                                            <img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-pr-row" style="cursor: pointer; width: 24px;">
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="additional_pr[0][number]" class="form-control"></td>
+                                        <td><input type="date" name="additional_pr[0][date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                                        <td><input type="text" name="additional_pr[0][status]" class="form-control"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -425,8 +525,17 @@
                         <div class="col-6">
                             <div class="form-group">
                                     <label for="case_present_status">Present Status of the case</label>
-                                    <input type="text" id="case_present_status" name="case_present_status" class="form-control" required>
-                            </div> 
+                                    <select id="case_present_status" name="case_present_status" class="form-control" placeholder="Test" required>
+                                        <option value="">Select Status</option>
+                                        <option value="Under_investigation_prosecution_not_submitted">Under investigation prosecution not submitted</option>
+                                        <option value="Prosecution_submitted_matter_not_listed">Prosecution submitted matter not listed</option>
+                                        <option value="Matter_listed_hearing_not_started">Matter listed hearing not started</option>
+                                        <option value="Under_trial">Under trial</option>
+                                        <option value="Hearing_completed_judgement_reserved">Hearing completed judgement reserved</option>
+                                        <option value="Hearing_completed_judgement_pronounced_offence_acquitted">Hearing completed judgement pronounced offence acquitted</option>
+                                        <option value="Hearing_completed_judgement_pronounced_offence_convicted">Hearing completed judgement pronounced offence convicted</option>
+                                    </select>
+                            </div>  
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -471,10 +580,52 @@
 
 <script>
 $(document).ready(function() {
-     $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
-     $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
+    $('#case_date').attr('max', new Date().toISOString().split('T')[0]);
+    $('#detection_date').attr('max', new Date().toISOString().split('T')[0]);
 
+    document.getElementById('detection_agency').addEventListener('change', function () {
+        var otherAgencyGroup = document.getElementById('other-agency-group');
+        var detectionAgencyGroup = document.getElementById('detection-agency-group');
+        var investigatingAgencyGroup = document.getElementById('investigating-agency-group');
+        var detectionAgency = this.value;
 
+        if (detectionAgency === 'Other') {
+            // Show the 'Other Agency Name' input field
+            otherAgencyGroup.style.display = 'block';
+
+            // Adjust all columns to fit three elements in a row
+            detectionAgencyGroup.classList.remove('col-md-6');
+            detectionAgencyGroup.classList.add('col-md-4');
+            
+            investigatingAgencyGroup.classList.remove('col-md-6');
+            investigatingAgencyGroup.classList.add('col-md-4');
+
+            otherAgencyGroup.classList.remove('col-md-6');
+            otherAgencyGroup.classList.add('col-md-4');
+        } else {
+            // Hide the 'Other Agency Name' input field
+            otherAgencyGroup.style.display = 'none';
+
+            // Reset the columns back to two elements
+            detectionAgencyGroup.classList.remove('col-md-4');
+            detectionAgencyGroup.classList.add('col-md-6');
+            
+            investigatingAgencyGroup.classList.remove('col-md-4');
+            investigatingAgencyGroup.classList.add('col-md-6');
+        }
+    });
+
+    document.getElementById('additional_pr_option').addEventListener('change', function() {
+        const additionalPrContainer = document.getElementById('additional-pr-container');
+        if (this.value === 'Yes') {
+            additionalPrContainer.style.display = 'block'; // Show the additional PR table
+        } else {
+            additionalPrContainer.style.display = 'none'; // Hide the additional PR table
+            // Optionally clear the existing inputs when hidden
+            const inputs = additionalPrContainer.querySelectorAll('input');
+            inputs.forEach(input => input.value = ''); // Clear all inputs
+        }
+    });
 
     $('#add-row').click(function() {
         var index = $('#accused-details-table tbody tr').length;
@@ -532,6 +683,18 @@ $(document).ready(function() {
         $('#nbw-accused-table tbody').append(newRow);
         updateIndices4();
     });
+    $('#add-pr-row').click(function() {
+        var index = $('#additional-pr-table tbody tr').length;
+        var newRow = `
+            <tr>
+                <td><input type="text" name="additional_pr[${index}][number]" class="form-control"></td>
+                <td><input type="date" name="additional_pr[${index}][date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                 <td><input type="text" name="additional_pr[${index}][status]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-pr" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#additional-pr-table tbody').append(newRow);
+        updateIndices6();
+    });
     // Delete accused details row
     $(document).on('click', '.delete-accused', function() {
         $(this).closest('tr').remove();
@@ -552,6 +715,10 @@ $(document).ready(function() {
     $(document).on('click', '.delete-nbw-accused', function() {
         $(this).closest('tr').remove();
         updateIndices5();
+    });
+    $(document).on('click', '.delete-pr', function() {
+        $(this).closest('tr').remove();
+        updateIndices6();
     });
     // Update the indices of the accused details rows
     function updateIndices() {
@@ -598,6 +765,86 @@ $(document).ready(function() {
                 $(this).attr('name', newName);
             });
         });
+    }
+    function updateIndices6(){
+        $('#additional-pr-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });
+    }
+     document.getElementById('case_present_status').addEventListener('change', function() {
+        const courtJudgementContainer = document.getElementById('court-judgement-container');
+        const courtJudgementInput = document.getElementById('court_judgement');
+        const selectedStatus = this.value;
+
+        // Check if the selected status is one of the last three options
+        if (selectedStatus === 'Hearing_completed_judgement_reserved' ||
+            selectedStatus === 'Hearing_completed_judgement_pronounced_offence_acquitted' ||
+            selectedStatus === 'Hearing_completed_judgement_pronounced_offence_convicted') {
+                
+            courtJudgementInput.setAttribute('required', 'required');  // Make it required
+        } else {
+            courtJudgementInput.removeAttribute('required');  // Remove required attribute
+            courtJudgementInput.value = '';  // Clear file input if hidden
+        }
+    });
+    document.getElementById('detected_absconded_accused').addEventListener('change', function() {
+        const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
+        const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
+        const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');  // Added this line to reference the dropdown
+
+        if (this.value === 'Yes') {
+            abscondedAccusedContainer.style.display = 'block';
+            detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+            abscondedAccusedDropdown.value = '';  // Reset dropdown value when 'Yes' is selected
+        } else {
+            abscondedAccusedContainer.style.display = 'none';
+            detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+            abscondedAccusedDropdown.value = '';  // Reset dropdown value when 'No' is selected
+            resetTable(); // Reset table when 'No' is selected
+        }
+    });
+    document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
+        const tableContainer = document.getElementById('absconded-accused-table-container');
+        const tableBody = document.getElementById('absconded-accused-table-body');
+        const numAccused = parseInt(this.value);
+
+        // Show the table only if a valid number is selected
+        if (numAccused > 0) {
+            tableContainer.style.display = 'block';
+            generateTableRows(numAccused, tableBody);
+        } else {
+            tableContainer.style.display = 'none';
+        }
+    });
+
+    function generateTableRows(count, tableBody) {
+        // Clear existing rows
+        tableBody.innerHTML = '';
+
+        // Create rows based on the selected number of accused
+        for (let index = 0; insex < count; index++) {
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            const input = document.createElement('input');
+            
+            input.type = 'text';
+            input.name = `absconded_accused[${index}][name]`;
+            input.classList.add('form-control');
+            input.placeholder = 'Enter Accused Name';
+
+            cell.appendChild(input);
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+        }
+    }
+
+    function resetTable() {
+        document.getElementById('absconded-accused-table-body').innerHTML = '';
+        document.getElementById('absconded-accused-table-container').style.display = 'none';
     }
     // Fetch circles on page load
     $.getJSON('circles', function(data) {
