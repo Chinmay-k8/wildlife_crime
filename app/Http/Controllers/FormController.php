@@ -29,7 +29,7 @@ class FormController extends Controller
         'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr' ]);
         $case_part_1 = $request->input('case_part_1'); // e.g. "132"
         $case_year = $request->input('case_year');     // e.g. "2005"
-        $formData['court_case_number'] = "2(b) CC No {$case_part_1} of {$case_year}";
+        $formData['court_case_number'] = "2(b) CC No. {$case_part_1} of {$case_year}";
         // print_r($formData);
         // echo '</pre>';
         // exit; // Stop execution for debugging

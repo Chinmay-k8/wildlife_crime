@@ -176,44 +176,15 @@
                             <div class="form-group">
                                     <label for="schedule_type">Shedule Type of Species (New/Old)</label>
                                     <select id="schedule_type" name="schedule_type" class="form-control">
-                                        <option value="">Select Agency</option>
-                                        <option value="Forest">Forest</option>
-                                        <option value="Other">Other</option>
+                                        <option value="">Select Type</option>
+                                        <option value="new">New</option>
+                                        <option value="old">Old</option>
                                     </select>
                             </div> 
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                    <label for="species_name">Name Of the Species</label>
-                                    <select id="species_name" name="species_name" class="form-control">
-                                        <!-- <option value="">Select Agency</option>
-                                        <option value="Forest">Forest</option>
-                                        <option value="Other">Other</option> -->
-                                    </select>
-                            </div> 
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                    <label for="species_age">Age of the Species</label>
-                                        <input type="text" id="species_age" name="species_age" class="form-control" required>
-                            </div> 
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                    <label for="species_sex">Sex Of the Species</label>
-                                    <select id="species_sex" name="species_sex" class="form-control" required>
-                                        <option value="">Select Sex</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                    <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
+                                    <label for="old_wlpa">Schedule Of Species under WLPA</label>
                                     <select id="old_wlpa" name="old_wlpa" class="form-control" >
                                         <option value="">Select Scedule</option>
                                         <option value="I">I</option>
@@ -227,15 +198,30 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                    <label for="new_wlpa">New Schedule Of Species under WLPA</label>
-                                    <select id="new_wlpa" name="new_wlpa" class="form-control" >
-                                        <option value="">Select Scedule</option>
-                                        <option value="I">I</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
-                                        <option value="IV">IV</option>
-                                        <option value="V">V</option>
-                                        <option value="VI">VI</option>
+                                    <label for="species_name">Name Of the Species</label>
+                                    <select id="species_name" name="species_name" class="form-control">
+                                        <!-- <option value="">Select Agency</option>
+                                        <option value="Forest">Forest</option>
+                                        <option value="Other">Other</option> -->
+                                    </select>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="species_age">Age of the Species</label>
+                                        <input type="text" id="species_age" name="species_age" class="form-control" required>
+                            </div> 
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                    <label for="species_sex">Sex Of the Species</label>
+                                    <select id="species_sex" name="species_sex" class="form-control" required>
+                                        <option value="">Select Sex</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
                                     </select>
                             </div> 
                         </div>
