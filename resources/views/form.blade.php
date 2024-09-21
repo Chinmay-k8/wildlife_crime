@@ -791,7 +791,7 @@ $(document).ready(function() {
             courtJudgementInput.value = '';  // Clear file input if hidden
         }
     });
-    document.getElementById('detected_absconded_accused').addEventListener('change', function() {
+    document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
         const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
         const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
         const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');  // Added this line to reference the dropdown
