@@ -28,7 +28,7 @@ class FormController extends Controller
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
-        $formData = $request->except(['arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
+        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
         'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr','absconded_accused' ]);
         $case_part_1 = $request->input('case_part_1'); // e.g. "132"
         $case_year = $request->input('case_year');     // e.g. "2005"
@@ -71,14 +71,14 @@ class FormController extends Controller
             return redirect()->back()->withErrors('Failed to save form data.');
         }
 
-        // Save accused details
-        // if (!empty($accusedData)) {
-        //     foreach ($accusedData as $accusedItem) {
-        //         // Create and save each accused record
-        //         $accusedItem['form_data_id'] = $formId; // Add form_data_id to each accused item
-        //         Accused::create($accusedItem); // Use the create method for mass assignment
-        //     }
-        // }
+        //Save accused details
+        if (!empty($accusedData)) {
+            foreach ($accusedData as $accusedItem) {
+                // Create and save each accused record
+                $accusedItem['form_data_id'] = $formId; // Add form_data_id to each accused item
+                Accused::create($accusedItem); // Use the create method for mass assignment
+            }
+        }
 
         // Save arrested accused details
         if (!empty($arrestedAccusedData)) {
