@@ -826,7 +826,7 @@ $(document).ready(function() {
         tableBody.innerHTML = '';
 
         // Create rows based on the selected number of accused
-        for (let index = 0; insex < count; index++) {
+        for (let index = 0; index < count; index++) {
             const row = document.createElement('tr');
             const cell = document.createElement('td');
             const input = document.createElement('input');
