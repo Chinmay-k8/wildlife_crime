@@ -162,9 +162,7 @@
                             <div class="form-group">
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
-                                    <option value="">Select Agency</option>
-                                    <option value="Forest Department">Forest Department</option>
-                                    <option value="Other">Other</option>
+                                    <option value="Forest Department" selected>Forest Department</option>
                                 </select>
                             </div>
                         </div>
@@ -306,7 +304,11 @@
                                     <tr>
                                         <th>Mobile Number</th>
                                         <th>IMEI Number</th>
-                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row3" style="cursor: pointer; width: 24px;"></th>
+                                        <th>
+                                            <button id="add-row3" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                Add More
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -326,7 +328,9 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
-                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row2" style="cursor: pointer; width: 24px;"></th>
+                                        <th>
+                                            <button id="add-row2" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">Add More</button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -450,7 +454,12 @@
                                     <tr>
                                         <th>Accused Name</th>
                                         <th>NBW Execution Status</th>
-                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row5" style="cursor: pointer; width: 24px;"></th>
+                                        <th>
+                                            <button id="add-row5" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                    Add More
+                                            </button>
+                                        </th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -471,7 +480,11 @@
                                     <tr>
                                         <th>Accused name </th>
                                         <th>Date</th>
-                                        <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row4" style="cursor: pointer; width: 24px;"></th>
+                                        <th>
+                                            <button id="add-row4" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                Add More
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -524,7 +537,9 @@
                                         <th>Date</th>
                                         <th>Status</th>
                                         <th>
-                                            <img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-pr-row" style="cursor: pointer; width: 24px;">
+                                            <button id="add-pr-row" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                    Add More
+                                            </button>
                                         </th>
                                     </tr>
                                 </thead>
@@ -874,12 +889,14 @@ $(document).ready(function() {
         document.getElementById('absconded-accused-table-body').innerHTML = '';
         document.getElementById('absconded-accused-table-container').style.display = 'none';
     }
-    document.getElementById('undetected_absconded_accused_option').addEventListener('change', function() {
-        const unabscondedAccusedContainer = document.getElementById('undetected_absconded-accused-count-container');
-        const undetectedAccusedContainer = document.getElementById('undetected-absconded-accused-container');
-        const unabscondedAccusedDropdown = document.getElementById('no_of_undetected_absconded_accused');  // Added this line to reference the dropdown
+    const undetectedAccusedOption = document.getElementById('undetected_absconded_accused_option');
+    const unabscondedAccusedContainer = document.getElementById('undetected_absconded-accused-count-container');
+    const undetectedAccusedContainer = document.getElementById('undetected-absconded-accused-container');
+    const unabscondedAccusedDropdown = document.getElementById('no_of_undetected_absconded_accused');
 
-        if (this.value === 'Yes') {
+    // Function to handle the dropdown visibility based on the option selected
+    function updateAbscondedAccusedDisplay(){
+        if (undetectedAccusedOption.value === 'Yes') {
             unabscondedAccusedContainer.style.display = 'block';
             undetectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
             unabscondedAccusedDropdown.value = '';  // Reset dropdown value when 'Yes' is selected
@@ -888,7 +905,13 @@ $(document).ready(function() {
             undetectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
             unabscondedAccusedDropdown.value = '';  // Reset dropdown value when 'No' is selected
         }
-    });
+    }
+
+    // Check the initial state when the page loads
+    updateAbscondedAccusedDisplay();
+
+    // Listen for changes in the dropdown
+    undetectedAccusedOption.addEventListener('change',updateAbscondedAccusedDisplay);
     // Fetch circles on page load
     $.getJSON('circles', function(data) {
         $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
