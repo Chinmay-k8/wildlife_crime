@@ -28,8 +28,8 @@
         @csrf
 
         <div class="mb-3">
-            <label for="user_name" class="form-label">User Name:</label>
-            <input type="user_name" id="user_name" name="user_name" class="form-control" value="{{ old('user_name') }}" required>
+            <label for="username" class="form-label">User Name:</label>
+            <input type="username" id="username" name="username" class="form-control" value="{{ old('username') }}" required>
         </div>
 
         <div class="mb-3">

@@ -23,9 +23,9 @@ class RegisterController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:master_user',
-            'email' => 'required|string|email|max:255|unique:master_user',
-            'phone' => 'required|string|max:15|unique:master_user',
+            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:employees',
+            'phone' => 'required|string|max:15|unique:employees',
             'password' => 'required|string|min:8|confirmed',
             'designation_id' => 'required|exists:master_designation,id',
         ]);

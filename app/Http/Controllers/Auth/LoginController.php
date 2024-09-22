@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\MasterUser;
 
+
 class LoginController extends Controller
 {
     public function showLoginForm()
@@ -19,13 +20,13 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'user_name' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required|string',
         ]);
     
-        $credentials = $request->only('user_name', 'password');
+        $credentials = $request->only('username', 'password');
     
-        $user = MasterUser::where('user_name', $request->user_name)->first();
+        $user = MasterUser::where('username', $request->username)->first();
     
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);

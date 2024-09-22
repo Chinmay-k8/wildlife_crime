@@ -5,5 +5,5 @@
   </li> 
 @endsection
 @section('user-info')
-    <h4 class="page-title">Welcome, {{ Auth::user()->name }}</h4>
+    <h4 class="page-title">Welcome, {{ Auth::user()->employee->firstname . ' ' . Auth::user()->employee->lastname }}</h4>
 @endsection
