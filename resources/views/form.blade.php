@@ -259,15 +259,15 @@
                     <div class="row">
                         <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="officer_name">Name of the Investigating Officer</label>
-                                    <input type="text" id="officer_name" name="officer_name" class="form-control" required>
+                                    <label for="in_officer_name">Name of the Investigating Officer</label>
+                                    <input type="text" id="in_officer_name" name="in_officer_name" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="officer_number">Mobile Number of Investigating Officer</label>
-                                    <input type="text" id="officer_number" name="officer_number" class="form-control" required>
+                                    <label for="in_officer_mobile">Mobile Number of Investigating Officer</label>
+                                    <input type="text" id="in_officer_mobile" name="in_officer_mobile" class="form-control" required>
                                 </div>
                             </div>
                     </div>

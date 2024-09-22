@@ -8,7 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Forestblock extends Model
 {
 
-    protected $connection = 'secondary'; // Specify the connection name
-    protected $table = 'master_area_forest_block'; // Specify the table name
-
+    protected $table = 'master_area_forest_block'; 
 }

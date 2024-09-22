@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Range extends Model
 {
-    protected $connection = 'secondary'; // Specify the connection name
-    protected $table = 'master_area_range'; // Specify the table name
+    protected $table = 'master_area_range'; 
 }
