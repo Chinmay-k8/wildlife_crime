@@ -12,15 +12,13 @@ class MasterUser extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'master_user';
+    protected $table = 'users';
 
     protected $fillable = [
-        'name',
-        'user_name',
-        'email',
-        'mobile_number',
+        'username',
         'password',
         'designation_id',
+        'employee_id'
     ];
 
     protected $hidden = [
@@ -30,5 +28,9 @@ class MasterUser extends Authenticatable
     public function designation()
     {
         return $this->belongsTo(MasterDesignation::class, 'designation_id');
+    }
+    public function employee()
+    {
+        return $this->belongsTo(MasterEmployee::class, 'employee_id');
     }
 }

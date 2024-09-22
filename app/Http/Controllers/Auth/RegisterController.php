@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\MasterDesignation;
 use App\Models\MasterUser;
+use App\Models\MasterEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,20 +21,24 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'user_name' => 'required|string|max:255|unique:master_user',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:master_user',
             'email' => 'required|string|email|max:255|unique:master_user',
-            'mobile_number' => 'required|string|max:15|unique:master_user',
+            'phone' => 'required|string|max:15|unique:master_user',
             'password' => 'required|string|min:8|confirmed',
             'designation_id' => 'required|exists:master_designation,id',
         ]);
-
-        MasterUser::create([
-            'name' => $request->name,
-            'user_name' => $request->user_name,
+        $employee = MasterEmployee::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
-            'mobile_number' => $request->mobile_number,
+            'phone' => $request->phone,
+        ]);
+        MasterUser::create([
+            'username' => $request->username,
             'password' => Hash::make($request->password),
+            'employee_id' => $employee->id, // Link the employee to the user
             'designation_id' => $request->designation_id,
         ]);
 

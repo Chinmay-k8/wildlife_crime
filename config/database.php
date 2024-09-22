@@ -88,7 +88,7 @@ return [
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '5432'),
         
-            'database' => env('DB_DATABASE', 'wildlife_crime'),
+            'database' => env('DB_DATABASE', 'wildlife_final'),
 
             'username' => env('DB_USERNAME', 'postgres'),
             'password' => env('DB_PASSWORD', 'postgres'),
@@ -98,18 +98,18 @@ return [
             'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
-        'secondary' => [
-            'driver' => env('DB_SECONDARY_CONNECTION', 'pgsql'),
-            'host' => env('DB_SECONDARY_HOST', 'localhost'),
-            'port' => env('DB_SECONDARY_PORT', '5432'),
-            'database' => env('DB_SECONDARY_DATABASE', 'ofms_live'),
-            'username' => env('DB_SECONDARY_USERNAME', 'postgres'),
-            'password' => env('DB_SECONDARY_PASSWORD', 'postgres'),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'schema' => 'public',
-            'sslmode' => 'prefer',
-        ],
+        // 'secondary' => [
+        //     'driver' => env('DB_SECONDARY_CONNECTION', 'pgsql'),
+        //     'host' => env('DB_SECONDARY_HOST', 'localhost'),
+        //     'port' => env('DB_SECONDARY_PORT', '5432'),
+        //     'database' => env('DB_SECONDARY_DATABASE', 'ofms_live'),
+        //     'username' => env('DB_SECONDARY_USERNAME', 'postgres'),
+        //     'password' => env('DB_SECONDARY_PASSWORD', 'postgres'),
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'schema' => 'public',
+        //     'sslmode' => 'prefer',
+        // ],
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
