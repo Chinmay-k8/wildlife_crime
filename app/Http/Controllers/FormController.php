@@ -72,13 +72,13 @@ class FormController extends Controller
         }
 
         //Save accused details
-        if (!empty($accusedData)) {
-            foreach ($accusedData as $accusedItem) {
-                // Create and save each accused record
-                $accusedItem['form_data_id'] = $formId; // Add form_data_id to each accused item
-                Accused::create($accusedItem); // Use the create method for mass assignment
-            }
-        }
+        // if (!empty($accusedData)) {
+        //     foreach ($accusedData as $accusedItem) {
+        //         // Create and save each accused record
+        //         $accusedItem['form_data_id'] = $formId; // Add form_data_id to each accused item
+        //         Accused::create($accusedItem); // Use the create method for mass assignment
+        //     }
+        // }
 
         // Save arrested accused details
         if (!empty($arrestedAccusedData)) {
@@ -118,7 +118,7 @@ class FormController extends Controller
                 AbscondedAccused::create( $abscondedAccusedItem);
             }
         }
-        // Handle file uploads
+        //Handle file uploads
         $uploadsData = [
             'form_data_id' => $formId,
             'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post-mortem-report', $formId),

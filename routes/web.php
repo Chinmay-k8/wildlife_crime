@@ -26,6 +26,7 @@ Route::get('dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 Route::get('/circles', [MasterController::class, 'getCircles']);
+Route::get('/species/{scheduletype}/{schedule}', [MasterController::class, 'getSpeciesBySchedule']);
 Route::get('/circles/{circle}/divisions', [MasterController::class, 'getDivisions']);
 Route::get('/divisions/{division}/ranges', [MasterController::class, 'getRanges']);
 Route::get('/ranges/{range}/sections', [MasterController::class, 'getSections']);

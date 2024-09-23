@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccusedMobiles extends Model
 {
-    protected $table = 'accused_mobile'; 
+    protected $table = 'accused_mobile_form10'; 
     protected $guarded = [];
 
     public function saveMobile($MobileData)

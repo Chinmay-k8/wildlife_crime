@@ -10,6 +10,7 @@ use App\Models\Range;
 use App\Models\Section;
 use App\Models\Beat;
 use App\Models\Forestblock;
+use App\Models\MasterSpecies;
 
 class MasterController extends Controller
 {
@@ -137,5 +138,14 @@ class MasterController extends Controller
             return response()->json(['error' => 'Forestblock not found'], 404);
         }
     }
+    public function getSpeciesBySchedule($ScheduleType, $Schedule)
+    {
+        return MasterSpecies::where('active', 1)
+            ->where('species_type', $ScheduleType)
+            ->where('schedule_no', $Schedule)
+            ->orderBy('species_name')
+            ->get(['id', 'species_name']);
+    }
+   
 
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Form extends Model
 {
     use HasFactory;
-    protected $table = 'form_data'; // Name of your form table
+    protected $table = 'crime_form10'; // Name of your form table
     
     // Fillable properties to allow mass assignment
     protected $guarded = [];
@@ -46,6 +46,10 @@ class Form extends Model
     public function forestblock()
     {
         return $this->belongsTo(Forestblock::class, 'detection_place', 'id');
+    }
+    public function species()
+    {
+        return $this->belongsTo(MasterSpecies::class, 'species_name', 'id');
     }
     // Relationship with Accused model
     public function accused()

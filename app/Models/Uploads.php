@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Uploads extends Model
 {
-    protected $table = 'uploads';
+    protected $table = 'uploads_form10';
     protected $guarded = [];
 
     public function saveUploads($uploadData)

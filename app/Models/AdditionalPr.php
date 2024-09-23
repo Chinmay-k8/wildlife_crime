@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdditionalPr extends Model
 {
     use HasFactory;
-    protected $table = 'additional_pr';
+    protected $table = 'additional_pr_form10';
     protected $guarded = [];
 
     public function saveAdditionalPr($AdditionalPrData)

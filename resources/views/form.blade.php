@@ -175,7 +175,7 @@
                                     <label for="schedule_type">Shedule Type of Species (New/Old)</label>
                                     <select id="schedule_type" name="schedule_type" class="form-control">
                                         <option value="">Select Type</option>
-                                        <option value="new">New</option>
+                                        <option value="New">New</option>
                                         <option value="old">Old</option>
                                     </select>
                             </div> 
@@ -335,7 +335,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" name="arrested_accused[0][name]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][accused_name]" class="form-control"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -464,8 +464,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" name="nbw_accused[0][name]" class="form-control"></td>
-                                        <td><input type="text" name="nbw_accused[0][status]" class="form-control"></td>
+                                        <td><input type="text" name="nbw_accused[0][accused_name]" class="form-control"></td>
+                                        <td><input type="text" name="nbw_accused[0][nbw_status]" class="form-control"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -489,8 +489,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" name="released_accused[0][name]" class="form-control"></td>
-                                        <td><input type="date" id="release_date" name="released_accused[0][date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
+                                        <td><input type="text" name="released_accused[0][accused_name]" class="form-control"></td>
+                                        <td><input type="date" id="release_date" name="released_accused[0][bail_date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -582,33 +582,38 @@
                         </div>
                     </div>
                     <div class="row mt-4">
+                    <h5>Uploads</h5>
                     <div class="row">
-                        <h5>Uploads</h5>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="post_mortem_report">Post Mortem Report</label>
-                                <input type="file" class="form-control" id="post_mortem_report" name="post_mortem_report" accept=".pdf,.doc,.docx">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="electrical_inspector_report">Report from Electrical Inspector</label>
-                                <input type="file" class="form-control" id="electrical_inspector_report" name="electrical_inspector_report" accept=".pdf,.doc,.docx">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="lab_report">Laboratory Report/Other Report</label>
-                                <input type="file" class="form-control" id="laboratory_report" name="laboratory_report" accept=".pdf,.doc,.docx">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="court_judgement">Judgement of the Court</label>
-                                <input type="file" class="form-control" id="court_judgement" name="court_judgement" accept=".pdf,.doc,.docx">
-                            </div>
-                        </div>
+                        <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Post Mortem Report</th>
+                                <th>Report from Electrical Inspector</th>
+                                <th>Laboratory Report/Other Report</th>
+                                <th>Judgement of the Court</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="file" class="form-control" id="post_mortem_report" name="post_mortem_report" accept=".pdf,.doc,.docx">
+                                </td>
+                                <td>
+                                    <input type="file" class="form-control" id="electrical_inspector_report" name="electrical_inspector_report" accept=".pdf,.doc,.docx">
+                                </td>
+                                <td>
+                                    <input type="file" class="form-control" id="laboratory_report" name="laboratory_report" accept=".pdf,.doc,.docx">
+                                </td>
+                                <td>
+                                    <input type="file" class="form-control" id="court_judgement" name="court_judgement" accept=".pdf,.doc,.docx">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     </div>
+                    
+
+
                     <div class="row mt-3">
                         <div class="col-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -687,7 +692,7 @@ $(document).ready(function() {
         var index = $('#arrested-accused-details-table tbody tr').length;
         var newRow = `
             <tr>
-                <td><input type="text" name="arrested_accused[${index}][name]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][accused_name]" class="form-control"></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#arrested-accused-details-table tbody').append(newRow);
@@ -708,8 +713,8 @@ $(document).ready(function() {
         var index = $('#released-accused-table tbody tr').length;
         var newRow = `
             <tr>
-                <td><input type="text" name="released_accused[${index}][name]" class="form-control"></td>
-                <td><input type="date" name="released_accused[${index}][date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
+                <td><input type="text" name="released_accused[${index}][accused_name]" class="form-control"></td>
+                <td><input type="date" name="released_accused[${index}][bail_date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#released-accused-table tbody').append(newRow);
@@ -719,8 +724,8 @@ $(document).ready(function() {
         var index = $('#nbw-accused-table tbody tr').length;
         var newRow = `
             <tr>
-                <td><input type="text" name="nbw_accused[${index}][name]" class="form-control"></td>
-                <td><input type="text" name="nbw_accused[${index}][status]" class="form-control"></td>
+                <td><input type="text" name="nbw_accused[${index}][accused_name]" class="form-control"></td>
+                <td><input type="text" name="nbw_accused[${index}][nbw_status]" class="form-control"></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#nbw-accused-table tbody').append(newRow);
@@ -875,7 +880,7 @@ $(document).ready(function() {
             const input = document.createElement('input');
             
             input.type = 'text';
-            input.name = `absconded_accused[${index}][name]`;
+            input.name = `absconded_accused[${index}][accused_name]`;
             input.classList.add('form-control');
             input.placeholder = 'Enter Accused Name';
 
@@ -965,6 +970,28 @@ $(document).ready(function() {
             });
         }
     });
+    $('#schedule_type').change(function() {
+        // When schedule_type is changed, reset species_schedule and species_name
+        $('#species_schedule').val(''); // Reset species_schedule dropdown
+        $('#species_name').empty().append('<option value="">Select Species</option>'); // Reset species_name dropdown
+    });
+
+    $('#species_schedule').change(function() {
+        // When species_schedule is changed, reset species_name
+        const scheduleType = $('#schedule_type').val();
+        const schedule = $('#species_schedule').val();
+
+        $('#species_name').empty().append('<option value="">Select Species</option>'); // Reset species_name dropdown
+
+        // Only make API call if both scheduleType and schedule are selected
+        if (scheduleType && schedule) {
+            // Fetch data from the API and populate the species_name dropdown
+            $.getJSON(`/species/${scheduleType}/${schedule}`, function(data) {
+                $('#species_name').append(data.map(species => `<option value="${species.id}">${species.species_name}</option>`));
+            });
+        }
+    });
+
 
     // Fetch beats based on selected section
     $('#section').change(function() {

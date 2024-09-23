@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReleasedAccused extends Model
 {
-    protected $table = 'released_accused';
+    protected $table = 'released_accused_form10';
     protected $guarded = [];
 
     public function saveReleasedAccused($releasedData)

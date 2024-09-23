@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NbwAccused extends Model
 {
-    protected $table = 'nbw_accused';
+    protected $table = 'nbw_accused_form10';
     protected $guarded = [];
 
     public function saveNbwAccused($nbwData)
