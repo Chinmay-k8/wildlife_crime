@@ -7,6 +7,11 @@
         <meta content="State Wildlife Crime Management System(SWCMS)" name="description" />
         <meta content="State Wildlife Crime Management System(SWCMS)" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <!--Select2 plugin -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+        <!-- Include Select2 JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

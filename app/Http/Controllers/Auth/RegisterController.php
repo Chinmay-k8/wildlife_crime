@@ -37,7 +37,7 @@ class RegisterController extends Controller
         ]);
         MasterUser::create([
             'username' => $request->username,
-            'password' => Hash::make($request->password),
+            'password' => md5::make($request->password),
             'employee_id' => $employee->id, // Link the employee to the user
             'designation_id' => $request->designation_id,
         ]);

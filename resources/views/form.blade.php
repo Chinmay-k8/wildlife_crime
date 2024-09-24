@@ -970,22 +970,50 @@ $(document).ready(function() {
             });
         }
     });
+    // $('#species_name').select2(
+    //     // placeholder: 'Select Species',
+    //     // allowClear: true,
+    //     // width: '100%',
+    //     // minimumInputLength: 2, // Start searching after 2 characters
+    //     // // Optional: Customize no results message
+    //     // language: {
+    //     //     noResults: function() {
+    //     //         return "No species found.";
+    //     //     }
+    //     // }
+    // );
     $('#schedule_type').change(function() {
-        // When schedule_type is changed, reset species_schedule and species_name
-        $('#species_schedule').val(''); // Reset species_schedule dropdown
-        $('#species_name').empty().append('<option value="">Select Species</option>'); // Reset species_name dropdown
+        const scheduleType = $(this).val();
+
+        // Reset species_schedule and species_name on schedule_type change
+        $('#species_schedule').empty().append('<option value="">Select Schedule</option>');
+        $('#species_name').empty().append('<option value="">Select Species</option>');
+
+        // Populate species_schedule dropdown based on schedule_type
+        if (scheduleType === 'New') {
+            $('#species_schedule').append('<option value="I">I</option>');
+            $('#species_schedule').append('<option value="II">II</option>');
+            $('#species_schedule').append('<option value="III">III</option>');
+            $('#species_schedule').append('<option value="IV">IV</option>');
+        } else if (scheduleType === 'old') {
+            $('#species_schedule').append('<option value="I">I</option>');
+            $('#species_schedule').append('<option value="II">II</option>');
+            $('#species_schedule').append('<option value="III">III</option>');
+            $('#species_schedule').append('<option value="IV">IV</option>');
+            $('#species_schedule').append('<option value="V">V</option>');
+            $('#species_schedule').append('<option value="VI">VI</option>');
+        }
     });
 
     $('#species_schedule').change(function() {
-        // When species_schedule is changed, reset species_name
         const scheduleType = $('#schedule_type').val();
-        const schedule = $('#species_schedule').val();
+        const schedule = $(this).val();
 
-        $('#species_name').empty().append('<option value="">Select Species</option>'); // Reset species_name dropdown
+        // Reset species_name dropdown
+        $('#species_name').empty().append('<option value="">Select Species</option>');
 
-        // Only make API call if both scheduleType and schedule are selected
+        // Make API call only if both scheduleType and schedule are selected
         if (scheduleType && schedule) {
-            // Fetch data from the API and populate the species_name dropdown
             $.getJSON(`/species/${scheduleType}/${schedule}`, function(data) {
                 $('#species_name').append(data.map(species => `<option value="${species.id}">${species.species_name}</option>`));
             });
