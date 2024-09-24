@@ -144,7 +144,7 @@
                                 <label for="detection_agency">Case Detection Agency</label>
                                 <select id="detection_agency" name="detection_agency" class="form-control" required>
                                     <option value="">Select Agency</option>
-                                    <option value="Forest Department">Forest Department</option>
+                                    <option value="Forest_Department">Forest Department</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
@@ -162,7 +162,7 @@
                             <div class="form-group">
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
-                                    <option value="Forest Department" selected>Forest Department</option>
+                                    <option value="Forest_Department" selected>Forest Department</option>
                                 </select>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                     <label for="schedule_type">Shedule Type of Species (New/Old)</label>
                                     <select id="schedule_type" name="schedule_type" class="form-control">
                                         <option value="">Select Type</option>
-                                        <option value="New">New</option>
+                                        <option value="new">New</option>
                                         <option value="old">Old</option>
                                     </select>
                             </div> 
@@ -298,7 +298,7 @@
                     </div> -->
                     <div class="row mt-4">
                         <div class="col-12">
-                            <h5>Mobiles recovered</h5>
+                            <h5>Mobile(s) recovered</h5>
                             <table class="table table-bordered" id="mobiles-recovered-table">
                                 <thead>
                                     <tr>
@@ -990,7 +990,7 @@ $(document).ready(function() {
         $('#species_name').empty().append('<option value="">Select Species</option>');
 
         // Populate species_schedule dropdown based on schedule_type
-        if (scheduleType === 'New') {
+        if (scheduleType === 'new') {
             $('#species_schedule').append('<option value="I">I</option>');
             $('#species_schedule').append('<option value="II">II</option>');
             $('#species_schedule').append('<option value="III">III</option>');
