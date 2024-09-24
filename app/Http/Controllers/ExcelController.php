@@ -46,9 +46,9 @@ class ExcelController extends Controller
 
         // Convert the worksheet data into an array
         $sheetData = $worksheet->toArray();
-
+        array_shift($sheetData);
         // Extract headers
-        $headers = array_shift($sheetData);
+        // $headers = array_shift($sheetData);
         // echo '<pre>'; print_r($headers); echo '</pre>';exit;
 
         // Define the mapping of cell numbers to key names
@@ -65,38 +65,48 @@ class ExcelController extends Controller
             9 => 'detection_date',
             10 => 'detection_place_type',
             11 => 'detection_place',
-            12 => 'latitude',
-            13 => 'longitude',
-            14 => 'detection_agency',
-            15 => 'investigating_agency',
-            16 => 'species_name',
-            17 => 'species_age',
-            18 => 'species_sex',
-            19 => 'old_wlpa',
-            20 => 'property_recovered_type',
-            21 => 'property_recovered_details',
-            22 => 'brief_fact',
-            23 => 'officer_name',
-            24 => 'officer_number',
-            25 => 'accused_name',
-            26 => 'accused_alias',
-            27 => 'accused_father',
-            28 => 'accused_address',
-            29 => 'accused_mobile',
-            30 => 'accused_imei',
-            31 => 'arrested_accused_name',
-            32 => 'court_forward_date',
-            33 => 'nbw_accused_name',
-            34 => 'nbw_accused_status',
-            35 => 'court_name',
-            36 => 'court_case_number',
-            37 => 'released_accused_name',
-            38 => 'released_accused_date',
-            39 => 'pr_number',
-            40 => 'pr_date',
-            41 => 'pr_status',
-            42 => 'action_against_staff',
-            43 => 'case_present_status'
+            12 => 'latitude_degree',
+            13 => 'latitude_minutes',
+            14 => 'latitude_seconds',
+            15 => 'longitude_degree',
+            16 => 'longitude_minutes',
+            17 => 'longitude_seconds',
+            18 => 'detection_agency',
+            19 => 'investigating_agency',
+            20 => 'schedule_type',
+            21 => 'species_name',
+            22 => 'species_age',
+            23 => 'species_sex',
+            24 => 'species_schedule',
+            25 => 'property_recovered_type',
+            26 => 'property_recovered_details',
+            27 => 'brief_fact',
+            28 => 'in_officer_name',
+            29 => 'in_officer_mobile',
+            30 => 'accused_mobile',
+            31 => 'accused_imei',
+            32 => 'arrested_accused_name',
+            33 => 'court_forward_date',
+            34 => 'nbw_accused_name',
+            35 => 'nbw_accused_status',
+            36 => 'detected_absconded_accused_option',
+            37 => 'no_of_detected_absconded_accused',
+            38 => 'absconded_accused_name',
+            39 => 'undetected_absconded_accused_option',
+            40 => 'no_of_undetected_absconded_accused',
+            41 => 'court_name',
+            42 => 'court_case_number',
+            43 => 'released_accused_name',
+            44 => 'released_accused_date',
+            45 => 'pr_number',
+            46 => 'pr_date',
+            47 => 'pr_status',
+            48 => 'additional_pr_option',
+            49 => 'additional_pr_number',
+            50 => 'additional_pr_date',
+            51 => 'additional_pr_status',
+            52 => 'action_against_staff',
+            53 => 'case_present_status'
         ];
          // Array to collect errors
          $validationErrors = [];
@@ -159,8 +169,8 @@ class ExcelController extends Controller
 
              // Separate subarrays for related tables
              $accusedData = [
-                'name' => explode('|', $rowData['accused_name'] ?? ''),
-                'alias' => explode('|', $rowData['accused_alias'] ?? ''),
+                'accused_name' => explode('|', $rowData['accused_name'] ?? ''),
+                'accused_alias' => explode('|', $rowData['accused_alias'] ?? ''),
                 'father_name' => explode('|', $rowData['accused_father'] ?? ''),
                 'address' => explode('|', $rowData['accused_address'] ?? ''),
             ];
@@ -170,16 +180,24 @@ class ExcelController extends Controller
                 'imei_no' => explode('|', $rowData['accused_imei'] ?? ''),
             ];
 
-            $arrestedAccusedData = ['name' => explode('|', $rowData['arrested_accused_name'] ?? '')];
+            $arrestedAccusedData = ['accused_name' => explode('|', $rowData['arrested_accused_name'] ?? '')];
             $nbwAccusedData = [
-                'name' => explode('|', $rowData['nbw_accused_name'] ?? ''),
-                'status' => explode('|', $rowData['nbw_accused_status'] ?? ''),
+                'accused_name' => explode('|', $rowData['nbw_accused_name'] ?? ''),
+                'nbw_status' => explode('|', $rowData['nbw_accused_status'] ?? ''),
             ];
             $releasedAccusedData = [
-                'name' => explode('|', $rowData['released_accused_name'] ?? ''),
-                'date' => explode('|', $rowData['released_accused_date'] ?? ''),
+                'accused_name' => explode('|', $rowData['released_accused_name'] ?? ''),
+                'bail_date' => explode('|', $rowData['released_accused_date'] ?? ''),
+            ];
+            $abscondedAccusedData = [
+                'accused_name' => explode('|', $rowData['absconded_accused_name'] ?? '')
             ];
 
+            $additionalPrData = [
+                'number' => explode('|', $rowData['additional_pr_number'] ?? ''),
+                'date' => explode('|', $rowData['additional_pr_date'] ?? ''),
+                'status' => explode('|', $rowData['additional_pr_status'] ?? ''),
+            ];
             // echo '<pre>'; print_r($rowData); echo '</pre>';exit;
             unset($rowData['serial_number'],
             $rowData['accused_name'],
@@ -192,7 +210,11 @@ class ExcelController extends Controller
             $rowData['nbw_accused_name'],
             $rowData['nbw_accused_status'],
             $rowData['released_accused_name'],
-            $rowData['released_accused_date']  );  
+            $rowData['released_accused_date'],
+            $rowData['absconded_accused_name'],
+            $rowData['additional_pr_number'],
+            $rowData['additional_pr_date'],
+            $rowData['additional_pr_status'] );  
             
             // echo '<pre>'; print_r($rowData); echo '</pre>';exit;
             $rowData['circle'] = $circleId;
