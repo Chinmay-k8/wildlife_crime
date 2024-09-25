@@ -19,8 +19,6 @@ use App\Models\Beat;
 use App\Models\Forestblock;
 use App\Models\AbscondedAccused;
 use App\Models\AdditionalPr;
-
-
 use Illuminate\Support\Facades\Storage;
 
 
@@ -202,8 +200,8 @@ class ExcelController extends Controller
                 'date' => explode('|', $rowData['additional_pr_date'] ?? ''),
                 'status' => explode('|', $rowData['additional_pr_status'] ?? ''),
             ];
-            // Convert Latitude and Longitude from DMS (Degrees, Minutes, Seconds) to Decimal
-            $latitudeDecimal = $this->convertDMSToDecimal(
+             // Convert Latitude and Longitude from DMS (Degrees, Minutes, Seconds) to Decimal
+             $latitudeDecimal = $this->convertDMSToDecimal(
                 $rowData['latitude_degree'] ?? null,
                 $rowData['latitude_minutes'] ?? null,
                 $rowData['latitude_seconds'] ?? null
@@ -272,13 +270,12 @@ class ExcelController extends Controller
                 ]);
             }
 
-            foreach ($arrestedAccusedData['accused_name'] as $name) {
+             foreach ($arrestedAccusedData['accused_name'] as $name) {
                 ArrestedAccused::create([
                     'form_data_id' => $formId,
                     'accused_name' => $name,
                 ]);
             }
-
             foreach ($nbwAccusedData['accused_name'] as $index => $name) {
                 NbwAccused::create([
                     'form_data_id' => $formId,
@@ -308,8 +305,6 @@ class ExcelController extends Controller
                     'status' => !empty($additionalPrData['status'][$index]) ? $additionalPrData['status'][$index] : null,
                 ]);
             }
-
-
            
         }
         
