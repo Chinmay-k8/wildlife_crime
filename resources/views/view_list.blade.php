@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row">  
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="beat">Beat</label>
@@ -122,12 +122,26 @@
                     </div >
                     <div class="row">
                         <div class="col-md-4">
+                                <div class="form-group">
+                                        <label for="schedule_type">Schedule Type of Species</label>
+                                        <input type="text" id="schedule_type" name="schedule_type" class="form-control" readonly>
+                                </div> 
+                        </div>
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                        <label for="species_schedule">Schedule Of Species under WLPA</label>
+                                        <input type="text" id="species_schedule" name="species_schedule" class="form-control" readonly>
+                                </div> 
+                        </div> 
+                        <div class="col-md-4">
                             <div class="form-group">
                                     <label for="species_name">Name Of the Species</label>
                                     <input type="text" id="species_name" name="species_name" class="form-control" readonly>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                    <div class="col-md-4">
                             <div class="form-group">
                                     <label for="species_age">Age of the Species</label>
                                     <input type="text" id="species_age" name="species_age" class="form-control" readonly>
@@ -139,15 +153,7 @@
                                     <input type="text" id="species_sex" name="species_sex" class="form-control" readonly>
                             </div> 
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
-                                <input type="text" id="old_wlpa" name="old_wlpa" class="form-control" readonly>
-                            </div> 
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="property_recovered_type">Property Recovered Type</label>
                                 <input type="text" id="property_recovered_type" name="property_recovered_type" class="form-control" readonly>
@@ -155,37 +161,30 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col md-12">
-                            <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="2" style="resize: none;" readonly></textarea>
-                            </div>
+                        <div class="col md-6">
+                            <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>                            
+                            <input type="text" id="property_recovered_details" name="property_recovered_details" class="form-control" readonly>
+                        </div>
+                        <div class="col md-6">
+                            <label for="brief_fact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
+                            <input type="text" id="brief_fact" name="brief_fact" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="officer_name">Name of the Incharge Officer</label>
-                                    <input type="text" id="officer_name" name="officer_name" class="form-control" readonly>
-                                </div>
+                            <div class="form-group">
+                                <label for="officer_name">Name of the Incharge Officer</label>
+                                <input type="text" id="officer_name" name="officer_name" class="form-control" readonly>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="officer_number">Mobile Number of Incharge Officer</label>
-                                    <input type="text" id="officer_number" name="officer_number" class="form-control" readonly>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="row">
-                        <div class="col md-12">
-                            <label for="brief_fact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;" readonly></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="officer_number">Mobile Number of Incharge Officer</label>
+                                <input type="text" id="officer_number" name="officer_number" class="form-control" readonly>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-12">
                             <h5>Accused Detail</h5>
                             <table class="table table-bordered" id="accused-details-table">
@@ -207,7 +206,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-12">
                             <h5>Mobiles recovered</h5>
@@ -243,6 +242,54 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                    <div class="row">
+                        <!-- Absconded Accused Detected -->
+                        <div class="col-md-12" id="detected-accused-section">
+                            <div class="form-group">
+                                <label for="detected_absconded_accused_option">Absconded Accused Detected if any</label>
+                                <input type="text" id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6"  id="absconded-accused-section" style="display:none;">
+                            <div class="form-group">
+                                <label for="no_of_detected_absconded_accused">No of Absconded Accused Detected</label>
+                                <input type="text" id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- This section will be hidden/shown based on the condition -->
+                    <div class="row" id="absconded-accused-table-row" style="display:none;">
+                        <!-- Absconded Accused Detail Table -->
+                        <div class="col-12">
+                            <h5>Absconded Accused Detail</h5>
+                            <table class="table table-bordered" id="absconded-accused-details-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="absconded_accused[0][accused_name]" class="form-control"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="undetected-accused-section">
+                            <div class="form-group">
+                                <label for="undetected_absconded_accused_option">Absconded Accused Undetected if any</label>
+                                <input type="text" id="undetected_absconded_accused_option" name="undetected_absconded_accused_option" class="form-control" readonly>
+                            </div>
+                        </div> 
+                        <div class="col-md-6" id="un-absconded-accused-section" style="display:none;">
+                            <div class="form-group">
+                                <label for="no_of_undetected_absconded_accused">No of Absconded Accused Undetected</label>
+                                <input type="text" id="no_of_undetected_absconded_accused" name="no_of_undetected_absconded_accused" class="form-control" readonly>
+                            </div>
+                        </div> 
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -304,22 +351,28 @@
                     </div>
                     <div class="row">
                         <h5>Submission of final PR</h5>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="officer_name">Final PR number</label>
                                 <input type="text" id="pr_number" name="pr_number" class="form-control"readonly>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="pr_date">Date</label>
                                 <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}" readonly>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="pr_status">Status</label>
                                 <input type="text" id="pr_status" name="pr_status" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="additional_pr_option">Additional Pr if any</label>
+                                <input type="text" id="additional_pr_option" name="additional_pr_option" class="form-control" readonly>
                             </div>
                         </div>
                     </div>

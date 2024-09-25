@@ -654,6 +654,50 @@ td {
                 $('#view-full-width-modal #officer_name').val(selectedItem.officer_name);
                 $('#view-full-width-modal #officer_number').val(selectedItem.officer_number);
                 $('#view-full-width-modal #brief_fact').val(selectedItem.brief_fact);
+                $('#view-full-width-modal #detected_absconded_accused_option').val(selectedItem.detected_absconded_accused_option);
+                $('#view-full-width-modal #additional_pr_option').val(selectedItem.additional_pr_option);
+
+                // Check if the value is "Yes"
+                if (selectedItem.detected_absconded_accused_option === "Yes") {
+                    // Show the "No of Absconded Accused Detected" section and the table
+                    $('#absconded-accused-section').show();
+                    $('#absconded-accused-table-row').show();
+
+                    // Set the value for no_of_detected_absconded_accused
+                    $('#view-full-width-modal #no_of_detected_absconded_accused').val(selectedItem.no_of_detected_absconded_accused);
+
+                    // Clear any existing rows in the table
+                    $('#view-full-width-modal #absconded-accused-details-table tbody').empty();
+
+                    // Loop through absconded_accused and append rows to the table
+                    selectedItem.absconded_accused.forEach((absconded_accused, index) => {
+                        var newRow = `
+                            <tr>
+                                <td><input type="text" value="${absconded_accused.accused_name}" class="form-control" readonly></td>
+                            </tr>`;
+                        $('#view-full-width-modal #absconded-accused-details-table tbody').append(newRow);
+                    });
+
+                    // Adjust the layout of the "Absconded Accused Detected if any" div to take up half the width (col-md-6)
+                    $('#detected-accused-section').removeClass('col-md-12').addClass('col-md-6');
+
+                } else {
+                    // Hide the "No of Absconded Accused Detected" section and the table
+                    $('#view-full-width-modal #absconded-accused-section').hide();
+                    $('#view-full-width-modal #absconded-accused-table-row').hide();
+
+                    // Make the "Absconded Accused Detected if any" div take the full width (col-md-12)
+                    $('#view-full-width-modal #detected-accused-section').removeClass('col-md-6').addClass('col-md-12');
+                }
+                $('#view-full-width-modal #undetected_absconded_accused_option').val(selectedItem.undetected_absconded_accused_option);
+                if(selectedItem.undetected_absconded_accused_option === "Yes"){
+                    $('#view-full-width-modal #un-absconded-accused-section').show();
+                    $('#view-full-width-modal #no_of_undetected_absconded_accused').val(selectedItem.no_of_undetected_absconded_accused);
+                    $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-12').addClass('col-md-6');
+                }
+                else{
+                    $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-6').addClass('col-md-12');
+                }
                 $('#view-full-width-modal #court_forward_date').val(selectedItem.court_forward_date);
                 $('#view-full-width-modal #court_name').val(selectedItem.court_name);
                 $('#view-full-width-modal #court_case_number').val(selectedItem.court_case_number);
@@ -663,17 +707,17 @@ td {
                 $('#view-full-width-modal #action_against_staff').val(selectedItem.action_against_staff);
                 $('#view-full-width-modal #case_present_status').val(selectedItem.case_present_status);
                 
-                $('#view-full-width-modal #accused-details-table tbody').empty();
-                selectedItem.accused.forEach((accused, index) => {
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" value="${accused.name}" class="form-control" readonly></td>
-                            <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control" readonly></td>
-                            <td><input type="text" value="${accused.father_name}" class="form-control" readonly></td>
-                            <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control" readonly></td>
-                        </tr>`;
-                    $('#accused-details-table tbody').append(newRow);
-                });
+                // $('#view-full-width-modal #accused-details-table tbody').empty();
+                // selectedItem.accused.forEach((accused, index) => {
+                //     var newRow = `
+                //         <tr>
+                //             <td><input type="text" value="${accused.name}" class="form-control" readonly></td>
+                //             <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control" readonly></td>
+                //             <td><input type="text" value="${accused.father_name}" class="form-control" readonly></td>
+                //             <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control" readonly></td>
+                //         </tr>`;
+                //     $('#accused-details-table tbody').append(newRow);
+                // });
 
                 $('#view-full-width-modal #mobiles-recovered-table tbody').empty();
                 selectedItem.accused_mobiles.forEach((accused_mobiles, index) => {
@@ -689,7 +733,7 @@ td {
                 selectedItem.arrested_accused.forEach((arrested_accused, index) => {
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${arrested_accused.name}" class="form-control" readonly></td>
+                            <td><input type="text" value="${arrested_accused.accused_name}" class="form-control" readonly></td>
                         </tr>`;
                     $('#arrested-accused-details-table tbody').append(newRow);
                 });
@@ -698,8 +742,8 @@ td {
                 selectedItem.nbw_accused.forEach((nbw_accused, index) => {
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${nbw_accused.name}" class="form-control" readonly></td>
-                            <td><input type="text" value="${nbw_accused.status}" class="form-control" readonly></td>
+                            <td><input type="text" value="${nbw_accused.accused_name}" class="form-control" readonly></td>
+                            <td><input type="text" value="${nbw_accused.nbw_status}" class="form-control" readonly></td>
                         </tr>`;
                     $('#nbw-accused-table tbody').append(newRow);
                 });
@@ -708,8 +752,8 @@ td {
                 selectedItem.released_accused.forEach((released_accused, index) => {
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${released_accused.name}" class="form-control" readonly></td>
-                            <td><input type="date" value="${released_accused.date}" class="form-control" readonly></td>
+                            <td><input type="text" value="${released_accused.accused_name}" class="form-control" readonly></td>
+                            <td><input type="date" value="${released_accused.bail_date}" class="form-control" readonly></td>
                         </tr>`;
                     $('#released-accused-table tbody').append(newRow);
                 });

@@ -20,7 +20,7 @@ class ListController extends Controller
     public function fetchData()
     {
          // Fetch all form data with related accused and arrested accused records
-         $formData = Form::with(['accused', 'arrestedAccused', 'circle', 'division', 'range', 'section', 'beat',  'nbwAccused', 'releasedAccused', 'accusedMobiles', 'uploads'])->get();
+         $formData = Form::with(['arrestedAccused', 'circle', 'division', 'range', 'section', 'beat',  'nbwAccused', 'releasedAccused', 'accusedMobiles', 'abscondedAccused', 'additionalpr', 'uploads'])->get();
 
          // Return the data as JSON
         return response()->json($formData);
