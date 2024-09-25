@@ -17,6 +17,10 @@ use App\Models\Range;
 use App\Models\Section;
 use App\Models\Beat;
 use App\Models\Forestblock;
+use App\Models\AbscondedAccused;
+use App\Models\AdditionalPr;
+
+
 use Illuminate\Support\Facades\Storage;
 
 
@@ -168,12 +172,12 @@ class ExcelController extends Controller
             }
 
              // Separate subarrays for related tables
-             $accusedData = [
-                'accused_name' => explode('|', $rowData['accused_name'] ?? ''),
-                'accused_alias' => explode('|', $rowData['accused_alias'] ?? ''),
-                'father_name' => explode('|', $rowData['accused_father'] ?? ''),
-                'address' => explode('|', $rowData['accused_address'] ?? ''),
-            ];
+            //  $accusedData = [
+            //     'accused_name' => explode('|', $rowData['accused_name'] ?? ''),
+            //     'accused_alias' => explode('|', $rowData['accused_alias'] ?? ''),
+            //     'father_name' => explode('|', $rowData['accused_father'] ?? ''),
+            //     'address' => explode('|', $rowData['accused_address'] ?? ''),
+            // ];
 
             $accusedMobileData = [
                 'mobile_no' => explode('|', $rowData['accused_mobile'] ?? ''),
@@ -198,6 +202,22 @@ class ExcelController extends Controller
                 'date' => explode('|', $rowData['additional_pr_date'] ?? ''),
                 'status' => explode('|', $rowData['additional_pr_status'] ?? ''),
             ];
+            // Convert Latitude and Longitude from DMS (Degrees, Minutes, Seconds) to Decimal
+            $latitudeDecimal = $this->convertDMSToDecimal(
+                $rowData['latitude_degree'] ?? null,
+                $rowData['latitude_minutes'] ?? null,
+                $rowData['latitude_seconds'] ?? null
+            );
+
+            $longitudeDecimal = $this->convertDMSToDecimal(
+                $rowData['longitude_degree'] ?? null,
+                $rowData['longitude_minutes'] ?? null,
+                $rowData['longitude_seconds'] ?? null
+            );
+
+            // Store converted values in rowData
+            $rowData['latitude'] = $latitudeDecimal;
+            $rowData['longitude'] = $longitudeDecimal;
             // echo '<pre>'; print_r($rowData); echo '</pre>';exit;
             unset($rowData['serial_number'],
             $rowData['accused_name'],
@@ -214,7 +234,13 @@ class ExcelController extends Controller
             $rowData['absconded_accused_name'],
             $rowData['additional_pr_number'],
             $rowData['additional_pr_date'],
-            $rowData['additional_pr_status'] );  
+            $rowData['additional_pr_status'],
+            $rowData['latitude_degree'],
+            $rowData['latitude_minutes'],
+            $rowData['latitude_seconds'],
+            $rowData['longitude_degree'],
+            $rowData['longitude_minutes'],
+            $rowData['longitude_seconds'] );  
             
             // echo '<pre>'; print_r($rowData); echo '</pre>';exit;
             $rowData['circle'] = $circleId;
@@ -228,15 +254,15 @@ class ExcelController extends Controller
             if (!$formId) {
                 return redirect()->back()->withErrors('Failed to save form data.');
             }
-           foreach ($accusedData['name'] as $index => $name) {
-                Accused::create([
-                    'form_data_id' => $formId,
-                    'name' => $name,
-                    'alias' => $accusedData['alias'][$index] ?? null,
-                    'father_name' => $accusedData['father_name'][$index] ?? null,
-                    'address' => $accusedData['address'][$index] ?? null,
-                ]);
-            }
+        //    foreach ($accusedData['name'] as $index => $name) {
+        //         Accused::create([
+        //             'form_data_id' => $formId,
+        //             'name' => $name,
+        //             'alias' => $accusedData['alias'][$index] ?? null,
+        //             'father_name' => $accusedData['father_name'][$index] ?? null,
+        //             'address' => $accusedData['address'][$index] ?? null,
+        //         ]);
+        //     }
 
             foreach ($accusedMobileData['mobile_no'] as $index => $mobile) {
                 AccusedMobiles::create([
@@ -246,28 +272,43 @@ class ExcelController extends Controller
                 ]);
             }
 
-            foreach ($arrestedAccusedData['name'] as $name) {
+            foreach ($arrestedAccusedData['accused_name'] as $name) {
                 ArrestedAccused::create([
                     'form_data_id' => $formId,
-                    'name' => $name,
+                    'accused_name' => $name,
                 ]);
             }
 
-            foreach ($nbwAccusedData['name'] as $index => $name) {
+            foreach ($nbwAccusedData['accused_name'] as $index => $name) {
                 NbwAccused::create([
                     'form_data_id' => $formId,
-                    'name' => $name,
-                    'status' => $nbwAccusedData['status'][$index] ?? null,
+                    'accused_name' => $name,
+                    'nbw_status' => $nbwAccusedData['status'][$index] ?? null,
                 ]);
             }
 
-            foreach ($releasedAccusedData['name'] as $index => $name) {
+            foreach ($releasedAccusedData['accused_name'] as $index => $name) {
                 ReleasedAccused::create([
                     'form_data_id' => $formId,
-                    'name' => $name,
-                    'date' => !empty($releasedAccusedData['date'][$index]) ? $releasedAccusedData['date'][$index] : null,
+                    'accused_name' => $name,
+                    'bail_date' => !empty($releasedAccusedData['date'][$index]) ? $releasedAccusedData['date'][$index] : null,
                 ]);
             }
+            foreach ($abscondedAccusedData['accused_name'] as $index => $name) {
+                AbscondedAccused::create([
+                    'form_data_id' => $formId,
+                    'accused_name' => $name,
+                ]);
+            }
+            foreach ($additionalPrData['number'] as $index => $pr) {
+                AdditionalPr::create([
+                    'form_data_id' => $formId,
+                    'number' => $pr,
+                    'date' => !empty($additionalPrData['date'][$index]) ? $additionalPrData['date'][$index] : null,
+                    'status' => !empty($additionalPrData['status'][$index]) ? $additionalPrData['status'][$index] : null,
+                ]);
+            }
+
 
            
         }
@@ -323,6 +364,15 @@ class ExcelController extends Controller
             ->first();
 
         return $beat ? $beat->id : null;
+    }
+    private function convertDMSToDecimal($degrees, $minutes, $seconds)
+    {
+        // If any value is null, return null for the decimal conversion
+        if (is_null($degrees) || is_null($minutes) || is_null($seconds)) {
+            return null;
+        }
+
+        return $degrees + ($minutes / 60) + ($seconds / 3600);
     }
     // private function validateForestblockWithModel($forestblockName, $divisionId)
     // {
