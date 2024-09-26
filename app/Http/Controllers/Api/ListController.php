@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Form;
 use App\Models\Accused;
 use App\Models\ArrestedAccused;
+use App\Models\MasterSpecies;
+
+
 
 class ListController extends Controller
 {
@@ -20,7 +23,7 @@ class ListController extends Controller
     public function fetchData()
     {
          // Fetch all form data with related accused and arrested accused records
-         $formData = Form::with(['arrestedAccused', 'circle', 'division', 'range', 'section', 'beat',  'nbwAccused', 'releasedAccused', 'accusedMobiles', 'abscondedAccused', 'additionalpr', 'uploads'])->get();
+         $formData = Form::with(['arrestedAccused', 'circle', 'division', 'range', 'section', 'beat',  'nbwAccused', 'releasedAccused', 'accusedMobiles', 'abscondedAccused', 'additionalpr', 'uploads', 'species'])->get();
 
          // Return the data as JSON
         return response()->json($formData);

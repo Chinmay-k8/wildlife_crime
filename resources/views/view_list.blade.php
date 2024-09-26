@@ -376,6 +376,27 @@
                             </div>
                         </div>
                     </div>
+                     <div class="row" id="additional-pr-table-row" style="display:none;">
+                        <div class="col-12">
+                            <h5>Additional Pr Detail</h5>
+                            <table class="table table-bordered" id="additional-pr-table">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="additionalpr[0][number]" class="form-control"></td>
+                                        <td><input type="text" name="additionalpr[0][date]" class="form-control"></td>
+                                        <td><input type="text" name="additionalpr[0][status]" class="form-control"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col md-6">
                             <div class="form-group">
