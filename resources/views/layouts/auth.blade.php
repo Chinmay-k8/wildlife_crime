@@ -27,7 +27,7 @@
         <!--Auth fluid left content -->
         <div class="auth-fluid-form-box">
             <div class="align-items-center d-flex h-100">
-                <div class="card-body">
+                <div class="card-body loginbg">
                     <!-- Logo -->
                     <div class="text-center">
                         <div class="auth-logo">
@@ -46,13 +46,9 @@
                     </div>
                     <!-- title-->
                     <h3 class="mt-10 text-success" align="center">Log In </h3>
-                    <p class="text-black mb-4">Enter your user name and password to access account.</p>
+                    <p class="text-white mb-4">Enter your user name and password to access account.</p>
                     <!-- Main content -->
                     @yield('content')
-                    <!-- Footer-->
-                    <footer class="footer footer-alt">
-                        <p class="text-muted">Powered by <a href="#" class="text-muted ms-1"><b>ORSAC</b></a></p>
-                    </footer>
                 </div> <!-- end .card-body -->
             </div> <!-- end .align-items-center.d-flex.h-100-->
         </div>
@@ -60,12 +56,15 @@
         <!-- Auth fluid right content -->
         <div class="auth-fluid-right text-center">
             <div class="auth-user-testimonial">
-                <h1 class="mb-3 text-white">State Wildlife Crime Management System (SWCMS)</h1>
+                <h1 class="mb-3 text-white">State Wildlife Crime Database Management Portal (SWCDMP)</h1>
             </div> <!-- end auth-user-testimonial-->
         </div>
         <!-- end Auth fluid right content -->
     </div>
     <!-- end auth-fluid-->
+    <footer class="footer footer-alt">
+        <p class="text-muted">Powered by  <a href="https://orsac.odisha.gov.in/" target ="_blank" class="text-muted ms-1"><b>ORSAC</b></a></p>
+    </footer>
     <!-- Vendor js -->
     <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
     <!-- App js -->

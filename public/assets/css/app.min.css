@@ -58,6 +58,10 @@ body {
     top: 70px;
     box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
 }
+.loginbg {
+    background-color: #504f4f87;
+    border: 2px solid #1abc9c6b;
+}
 #sidebar-menu > ul {
     list-style: none;
     padding: 0;
@@ -2226,7 +2230,7 @@ body.authentication-bg-pattern {
     border-radius: 0;
     z-index: 2;
     padding: 3rem 2rem;
-    background-color: #d6ffd7;
+    background-color:rgb(0 0 0 / 64%);
     position: relative;
     width: 100%;
 }

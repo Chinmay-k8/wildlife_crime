@@ -2,7 +2,7 @@
 <html lang="en">
     <head>  
         <meta charset="utf-8" />
-        <title>State Wildlife Crime Management System (SWCMS)</title>
+        <title>State Wildlife Crime Database Management Portal (SWCDMP)</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="State Wildlife Crime Management System(SWCMS)" name="description" />
         <meta content="State Wildlife Crime Management System(SWCMS)" name="author" />
@@ -218,7 +218,7 @@
             </li>   
             
             <li class="dropdown d-none d-xl-block">
-               <h3 class="text-white mt-3">State Wildlife Crime Management System (SWCMS)</h3>
+               <h3 class="text-white mt-3">State Wildlife Crime Database Management Portal (SWCDMP)</h3>
             </li>
         </ul>
         <div class="clearfix"></div>

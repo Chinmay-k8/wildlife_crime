@@ -28,17 +28,17 @@
         @csrf
 
         <div class="mb-3">
-            <label for="username" class="form-label">User Name:</label>
+            <label for="username" class="form-label text-white">User Name:</label>
             <input type="username" id="username" name="username" class="form-control" value="{{ old('username') }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Password:</label>
+            <label for="password" class="form-label text-white">Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
 
         <div class="text-center d-grid">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-success">Login</button>
         </div>
     </form>
 @endsection
