@@ -28,7 +28,7 @@ class LoginController extends Controller
     
         $user = MasterUser::where('username', $request->username)->first();
     
-        if ($user && Hash::check($request->password, $user->password)) {
+        if ($user && md5($request->password) === $user->password) {
             Auth::login($user);
             return redirect()->intended('dashboard'); // Replace 'dashboard' with your intended route after login
         }
