@@ -644,18 +644,18 @@ td {
                 $('#view-full-width-modal #latitude').val(selectedItem.latitude);
                 $('#view-full-width-modal #longitude').val(selectedItem.longitude);
                 $('#view-full-width-modal #detection_agency').val(selectedItem.detection_agency);
-                $('#view-full-width-modal #investigating_agency').val(selectedItem.investigating_agency);
-                $('#view-full-width-modal #species_name').val(selectedItem.species_name);
+                $('#view-full-width-modal #investigating_agency').val("Forst Department");
+                $('#view-full-width-modal #schedule_type').val(selectedItem.species ? selectedItem.species.species_type : '');
+                $('#view-full-width-modal #species_schedule').val(selectedItem.species ? selectedItem.species.schedule_no : '');
+                $('#view-full-width-modal #species_name').val(selectedItem.species ? selectedItem.species.species_name : '');
                 $('#view-full-width-modal #species_age').val(selectedItem.species_age);
                 $('#view-full-width-modal #species_sex').val(selectedItem.species_sex);
-                $('#view-full-width-modal #old_wlpa').val(selectedItem.old_wlpa);
                 $('#view-full-width-modal #property_recovered_type').val(selectedItem.property_recovered_type);
                 $('#view-full-width-modal #property_recovered_details').val(selectedItem.property_recovered_details);
-                $('#view-full-width-modal #officer_name').val(selectedItem.officer_name);
-                $('#view-full-width-modal #officer_number').val(selectedItem.officer_number);
+                $('#view-full-width-modal #officer_name').val(selectedItem.in_officer_name);
+                $('#view-full-width-modal #officer_number').val(selectedItem.in_officer_mobile);
                 $('#view-full-width-modal #brief_fact').val(selectedItem.brief_fact);
                 $('#view-full-width-modal #detected_absconded_accused_option').val(selectedItem.detected_absconded_accused_option);
-                $('#view-full-width-modal #additional_pr_option').val(selectedItem.additional_pr_option);
 
                 // Check if the value is "Yes"
                 if (selectedItem.detected_absconded_accused_option === "Yes") {
@@ -698,6 +698,29 @@ td {
                 else{
                     $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-6').addClass('col-md-12');
                 }
+
+                $('#view-full-width-modal #additional_pr_option').val(selectedItem.additional_pr_option);
+                if (selectedItem.additional_pr_option === "Yes") {
+                    $('#view-full-width-modal #additional-pr-table-row').show();
+                    
+                    // Clear any existing rows in the table
+                    $('#view-full-width-modal #additional-pr-table tbody').empty();
+
+                    // Loop through additionalpr and append rows to the table
+                    selectedItem.additionalpr.forEach((additionalpr, index) => {
+                        var newRow = `
+                            <tr>
+                                <td><input type="text" value="${additionalpr.number}" class="form-control" readonly></td>
+                                <td><input type="text" value="${additionalpr.date}" class="form-control" readonly></td>
+                                <td><input type="text" value="${additionalpr.status}" class="form-control" readonly></td>
+                            </tr>`;
+                        $('#view-full-width-modal #additional-pr-table tbody').append(newRow);
+                    });
+
+                } else {
+                    $('#view-full-width-modal #additional-pr-table-row').hide();
+                }
+                
                 $('#view-full-width-modal #court_forward_date').val(selectedItem.court_forward_date);
                 $('#view-full-width-modal #court_name').val(selectedItem.court_name);
                 $('#view-full-width-modal #court_case_number').val(selectedItem.court_case_number);
