@@ -264,10 +264,18 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="{{ route('register') }}">
-                                <i class="fe-user-plus"></i>
-                                    <span>Add User</span>
+                                <a href="#sidebarUsers" data-bs-toggle="collapse">
+                                    <i class="fe-user-plus"></i>
+                                    <span class="menu-arrow"></span>
+                                    <span>User Management</span>
                                 </a>
+                                <div class="collapse" id="sidebarUsers">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('register') }}">Add User</a>
+                                        </li> 
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
 
@@ -313,6 +321,7 @@
                          @yield('form-content')
                          @yield('list-content')
                          @yield('excel-content')
+                         @yield('user-mgnt')
                         <!-- end row -->
                         
                     </div> <!-- container -->
