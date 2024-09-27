@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterDesignation;
 use App\Models\MasterUser;
 use App\Models\MasterEmployee;
+use App\Models\Division;
+use App\Models\UserArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,7 +17,8 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $designations = MasterDesignation::all();
-        return view('auth.register', compact('designations'));
+        $divisions = Division::all();
+        return view('auth.register', compact('designations', 'divisions'));
     }
 
     public function register(Request $request)
@@ -35,11 +38,15 @@ class RegisterController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
         ]);
-        MasterUser::create([
+        $user = MasterUser::create([
             'username' => $request->username,
            'password' => md5($request->password),
             'employee_id' => $employee->id, // Link the employee to the user
             'designation_id' => $request->designation_id,
+        ]);
+        UserArea::create([
+            'user_id' => $user->id,
+            'area_id' => $request->user_area,
         ]);
 
         return redirect()->route('login')->with('success', 'Registration successful! Please login.');

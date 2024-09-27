@@ -88,7 +88,20 @@
                     </span>
                 @enderror
             </div>
-
+            <div class="mb-3">
+                <label for="user_area" class="form-label">User Area</label>
+                <select id="user_area" class="form-control @error('user_area') is-invalid @enderror" name="user_area" required>
+                    <option value="" disabled selected>Select Designation</option>
+                    @foreach($divisions as $division)
+                        <option value="{{ $division->id }}">{{ $division->name_e }}</option>
+                    @endforeach
+                </select>
+                @error('user_area')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
             <div class="text-center d-grid">
                 <button type="submit" class="btn btn-primary">
                     {{ __('Register') }}

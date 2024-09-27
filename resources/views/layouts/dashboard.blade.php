@@ -263,6 +263,12 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li>
+                                <a href="{{ route('register') }}">
+                                <i class="fe-user-plus"></i>
+                                    <span>Add User</span>
+                                </a>
+                            </li>
                         </ul>
 
                     </div>
