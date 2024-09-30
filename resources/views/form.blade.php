@@ -16,22 +16,35 @@
                 <form id="data-form" action="{{ route('submit-form') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="circle">Circle</label>
-                                <select id="circle" name="circle" class="form-control">
-                                    <option value="">Select Circle</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="division">Division</label>
-                                <select id="division" name="division" class="form-control" disabled>
-                                    <option value="">Select Division</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="col-md-3">
+    <div class="form-group">
+        <label for="circle">Circle</label>
+        <select id="circle" name="circle" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
+            <option value="">Select Circle</option>
+            @foreach($circles as $circle)
+                <option value="{{ $circle->id }}" {{ $circle->id == $selectedCircle ? 'selected' : '' }}>
+                    {{ $circle->name_e }}
+                </option>
+            @endforeach
+        </select>
+        <input type="hidden" name="circle" id="circle-hidden" value="{{ $selectedCircle }}">
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        <label for="division">Division</label>
+        <select id="division" name="division" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
+            <option value="">Select Division</option>
+            @foreach($divisions as $division)
+                <option value="{{ $division->id }}" {{ $division->id == $selectedDivision ? 'selected' : '' }}>
+                    {{ $division->name_e }}
+                </option>
+            @endforeach
+        </select>
+        <input type="hidden" name="division" id="division-hidden" value="{{ $selectedDivision }}">
+    </div>
+</div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="range">Range</label>
@@ -917,59 +930,77 @@ $(document).ready(function() {
 
     // Listen for changes in the dropdown
     undetectedAccusedOption.addEventListener('change',updateAbscondedAccusedDisplay);
-    // Fetch circles on page load
-    $.getJSON('circles', function(data) {
-        $('#circle').append(data.map(circle => `<option value="${circle.id}">${circle.name_e}</option>`));
-    });
-    // Fetch divisions based on selected circle
-    $('#circle').change(function() {
-        const circleId = $(this).val();
-        $('#division').prop('disabled', !circleId);
-        $('#division').empty().append('<option value="">Select Division</option>');
-        $('#range').prop('disabled', true).empty().append('<option value="">Select Range</option>');
-        $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
-        $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
-
-        if (circleId) {
-            $.getJSON(`circles/${circleId}/divisions`, function(data) {
-                $('#division').append(data.map(division => `<option value="${division.id}">${division.name_e}</option>`));
-            });
+        // Pre-populate division and range if designation is 4, 5, or 6
+        const selectedDivision = '{{ $selectedDivision }}';
+        const selectedCircle = '{{ $selectedCircle }}';
+        
+        // If a division is selected, trigger change to populate the range
+        if (selectedDivision) {
+            $('#division').val(selectedDivision).trigger('change');
         }
-    });
 
-    // Fetch ranges based on selected division
-    $('#division').change(function() {
-        const divisionId = $(this).val();
-        // $('#detection_place').prop('disabled', !divisionId);
-        // $('#detection_place').empty().append('<option value="">Select Forest Block</option>');
-        $('#range').prop('disabled', !divisionId);
-        $('#range').empty().append('<option value="">Select Range</option>');
-        $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
-        $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
-
-        if (divisionId) {
-            $.getJSON(`divisions/${divisionId}/ranges`, function(data) {
-                $('#range').append(data.map(range => `<option value="${range.id}">${range.name_e}</option>`));
-            });
-            // $.getJSON(`divisions/${divisionId}/forest_blocks`, function(data) {
-            //     $('#detection_place').append(data.map(forest_block => `<option value="${forest_block.id}">${forest_block.name_e}</option>`));
-            // });
+        // If a circle is selected and designation allows dynamic changes
+        if (selectedCircle && !{{ in_array($designationId, [4, 5, 6]) ? 'true' : 'false' }}) {
+            $('#circle').val(selectedCircle).trigger('change');
         }
-    });
+        $('#circle').change(function() {
+            const circleId = $(this).val();
+            $('#division').prop('disabled', !circleId);
+            $('#division').empty().append('<option value="">Select Division</option>');
+            $('#range').prop('disabled', true).empty().append('<option value="">Select Range</option>');
+            $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
+            $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
 
-    // Fetch sections based on selected range
-    $('#range').change(function() {
-        const rangeId = $(this).val();
-        $('#section').prop('disabled', !rangeId);
-        $('#section').empty().append('<option value="">Select Section</option>');
-        $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
+            if (circleId) {
+                $.getJSON(`circles/${circleId}/divisions`, function(data) {
+                    $('#division').append(data.map(division => `<option value="${division.id}">${division.name_e}</option>`));
+                });
+            }
+        });
+        // Handle division change event
+        $('#division').change(function() {
+            const divisionId = $(this).val();
+            $('#range').prop('disabled', !divisionId);
+            $('#range').empty().append('<option value="">Select Range</option>');
+            $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
+            $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
 
-        if (rangeId) {
-            $.getJSON(`ranges/${rangeId}/sections`, function(data) {
-                $('#section').append(data.map(section => `<option value="${section.id}">${section.name_e}</option>`));
-            });
-        }
-    });
+            if (divisionId) {
+                $.getJSON(`divisions/${divisionId}/ranges`, function(data) {
+                    $('#range').append(data.map(range => `<option value="${range.id}">${range.name_e}</option>`));
+                });
+            }
+        });
+
+        // Handle range change event
+        $('#range').change(function() {
+            const rangeId = $(this).val();
+            $('#section').prop('disabled', !rangeId);
+            $('#section').empty().append('<option value="">Select Section</option>');
+            $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
+
+            if (rangeId) {
+                $.getJSON(`ranges/${rangeId}/sections`, function(data) {
+                    $('#section').append(data.map(section => `<option value="${section.id}">${section.name_e}</option>`));
+                });
+            }
+        });
+
+        // Handle section change event
+        $('#section').change(function() {
+            const sectionId = $(this).val();
+            $('#beat').prop('disabled', !sectionId);
+            $('#beat').empty().append('<option value="">Select Beat</option>');
+
+            if (sectionId) {
+                $.getJSON(`sections/${sectionId}/beats`, function(data) {
+                    $('#beat').append(data.map(beat => `<option value="${beat.id}">${beat.name_e}</option>`));
+                });
+            }
+        });
+
+        // Trigger change on load to populate range if division is selected
+        $('#division').trigger('change');
     // $('#species_name').select2(
     //     // placeholder: 'Select Species',
     //     // allowClear: true,
@@ -1020,19 +1051,6 @@ $(document).ready(function() {
         }
     });
 
-
-    // Fetch beats based on selected section
-    $('#section').change(function() {
-        const sectionId = $(this).val();
-        $('#beat').prop('disabled', !sectionId);
-        $('#beat').empty().append('<option value="">Select Beat</option>');
-
-        if (sectionId) {
-            $.getJSON(`sections/${sectionId}/beats`, function(data) {
-                $('#beat').append(data.map(beat => `<option value="${beat.id}">${beat.name_e}</option>`));
-            });
-        }
-    });
     $('#case_type').change(function() {
         const caseType = $(this).val();
         const label = caseType ? caseType + ' Case Number' : 'Case Number';

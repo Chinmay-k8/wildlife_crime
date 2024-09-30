@@ -20,13 +20,43 @@ use App\Models\Forestblock;
 use App\Models\AbscondedAccused;
 use App\Models\AdditionalPr;
 use Illuminate\Support\Facades\Storage;
+use App\Models\UserArea;
+
 
 
 class ExcelController extends Controller
 {
+    
     public function showForm()
-    {
-        return view('excel');
+    {   
+
+        $user = auth()->user();
+        $designationId = $user->designation_id;
+
+        // Fetch user's area (division ID) from the UserArea table
+        $userArea = UserArea::where('user_id', $user->id)->first();
+        $selectedDivision = $userArea ? $userArea->area_id : null;
+
+        $selectedCircle = null;
+        $divisions = [];
+        $circles = [];
+
+        if ($selectedDivision) {
+            $division = Division::find($selectedDivision);
+            $selectedCircle = $division ? $division->parent_id : null;  // Circle ID stored in parent_id
+
+            // Fetch circles and divisions based on designation
+            if (in_array($designationId, [4, 5, 6])) {
+                // Prefill circle and division
+                $circles = Circle::where('id', $selectedCircle)->get(); // Only fetch the user's circle
+                $divisions = Division::where('id', $selectedDivision)->get(); // Fetch relevant divisions
+            } else {
+                // Fetch all circles and divisions for manual selection
+                $circles = Circle::all();
+                $divisions = Division::where('parent_id', $selectedCircle)->get();
+            }
+        }
+        return view('excel',compact('selectedCircle', 'selectedDivision', 'circles', 'divisions', 'designationId'));
     }
 
     public function upload(Request $request)
@@ -122,7 +152,7 @@ class ExcelController extends Controller
                     $value = $row[$cellIndex] ?? null;
             
                     // Convert dates if needed
-                    if (in_array($keyName, ['case_date', 'detection_date', 'court_forward_date', 'released_accused_date'])) {
+                    if (in_array($keyName, ['case_date', 'detection_date', 'court_forward_date', 'released_accused_date', 'pr_date'])) {
                         $value = $this->convertToDate($value);
                     }
                     
@@ -280,7 +310,7 @@ class ExcelController extends Controller
                 NbwAccused::create([
                     'form_data_id' => $formId,
                     'accused_name' => $name,
-                    'nbw_status' => $nbwAccusedData['status'][$index] ?? null,
+                    'nbw_status' => $nbwAccusedData['nbw_status'][$index] ?? null,
                 ]);
             }
 
@@ -288,9 +318,10 @@ class ExcelController extends Controller
                 ReleasedAccused::create([
                     'form_data_id' => $formId,
                     'accused_name' => $name,
-                    'bail_date' => !empty($releasedAccusedData['date'][$index]) ? $releasedAccusedData['date'][$index] : null,
+                    'bail_date' => !empty($releasedAccusedData['bail_date'][$index]) ? $releasedAccusedData['bail_date'][$index] : null,
                 ]);
             }
+            // dd($releasedAccusedData['bail_date']);
             foreach ($abscondedAccusedData['accused_name'] as $index => $name) {
                 AbscondedAccused::create([
                     'form_data_id' => $formId,
@@ -361,14 +392,20 @@ class ExcelController extends Controller
         return $beat ? $beat->id : null;
     }
     private function convertDMSToDecimal($degrees, $minutes, $seconds)
-    {
-        // If any value is null, return null for the decimal conversion
-        if (is_null($degrees) || is_null($minutes) || is_null($seconds)) {
-            return null;
-        }
+{
+    // Convert inputs to float to ensure arithmetic operations are valid
+    $degrees = is_numeric($degrees) ? floatval($degrees) : null;
+    $minutes = is_numeric($minutes) ? floatval($minutes) : null;
+    $seconds = is_numeric($seconds) ? floatval($seconds) : null;
 
-        return $degrees + ($minutes / 60) + ($seconds / 3600);
+    // If any value is null, return null for the decimal conversion
+    if (is_null($degrees) || is_null($minutes) || is_null($seconds)) {
+        return null;
     }
+
+    return $degrees + ($minutes / 60) + ($seconds / 3600);
+}
+
     // private function validateForestblockWithModel($forestblockName, $divisionId)
     // {
     //     $forestblock= Forestblock::where('name_e', trim($forestblockName))

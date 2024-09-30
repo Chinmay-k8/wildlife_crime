@@ -14,7 +14,9 @@ use App\Models\Uploads;
 use App\Models\AdditionalPr;
 use App\Models\AbscondedAccused;
 use App\Models\SpeciesInvolved;
-
+use App\Models\UserArea;
+use App\Models\Division;
+use App\Models\Circle;
 
 
 
@@ -22,8 +24,37 @@ class FormController extends Controller
 {
     public function showForm()
     {
-        return view('form');    
+        $user = auth()->user();
+        $designationId = $user->designation_id;
+
+        // Fetch user's area (division ID) from the UserArea table
+        $userArea = UserArea::where('user_id', $user->id)->first();
+        $selectedDivision = $userArea ? $userArea->area_id : null;
+
+        $selectedCircle = null;
+        $divisions = [];
+        $circles = [];
+
+        if ($selectedDivision) {
+            $division = Division::find($selectedDivision);
+            $selectedCircle = $division ? $division->parent_id : null;  // Circle ID stored in parent_id
+
+            // Fetch circles and divisions based on designation
+            if (in_array($designationId, [4, 5, 6])) {
+                // Prefill circle and division
+                $circles = Circle::where('id', $selectedCircle)->get(); // Only fetch the user's circle
+                $divisions = Division::where('id', $selectedDivision)->get(); // Fetch relevant divisions
+            } else {
+                // Fetch all circles and divisions for manual selection
+                $circles = Circle::all();
+                $divisions = Division::where('parent_id', $selectedCircle)->get();
+            }
+        }
+
+        return view('form', compact('selectedCircle', 'selectedDivision', 'circles', 'divisions', 'designationId'));
     }
+
+    
 
     // Handle form submission
     public function submitForm(Request $request)

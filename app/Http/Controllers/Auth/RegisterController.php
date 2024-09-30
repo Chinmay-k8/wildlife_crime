@@ -12,6 +12,7 @@ use App\Models\UserArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class RegisterController extends Controller
 {
     public function showRegistrationForm()
@@ -27,7 +28,7 @@ class RegisterController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
-            'email' => 'required|string|email|max:255|unique:employees',
+            'email' => 'required|string|email|max:255',
             'phone' => 'required|string|max:15|unique:employees',
             'password' => 'required|string|min:8|confirmed',
             'designation_id' => 'required|exists:master_designation,id',

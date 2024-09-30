@@ -134,7 +134,7 @@
                 <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <img src="assets/images/users/user-1.jpg" alt="user-image" class="rounded-circle">
                     <span class="pro-user-name ms-1">
-                        {{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i> 
+                    {{ Auth::user()->employee->firstname . ' ' . Auth::user()->employee->lastname }}<i class="mdi mdi-chevron-down"></i> 
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
@@ -273,6 +273,9 @@
                                     <ul class="nav-second-level">
                                         <li>
                                             <a href="{{ route('register') }}">Add User</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('users.show') }}">User List</a>
                                         </li> 
                                     </ul>
                                 </div>
@@ -322,6 +325,7 @@
                          @yield('list-content')
                          @yield('excel-content')
                          @yield('user-mgnt')
+                         @yield('userlist-section')
                         <!-- end row -->
                         
                     </div> <!-- container -->

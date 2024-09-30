@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\MasterController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Api\ListController;
+use App\Http\Controllers\Api\UserController;
 
 
 
@@ -39,6 +40,7 @@ Route::get('section-name/{id}', [MasterController::class, 'getSectionNameById'])
 Route::get('beat-name/{id}', [MasterController::class, 'getBeatNameById']);
 Route::get('forestblock-name/{id}', [MasterController::class, 'getForestblockNameById']);
 Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
+Route::get('/users/fetch', [UserController::class, 'fetchData'])->name('users.fetch');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
@@ -47,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
     Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');
     Route::get('/list', [ListController::class, 'showList'])->name('list.show');
+    Route::get('/users/show', [UserController::class, 'showUserList'])->name('users.show');
     // Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
     Route::get('/download/{fileType}/{fileName}', [ListController::class, 'downloadDocument'])->name('download.document');
     Route::get('/download_excel', [ExcelController::class, 'download_demo_excel'])->name('download.excel');

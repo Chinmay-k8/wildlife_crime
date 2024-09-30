@@ -33,4 +33,8 @@ class MasterUser extends Authenticatable
     {
         return $this->belongsTo(MasterEmployee::class, 'employee_id');
     }
+    public function user_area()
+    {
+        return $this->hasMany(UserArea::class, 'user_id');
+    }
 }
