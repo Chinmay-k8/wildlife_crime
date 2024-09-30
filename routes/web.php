@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
     Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');
     Route::get('/list', [ListController::class, 'showList'])->name('list.show');
-    Route::get('/users/show', [UserController::class, 'showUserList'])->name('users.show');
+    Route::get('/userlist', [UserController::class, 'showUserList'])->name('users.show');
     // Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
     Route::get('/download/{fileType}/{fileName}', [ListController::class, 'downloadDocument'])->name('download.document');
     Route::get('/download_excel', [ExcelController::class, 'download_demo_excel'])->name('download.excel');

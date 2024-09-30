@@ -71,13 +71,14 @@
                 </tr>`;
 
                 tableBody.append(row);
-
+                // console.log(parentId);
                 // Fetch the circle name for each user and update the table
                 fetchCircleName(parentId, `#circle-name-${index}`);
             });
         }
 
         function fetchCircleName(parentId, elementId) {
+            console.log(parentId);
             if (!parentId) {
                 $(elementId).text('N/A');
                 return;
@@ -87,7 +88,7 @@
                 url: '/circle-name/' + parentId,  // API to get the circle name
                 method: 'GET',
                 success: function(response) {
-                    $(elementId).text(response.name || 'N/A');  // Assuming the API returns a JSON object with 'name' key
+                    $(elementId).text(response.name_e || 'N/A');  // Assuming the API returns a JSON object with 'name' key
                 },
                 error: function() {
                     $(elementId).text('Error');
