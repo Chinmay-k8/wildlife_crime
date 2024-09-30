@@ -18,7 +18,7 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $designations = MasterDesignation::all();
-        $divisions = Division::all();
+        $divisions = Division::whereNotIn('id', [51, 52, 53, 54, 55, 56])->get();
         return view('auth.register', compact('designations', 'divisions'));
     }
 

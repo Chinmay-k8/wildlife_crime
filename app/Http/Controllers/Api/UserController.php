@@ -25,7 +25,9 @@ class UserController extends Controller
             'user_area' => function($query) {
                 $query->with('division'); // Include division details
             }
-        ])->get();
+        ])
+        ->whereNotIn('designation_id', [1, 2, 3])
+        ->get();
 
         // Return the data as JSON
         return response()->json($users);
