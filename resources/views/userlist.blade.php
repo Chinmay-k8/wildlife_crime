@@ -1,5 +1,35 @@
 @extends('layouts.dashboard')
 @section('userlist-section')
+<style>
+.table thead th {
+    background-color: rgb(0, 80, 64); 
+    color: white; 
+    text-align: center; 
+    vertical-align: middle; 
+}
+td {
+    text-align: center; 
+    vertical-align: middle; 
+}
+.action-options {
+    display: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    width: 120px;
+}
+.action-options a {
+    color: #333;
+    text-decoration: none;
+    display: block;
+    padding: 8px;
+    transition: background-color 0.2s;
+}
+.action-options a:hover {
+    background-color: #f1f1f1;
+}
+</style>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -91,7 +121,7 @@
                     $(elementId).text(response.name_e || 'N/A');  // Assuming the API returns a JSON object with 'name' key
                 },
                 error: function() {
-                    $(elementId).text('Error');
+                    $(elementId).text(' ');
                 }
             });
         }

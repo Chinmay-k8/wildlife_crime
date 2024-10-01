@@ -588,8 +588,8 @@
                                         <option value="Matter_listed_hearing_not_started">Matter listed hearing not started</option>
                                         <option value="Under_trial">Under trial</option>
                                         <option value="Hearing_completed_judgement_reserved">Hearing completed judgement reserved</option>
-                                        <option value="Hearing_completed_judgement_pronounced_offence_acquitted">Hearing completed judgement pronounced offence acquitted</option>
-                                        <option value="Hearing_completed_judgement_pronounced_offence_convicted">Hearing completed judgement pronounced offence convicted</option>
+                                        <option value="Hearing_completed_judgement_pronounced_offender_acquitted">Hearing completed judgement pronounced offender acquitted</option>
+                                        <option value="Hearing_completed_judgement_pronounced_offender_convicted">Hearing completed judgement pronounced offender convicted</option>
                                     </select>
                             </div>  
                         </div>
@@ -843,8 +843,8 @@ $(document).ready(function() {
 
         // Check if the selected status is one of the last three options
         if (selectedStatus === 'Hearing_completed_judgement_reserved' ||
-            selectedStatus === 'Hearing_completed_judgement_pronounced_offence_acquitted' ||
-            selectedStatus === 'Hearing_completed_judgement_pronounced_offence_convicted') {
+            selectedStatus === 'Hearing_completed_judgement_pronounced_offender_acquitted' ||
+            selectedStatus === 'Hearing_completed_judgement_pronounced_offender_convicted') {
                 
             courtJudgementInput.setAttribute('required', 'required');  // Make it required
         } else {

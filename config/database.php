@@ -88,7 +88,7 @@ return [
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '5432'),
         
-            'database' => env('DB_DATABASE', 'wildlife_crime'),
+            'database' => env('DB_DATABASE', 'wildlife_demo'),
 
             'username' => env('DB_USERNAME', 'postgres'),
             'password' => env('DB_PASSWORD', 'postgres'),

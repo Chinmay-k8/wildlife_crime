@@ -47,7 +47,9 @@ td {
                         <thead>
                             <tr>
                                 <th>Sl. No.</th>
+                                <th>Case Type</th>
                                 <th>Case Number</th>
+                                <th>Case Date</th>
                                 <th>Range</th>
                                 <th>Section</th>
                                 <th>Beat</th>
@@ -93,7 +95,18 @@ td {
                 var $row = $('<tr>');
                 $row.attr('data-id', item.id);  // Assign the ID to each row
                 $row.append('<td>' + (index + 1) + '</td>');
-                $row.append('<td>' + item.case_no + '</td>');
+                $row.append('<td>' + item.case_type + '</td>');
+                $row.append('<td style="text-align: left;">' + item.case_no + '</td>');
+                let date = new Date(item.case_date);  // Parse the date string
+                let day = String(date.getDate()).padStart(2, '0'); 
+                let month = String(date.getMonth() + 1).padStart(2, '0');
+                let year = date.getFullYear();
+
+                // Format the date as 'd-m-y'
+                let formattedDate = `${day}-${month}-${year}`;
+
+                // Append the formatted date to the row
+                $row.append('<td>' + formattedDate + '</td>');
                 $row.append('<td>' + (item.range ? item.range.name_e : item.range_id) + '</td>');
                 $row.append('<td>' + (item.section ? item.section.name_e : item.section_id) + '</td>');
                 $row.append('<td>' + (item.beat ? item.beat.name_e : item.beat_id) + '</td>');
