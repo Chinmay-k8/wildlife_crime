@@ -31,7 +31,7 @@ class LoginController extends Controller
     
         if ($user && md5($request->password) === $user->password) {
             Auth::login($user);
-            return redirect()->intended('dashboard'); // Replace 'dashboard' with your intended route after login
+            return redirect()->intended('list'); // Replace 'dashboard' with your intended route after login
         }
     
         return redirect()->back()->withErrors(['user_name' => 'Invalid credentials'])->withInput();
