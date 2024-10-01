@@ -1,10 +1,11 @@
 @extends('layouts.dashboard')
-@section('list-content')
 @include('edit_list')
 @include('view_list')
 @section('user-info')
 <h1>Form-X</h1>
 @endsection
+
+@section('form-content')
 <style>
 .table thead th {
     background-color: rgb(0, 80, 64); 
@@ -35,6 +36,8 @@ td {
     background-color: #f1f1f1;
 }
 </style>
+
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -63,6 +66,7 @@ td {
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
 
