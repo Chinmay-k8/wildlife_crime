@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>State Wildlife Crime Database Management Portal (SWCDMP)</title>
+<link rel="stylesheet" type="text/css" href="effect_style.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+function open_curtain(d)
+{
+ $("#curtain1").animate({width:40},6000);
+ $("#curtain2").animate({width:40},6000);
+ $(d).animate({height:500},2500, function(){
+	 var audio = new Audio("applause-01.wav");
+	audio.play();
+     $(this).animate({height:5},4000, function(){
+         $('a.button').addClass('zoom');
+     });
+ });
+}
+// function close_curtain()
+// {
+//  $("#curtain1").animate({width:200},1000);
+//  $("#curtain2").animate({width:191},1000);
+// }
+</script>
+</head>
+<body>
+<div id="wrapper">
+<div class="jhalar"></div>
+<div class="rassi" onClick="open_curtain(this);"></div>
+<div id="effect">
+    <div class="pyro">
+        <div class="before"></div>
+        <div class="after"></div>
+  </div>
+    <div class="intro">
+        <a class="button" href="http://localhost:8000" target="_blank">Launch</a>
+    </div>
+ <img src="curtain1.jpg" id="curtain1">
+ <img src="curtain2.jpg" id="curtain2">
+</div>
+
+<!-- <div id="curtain_buttons">
+ <input type="button" value="OPEN CURTAIN" onclick="open_curtain();">
+ <input type="button" value="CLOSE CURTAIN" onclick="close_curtain();">
+</div> -->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="effect_style.css">
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+function open_curtain()
+{
+ $("#curtain1").animate({width:20},1000);
+ $("#curtain2").animate({width:20},1000);
+}
+function close_curtain()
+{
+ $("#curtain1").animate({width:200},1000);
+ $("#curtain2").animate({width:191},1000);
+}
+</script>
+</head>
+<body>
+<div id="wrapper">
+
+<div id="effect">
+ <p>Surprise You Got A Lottery!</p>
+ <img src="curtain1.jpg" id="curtain1">
+ <img src="curtain2.jpg" id="curtain2">
+</div>
+
+<div id="curtain_buttons">
+ <input type="button" value="OPEN CURTAIN" onclick="open_curtain();">
+ <input type="button" value="CLOSE CURTAIN" onclick="close_curtain();">
+</div>
+
+</div>
+</body>
+</html>

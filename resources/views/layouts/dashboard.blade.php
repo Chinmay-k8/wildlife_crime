@@ -2,10 +2,10 @@
 <html lang="en">
     <head>  
         <meta charset="utf-8" />
-        <title>State Wildlife Crime Database Management Portal (SWCDMP)</title>
+        <title>PRAHAR</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="State Wildlife Crime Management System(SWCMS)" name="description" />
-        <meta content="State Wildlife Crime Management System(SWCMS)" name="author" />
+        <meta content="PRAHAR" name="description" />
+        <meta content="PRAHAR" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!--Select2 plugin -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -218,7 +218,7 @@
             </li>   
             
             <li class="dropdown d-none d-xl-block">
-               <h3 class="text-white mt-3">State Wildlife Crime Database Management Portal (SWCDMP)</h3>
+               <h3 class="text-white mt-3">PRAHAR</h3>
             </li>
         </ul>
         <div class="clearfix"></div>
