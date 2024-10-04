@@ -16,34 +16,34 @@
                 <form id="data-form" action="{{ route('submit-form') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                    <div class="col-md-3">
-    <div class="form-group">
-        <label for="circle">Circle</label>
-        <select id="circle" name="circle" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
-            <option value="">Select Circle</option>
-            @foreach($circles as $circle)
-                <option value="{{ $circle->id }}" {{ $circle->id == $selectedCircle ? 'selected' : '' }}>
-                    {{ $circle->name_e }}
-                </option>
-            @endforeach
-        </select>
-        <!-- Hidden input might override dynamic selection, so it's removed -->
-    </div>
-</div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="circle">Circle</label>
+                                <select id="circle" name="circle" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
+                                    <option value="">Select Circle</option>
+                                    @foreach($circles as $circle)
+                                        <option value="{{ $circle->id }}" {{ $circle->id == $selectedCircle ? 'selected' : '' }}>
+                                            {{ $circle->name_e }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <!-- Hidden input might override dynamic selection, so it's removed -->
+                            </div>
+                        </div>
 
-<div class="col-md-3">
-    <div class="form-group">
-        <label for="division">Division</label>
-        <select id="division" name="division" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
-            <option value="">Select Division</option>
-            @foreach($divisions as $division)
-                <option value="{{ $division->id }}" {{ $division->id == $selectedarea ? 'selected' : '' }}>
-                    {{ $division->name_e }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-</div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="division">Division</label>
+                                <select id="division" name="division" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
+                                    <option value="">Select Division</option>
+                                    @foreach($divisions as $division)
+                                        <option value="{{ $division->id }}" {{ $division->id == $selectedarea ? 'selected' : '' }}>
+                                            {{ $division->name_e }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="range">Range</label>
