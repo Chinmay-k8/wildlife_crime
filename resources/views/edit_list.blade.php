@@ -223,31 +223,6 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <h5>Accused Detail</h5>
-                                <table class="table table-bordered" id="accused-details-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Alias</th>
-                                            <th>Father's Name</th>
-                                            <th>Address</th>
-                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="text" name="accused[0][name]" class="form-control"></td>
-                                            <td><input type="text" name="accused[0][alias]" class="form-control"></td>
-                                            <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
-                                            <td><input type="text" name="accused[0][address]" class="form-control"></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
                                 <h5>Mobiles recovered</h5>
                                 <table class="table table-bordered" id="mobiles-recovered-table">
                                     <thead>

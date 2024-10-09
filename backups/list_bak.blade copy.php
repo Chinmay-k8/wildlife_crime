@@ -1,10 +1,11 @@
 @extends('layouts.dashboard')
-@section('list-content')
 @include('edit_list')
 @include('view_list')
 @section('user-info')
 <h1>Form-X</h1>
 @endsection
+
+@section('form-content')
 <style>
 .table thead th {
     background-color: rgb(0, 80, 64); 
@@ -35,6 +36,8 @@ td {
     background-color: #f1f1f1;
 }
 </style>
+
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -63,6 +66,7 @@ td {
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function() {
 
@@ -284,69 +288,69 @@ td {
                 $('#edit-modal #action_against_staff-dropdown').val(selectedItem.action_against_staff);
                 $('#edit-modal #case_present_status').val(selectedItem.case_present_status);
                 
-                // $('#edit-modal #accused-details-table tbody').empty();
-                // function checkRowCount1() {
-                //     var rowCount = $('#edit-modal #accused-details-table tbody tr').length;
+                $('#edit-modal #accused-details-table tbody').empty();
+                function checkRowCount1() {
+                    var rowCount = $('#edit-modal #accused-details-table tbody tr').length;
 
-                //     if (rowCount === 1) {
-                //         // If only one row is left, hide the delete button
-                //         $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').hide();
-                //     } else {
-                //         // If more than one row, show the delete button
-                //         $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').show();
-                //     }
-                // }
-                // selectedItem.accused.forEach((accused, index) => {
-                //     var index = $('#edit-modal #accused-details-table tbody tr').length;
+                    if (rowCount === 1) {
+                        // If only one row is left, hide the delete button
+                        $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').hide();
+                    } else {
+                        // If more than one row, show the delete button
+                        $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').show();
+                    }
+                }
+                selectedItem.accused.forEach((accused, index) => {
+                    var index = $('#edit-modal #accused-details-table tbody tr').length;
 
-                //     var newRow = `
-                //         <tr>
-                //             <td><input type="text" value="${accused.name}" class="form-control"></td>
-                //             <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control"></td>
-                //             <td><input type="text" value="${accused.father_name}" class="form-control"></td>
-                //             <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control"></td>
-                //              <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-acc" style="cursor: pointer; width: 24px;"></td>
-                //         </tr>`;
-                //     $('#edit-modal #accused-details-table tbody').append(newRow);
-                //     updateIndices();
-                //     checkRowCount1();
-                // });
-                // function updateIndices() {
-                //     $('#accused-details-table tbody tr').each(function(index) {
-                //         $(this).find('input').each(function() {
-                //             var name = $(this).attr('name');
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" value="${accused.name}" class="form-control"></td>
+                            <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control"></td>
+                            <td><input type="text" value="${accused.father_name}" class="form-control"></td>
+                            <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control"></td>
+                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-acc" style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#edit-modal #accused-details-table tbody').append(newRow);
+                    updateIndices();
+                    checkRowCount1();
+                });
+                function updateIndices() {
+                    $('#accused-details-table tbody tr').each(function(index) {
+                        $(this).find('input').each(function() {
+                            var name = $(this).attr('name');
                             
-                //             // Log the current name value to debug
-                //             console.log('Current name:', name);
+                            // Log the current name value to debug
+                            console.log('Current name:', name);
 
-                //             // Only try to update if the name attribute exists
-                //             if (name !== undefined) {
-                //                 var newName = name.replace(/\d+/, index);
-                //                 console.log('Updated name:', newName); // Log the new name for debugging
-                //                 $(this).attr('name', newName);
-                //             }
-                //         });
-                //     });
-                // }
-                // $('#edit-modal #add-row').off('click').click(function() {
-                //     var index = $('#edit-modal #accused-details-table tbody tr').length;
-                //     var newRow = `
-                //         <tr>
-                //             <td><input type="text" name="accused[${index}][name]" class="form-control"></td>
-                //             <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
-                //             <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
-                //             <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
-                //             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id= "delete-acc" style="cursor: pointer; width: 24px;"></td>
-                //         </tr>`;
-                //     $('#edit-modal #accused-details-table tbody').append(newRow);
-                //     updateIndices();
-                //     checkRowCount1();
-                // });
-                // $(document).on('click', '#edit-modal #delete-acc', function() {
-                //     $(this).closest('tr').remove();
-                //     updateIndices();
-                //     checkRowCount1();
-                // });
+                            // Only try to update if the name attribute exists
+                            if (name !== undefined) {
+                                var newName = name.replace(/\d+/, index);
+                                console.log('Updated name:', newName); // Log the new name for debugging
+                                $(this).attr('name', newName);
+                            }
+                        });
+                    });
+                }
+                $('#edit-modal #add-row').off('click').click(function() {
+                    var index = $('#edit-modal #accused-details-table tbody tr').length;
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" name="accused[${index}][name]" class="form-control"></td>
+                            <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
+                            <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
+                            <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
+                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id= "delete-acc" style="cursor: pointer; width: 24px;"></td>
+                        </tr>`;
+                    $('#edit-modal #accused-details-table tbody').append(newRow);
+                    updateIndices();
+                    checkRowCount1();
+                });
+                $(document).on('click', '#edit-modal #delete-acc', function() {
+                    $(this).closest('tr').remove();
+                    updateIndices();
+                    checkRowCount1();
+                });
 
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
@@ -424,7 +428,7 @@ td {
                     var index = $('#edit-modal #arrested-accused-details-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${arrested_accused.accused_name}" class="form-control"></td>
+                            <td><input type="text" value="${arrested_accused.name}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" id="delete-acc2" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #arrested-accused-details-table tbody').append(newRow);
@@ -476,8 +480,8 @@ td {
                     var index = $('#edit-modal #nbw-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.accused_name}" class="form-control"></td>
-                            <td><input type="text" name="nbw_accused[${index}][status]" value="${nbw_accused.nbw_status}" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.name}" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][status]" value="${nbw_accused.status}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #nbw-accused-table tbody').append(newRow);
@@ -530,8 +534,8 @@ td {
                     var index = $('#edit-modal #released-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" name="released_accused[${index}][name]" value="${released_accused.accused_name}" class="form-control"></td>
-                            <td><input type="date" name="released_accused[${index}][date]" value="${released_accused.bail_date}" class="form-control"></td>
+                            <td><input type="text" name="released_accused[${index}][name]" value="${released_accused.name}" class="form-control"></td>
+                            <td><input type="date" name="released_accused[${index}][date]" value="${released_accused.date}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #released-accused-table tbody').append(newRow);
@@ -655,16 +659,16 @@ td {
                 $('#view-full-width-modal #detection_agency').val(selectedItem.detection_agency);
                 $('#view-full-width-modal #investigating_agency').val("Forst Department");
                 if (selectedItem.species) {
-                        // If species is not null, populate the values from the species object
-                        $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);
-                        $('#view-full-width-modal #species_schedule').val(selectedItem.species.schedule_no);
-                        $('#view-full-width-modal #species_name').val(selectedItem.species.species_name);
-                    } else {
-                        // If species is null, use values from the selectedItem directly
-                        $('#view-full-width-modal #schedule_type').val(selectedItem.species_name); 
-                        $('#view-full-width-modal #species_schedule').val(selectedItem.species_schedule); 
-                        $('#view-full-width-modal #species_name').val("old"); 
-                }
+    // If species is not null, populate the values from the species object
+    $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);
+    $('#view-full-width-modal #species_schedule').val(selectedItem.species.schedule_no);
+    $('#view-full-width-modal #species_name').val(selectedItem.species.species_name);
+} else {
+    // If species is null, use values from the selectedItem directly
+    $('#view-full-width-modal #schedule_type').val(selectedItem.species_name); 
+    $('#view-full-width-modal #species_schedule').val(selectedItem.species_schedule); 
+    $('#view-full-width-modal #species_name').val("old"); 
+}
                 $('#view-full-width-modal #species_age').val(selectedItem.species_age);
                 $('#view-full-width-modal #species_sex').val(selectedItem.species_sex);
                 $('#view-full-width-modal #property_recovered_type').val(selectedItem.property_recovered_type);
