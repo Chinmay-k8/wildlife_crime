@@ -16,34 +16,35 @@
                 <form id="data-form" action="{{ route('submit-form') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="circle">Circle</label>
-                                <select id="circle" name="circle" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
-                                    <option value="">Select Circle</option>
-                                    @foreach($circles as $circle)
-                                        <option value="{{ $circle->id }}" {{ $circle->id == $selectedCircle ? 'selected' : '' }}>
-                                            {{ $circle->name_e }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <!-- Hidden input might override dynamic selection, so it's removed -->
+                         <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="circle">Circle</label>
+                                    <select id="circle" name="circle" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
+                                        <option value="">Select Circle</option>
+                                        @foreach($circles as $circle)
+                                            <option value="{{ $circle->id }}" {{ $circle->id == $selectedCircle ? 'selected' : '' }}>
+                                                {{ $circle->name_e }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="circle" id="circle-hidden" value="{{ $selectedCircle }}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="division">Division</label>
-                                <select id="division" name="division" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
-                                    <option value="">Select Division</option>
-                                    @foreach($divisions as $division)
-                                        <option value="{{ $division->id }}" {{ $division->id == $selectedarea ? 'selected' : '' }}>
-                                            {{ $division->name_e }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="division">Division</label>
+                                    <select id="division" name="division" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
+                                        <option value="">Select Division</option>
+                                        @foreach($divisions as $division)
+                                            <option value="{{ $division->id }}" {{ $division->id == $selectedDivision ? 'selected' : '' }}>
+                                                {{ $division->name_e }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="division" id="division-hidden" value="{{ $selectedDivision }}">
+                                </div>
                             </div>
-                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="range">Range</label>
@@ -929,33 +930,33 @@ $(document).ready(function() {
 
     // Listen for changes in the dropdown
     undetectedAccusedOption.addEventListener('change',updateAbscondedAccusedDisplay);
-    const selectedDivision = '{{ $selectedarea }}';
-const selectedCircle = '{{ $selectedCircle }}';
+        // Pre-populate division and range if designation is 4, 5, or 6
+        const selectedDivision = '{{ $selectedDivision }}';
+        const selectedCircle = '{{ $selectedCircle }}';
+        
+        // If a division is selected, trigger change to populate the range
+        if (selectedDivision) {
+            $('#division').val(selectedDivision).trigger('change');
+        }
 
-// If a division is selected, trigger change to populate range
-if (selectedDivision) {
-    $('#division').val(selectedDivision).trigger('change');
-}
+        // If a circle is selected and designation allows dynamic changes
+        if (selectedCircle && !{{ in_array($designationId, [4, 5, 6]) ? 'true' : 'false' }}) {
+            $('#circle').val(selectedCircle).trigger('change');
+        }
+        $('#circle').change(function() {
+            const circleId = $(this).val();
+            $('#division').prop('disabled', !circleId);
+            $('#division').empty().append('<option value="">Select Division</option>');
+            $('#range').prop('disabled', true).empty().append('<option value="">Select Range</option>');
+            $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
+            $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
 
-// If a circle is selected and designation allows dynamic changes
-if (selectedCircle && !{{ in_array($designationId, [4, 5, 6]) ? 'true' : 'false' }}) {
-    $('#circle').val(selectedCircle).trigger('change');
-}
-
-$('#circle').change(function() {
-    const circleId = $(this).val();
-    
-    // Enable division dropdown
-    $('#division').prop('disabled', !circleId);
-    $('#division').empty().append('<option value="">Select Division</option>');
-
-    // Fetch divisions based on selected circle
-    if (circleId) {
-        $.getJSON(`/circles/${circleId}/divisions`, function(data) {
-            $('#division').append(data.map(division => `<option value="${division.id}">${division.name_e}</option>`));
+            if (circleId) {
+                $.getJSON(`circles/${circleId}/divisions`, function(data) {
+                    $('#division').append(data.map(division => `<option value="${division.id}">${division.name_e}</option>`));
+                });
+            }
         });
-    }
-});
         // Handle division change event
         $('#division').change(function() {
             const divisionId = $(this).val();

@@ -653,7 +653,7 @@ td {
                 $('#view-full-width-modal #latitude').val(selectedItem.latitude);
                 $('#view-full-width-modal #longitude').val(selectedItem.longitude);
                 $('#view-full-width-modal #detection_agency').val(selectedItem.detection_agency);
-                $('#view-full-width-modal #investigating_agency').val("Forst Department");
+                $('#view-full-width-modal #investigating_agency').val("Forest Department");
                 if (selectedItem.species) {
                         // If species is not null, populate the values from the species object
                         $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);

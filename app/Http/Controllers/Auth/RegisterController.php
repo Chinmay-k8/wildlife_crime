@@ -8,6 +8,8 @@ use App\Models\MasterDesignation;
 use App\Models\MasterUser;
 use App\Models\MasterEmployee;
 use App\Models\Division;
+use App\Models\Circle;
+use App\Models\State;
 use App\Models\UserArea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +21,8 @@ class RegisterController extends Controller
     {
         $designations = MasterDesignation::all();
         $divisions = Division::whereNotIn('id', [51, 52, 53, 54, 55, 56])->get();
-        return view('auth.register', compact('designations', 'divisions'));
+        $state = State::all();
+        return view('auth.register', compact('designations', 'divisions', 'state'));
     }
 
     public function register(Request $request)
@@ -50,6 +53,6 @@ class RegisterController extends Controller
             'area_id' => $request->user_area,
         ]);
 
-        return redirect()->route('login')->with('success', 'Registration successful! Please login.');
+        return redirect()->route('register')->with('success', 'User added successfully!');
     }
 }

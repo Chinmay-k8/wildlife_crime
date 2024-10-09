@@ -1,3 +1,4 @@
+@include('user_profile')
 <!DOCTYPE html>
 <html lang="en">
     <head>  
@@ -144,11 +145,33 @@
                     </div> -->
     
                     <!-- item-->
-                    <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="javascript:void(0);" class="dropdown-item notify-item" onclick="showUserProfile()">
                         <i class="fe-user"></i>
                         <span>My Account</span>
-                    </a> -->
-    
+                    </a>
+                    <script>
+                    function showUserProfile() {
+                        // Make an AJAX request to fetch the logged-in user profile
+                        $.getJSON(`/user-profile`, function(user) {
+                            const employee = user.employee || {};
+                            const designation = user.designation || {};
+                            const userArea = user.user_area[0] || {};
+                            const division = userArea.division || {};
+
+                            const fullName = `${employee.firstname || ''} ${employee.lastname || ''}`;
+
+                            // Populate the modal fields with user details
+                            $('#user-profile-modal #fullname').val(fullName);
+                            $('#user-profile-modal #email').val(employee.email || '');
+                            $('#user-profile-modal #mobile').val(employee.phone || '');
+                            $('#user-profile-modal #designation').val(designation.designation_name || '');
+                            $('#user-profile-modal #division').val(division.name_e || '');
+
+                            // Show the modal
+                            $('#user-profile-modal').modal('show');
+                        });
+                    }
+                    </script>
                     <!-- item-->
                     <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="fe-settings"></i>
