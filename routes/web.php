@@ -8,7 +8,7 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Api\ListController;
 use App\Http\Controllers\Api\UserController;
-
+use App\Http\Controllers\UserProfileController;
 
 
 
@@ -25,6 +25,9 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
+// Route::get('/profile', [UserProfileController::class, 'showProfile'])->name('profile.show')->middleware('auth');
+// Route::get('/user-profile/{id}', [UserProfileController::class, 'showProfile'])->name('profile.show')->middleware('auth');
+Route::get('/user-profile', [UserProfileController::class, 'getProfile']);
 
 Route::get('/circles', [MasterController::class, 'getCircles']);
 Route::get('/species/{scheduletype}/{schedule}', [MasterController::class, 'getSpeciesBySchedule']);

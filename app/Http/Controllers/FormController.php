@@ -26,32 +26,31 @@ class FormController extends Controller
     {
         $user = auth()->user();
         $designationId = $user->designation_id;
-
-        // Fetch user's area (division ID) from the UserArea table
+    
+        // Fetch user's area (division or circle ID) from the UserArea table
         $userArea = UserArea::where('user_id', $user->id)->first();
-        $selectedDivision = $userArea ? $userArea->area_id : null;
-
+        $selectedarea = $userArea ? $userArea->area_id : null;
+    
         $selectedCircle = null;
         $divisions = [];
         $circles = [];
-
-        if ($selectedDivision) {
-            $division = Division::find($selectedDivision);
-            $selectedCircle = $division ? $division->parent_id : null;  // Circle ID stored in parent_id
-
-            // Fetch circles and divisions based on designation
+    
+        if ($selectedarea) {
             if (in_array($designationId, [4, 5, 6])) {
-                // Prefill circle and division
+                // For designation 4, 5, 6, prefill circle and division
+                $division = Division::find($selectedarea);
+                $selectedCircle = $division ? $division->parent_id : null;  // Circle ID stored in parent_id
                 $circles = Circle::where('id', $selectedCircle)->get(); // Only fetch the user's circle
-                $divisions = Division::where('id', $selectedDivision)->get(); // Fetch relevant divisions
+                $divisions = Division::where('id', $selectedarea)->get(); // Fetch relevant divisions
             } else {
-                // Fetch all circles and divisions for manual selection
-                $circles = Circle::all();
-                $divisions = Division::where('parent_id', $selectedCircle)->get();
+                // For other designations, allow dynamic selection of circle and division
+                $circles = Circle::whereNotIn('id', [11])->get(); // Fetch all circles except id 11
+                $selectedCircle = null;  // Let the frontend handle the circle selection
+                $divisions = []; // Divisions will be populated dynamically based on selected circle
             }
         }
 
-        return view('form', compact('selectedCircle', 'selectedDivision', 'circles', 'divisions', 'designationId'));
+        return view('form', compact('selectedCircle', 'selectedarea', 'circles', 'divisions', 'designationId'));
     }
 
     

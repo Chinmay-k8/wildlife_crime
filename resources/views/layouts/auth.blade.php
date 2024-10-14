@@ -4,10 +4,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>State Wildlife Crime Management System (SWCMS)</title>
+    <title>PRAHAR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="State Wildlife Crime Management System(SWCMS)" name="description" />
-    <meta content="State Wildlife Crime Management System(SWCMS)" name="author" />
+    <meta content="PRAHAR" name="description" />
+    <meta content="PRAHAR" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -56,7 +56,7 @@
         <!-- Auth fluid right content -->
         <div class="auth-fluid-right text-center">
             <div class="auth-user-testimonial">
-                <h1 class="mb-3 text-white">State Wildlife Crime Database Management Portal (SWCDMP)</h1>
+                <h1 class="mb-3 text-white" style="font-size: 7.25rem;">PRAHAR</h1>
             </div> <!-- end auth-user-testimonial-->
         </div>
         <!-- end Auth fluid right content -->

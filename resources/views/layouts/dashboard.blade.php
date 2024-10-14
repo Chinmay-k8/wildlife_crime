@@ -2,10 +2,10 @@
 <html lang="en">
     <head>  
         <meta charset="utf-8" />
-        <title>State Wildlife Crime Database Management Portal (SWCDMP)</title>
+        <title>PRAHAR</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="State Wildlife Crime Management System(SWCMS)" name="description" />
-        <meta content="State Wildlife Crime Management System(SWCMS)" name="author" />
+        <meta content="PRAHAR" name="description" />
+        <meta content="PRAHAR" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!--Select2 plugin -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -144,11 +144,33 @@
                     </div> -->
     
                     <!-- item-->
-                    <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                    <a href="javascript:void(0);" class="dropdown-item notify-item"  onclick="showUserProfile()">
                         <i class="fe-user"></i>
                         <span>My Account</span>
-                    </a> -->
-    
+                    </a>
+                    <script>
+                        function showUserProfile() {
+                            // Make an AJAX request to fetch the logged-in user profile
+                            $.getJSON(`/user-profile`, function(user) {
+                                const employee = user.employee || {};
+                                const designation = user.designation || {};
+                                const userArea = user.user_area[0] || {};
+                                const division = userArea.division || {};
+
+                                const fullName = `${employee.firstname || ''} ${employee.lastname || ''}`;
+
+                                // Populate the modal fields with user details
+                                $('#user-profile-modal #fullname').val(fullName);
+                                $('#user-profile-modal #email').val(employee.email || '');
+                                $('#user-profile-modal #mobile').val(employee.phone || '');
+                                $('#user-profile-modal #designation').val(designation.designation_name || '');
+                                $('#user-profile-modal #division').val(division.name_e || '');
+
+                                // Show the modal
+                                $('#user-profile-modal').modal('show');
+                            });
+                        }
+                    </script>
                     <!-- item-->
                     <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="fe-settings"></i>
@@ -218,7 +240,7 @@
             </li>   
             
             <li class="dropdown d-none d-xl-block">
-               <h3 class="text-white mt-3">State Wildlife Crime Database Management Portal (SWCDMP)</h3>
+               <h3 class="text-white mt-3">PRAHAR</h3>
             </li>
         </ul>
         <div class="clearfix"></div>
@@ -376,3 +398,4 @@
         
     </body>
 </html>
+@include('user_profile')

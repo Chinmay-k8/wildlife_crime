@@ -653,18 +653,18 @@ td {
                 $('#view-full-width-modal #latitude').val(selectedItem.latitude);
                 $('#view-full-width-modal #longitude').val(selectedItem.longitude);
                 $('#view-full-width-modal #detection_agency').val(selectedItem.detection_agency);
-                $('#view-full-width-modal #investigating_agency').val("Forst Department");
+                $('#view-full-width-modal #investigating_agency').val("Forest Department");
                 if (selectedItem.species) {
-    // If species is not null, populate the values from the species object
-    $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);
-    $('#view-full-width-modal #species_schedule').val(selectedItem.species.schedule_no);
-    $('#view-full-width-modal #species_name').val(selectedItem.species.species_name);
-} else {
-    // If species is null, use values from the selectedItem directly
-    $('#view-full-width-modal #schedule_type').val(selectedItem.species_name); 
-    $('#view-full-width-modal #species_schedule').val(selectedItem.species_schedule); 
-    $('#view-full-width-modal #species_name').val("old"); 
-}
+                    // If species is not null, populate the values from the species object
+                    $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);
+                    $('#view-full-width-modal #species_schedule').val(selectedItem.species.schedule_no);
+                    $('#view-full-width-modal #species_name').val(selectedItem.species.species_name);
+                } else {
+                    // If species is null, use values from the selectedItem directly
+                    $('#view-full-width-modal #schedule_type').val(selectedItem.species_name); 
+                    $('#view-full-width-modal #species_schedule').val(selectedItem.species_schedule); 
+                    $('#view-full-width-modal #species_name').val("old"); 
+                }
                 $('#view-full-width-modal #species_age').val(selectedItem.species_age);
                 $('#view-full-width-modal #species_sex').val(selectedItem.species_sex);
                 $('#view-full-width-modal #property_recovered_type').val(selectedItem.property_recovered_type);

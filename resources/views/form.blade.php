@@ -27,7 +27,7 @@
                 </option>
             @endforeach
         </select>
-        <input type="hidden" name="circle" id="circle-hidden" value="{{ $selectedCircle }}">
+        <!-- Hidden input might override dynamic selection, so it's removed -->
     </div>
 </div>
 
@@ -37,12 +37,11 @@
         <select id="division" name="division" class="form-control" {{ in_array($designationId, [4, 5, 6]) ? 'disabled' : '' }}>
             <option value="">Select Division</option>
             @foreach($divisions as $division)
-                <option value="{{ $division->id }}" {{ $division->id == $selectedDivision ? 'selected' : '' }}>
+                <option value="{{ $division->id }}" {{ $division->id == $selectedarea ? 'selected' : '' }}>
                     {{ $division->name_e }}
                 </option>
             @endforeach
         </select>
-        <input type="hidden" name="division" id="division-hidden" value="{{ $selectedDivision }}">
     </div>
 </div>
                         <div class="col-md-3">
@@ -930,33 +929,33 @@ $(document).ready(function() {
 
     // Listen for changes in the dropdown
     undetectedAccusedOption.addEventListener('change',updateAbscondedAccusedDisplay);
-        // Pre-populate division and range if designation is 4, 5, or 6
-        const selectedDivision = '{{ $selectedDivision }}';
-        const selectedCircle = '{{ $selectedCircle }}';
-        
-        // If a division is selected, trigger change to populate the range
-        if (selectedDivision) {
-            $('#division').val(selectedDivision).trigger('change');
-        }
+    const selectedDivision = '{{ $selectedarea }}';
+const selectedCircle = '{{ $selectedCircle }}';
 
-        // If a circle is selected and designation allows dynamic changes
-        if (selectedCircle && !{{ in_array($designationId, [4, 5, 6]) ? 'true' : 'false' }}) {
-            $('#circle').val(selectedCircle).trigger('change');
-        }
-        $('#circle').change(function() {
-            const circleId = $(this).val();
-            $('#division').prop('disabled', !circleId);
-            $('#division').empty().append('<option value="">Select Division</option>');
-            $('#range').prop('disabled', true).empty().append('<option value="">Select Range</option>');
-            $('#section').prop('disabled', true).empty().append('<option value="">Select Section</option>');
-            $('#beat').prop('disabled', true).empty().append('<option value="">Select Beat</option>');
+// If a division is selected, trigger change to populate range
+if (selectedDivision) {
+    $('#division').val(selectedDivision).trigger('change');
+}
 
-            if (circleId) {
-                $.getJSON(`circles/${circleId}/divisions`, function(data) {
-                    $('#division').append(data.map(division => `<option value="${division.id}">${division.name_e}</option>`));
-                });
-            }
+// If a circle is selected and designation allows dynamic changes
+if (selectedCircle && !{{ in_array($designationId, [4, 5, 6]) ? 'true' : 'false' }}) {
+    $('#circle').val(selectedCircle).trigger('change');
+}
+
+$('#circle').change(function() {
+    const circleId = $(this).val();
+    
+    // Enable division dropdown
+    $('#division').prop('disabled', !circleId);
+    $('#division').empty().append('<option value="">Select Division</option>');
+
+    // Fetch divisions based on selected circle
+    if (circleId) {
+        $.getJSON(`/circles/${circleId}/divisions`, function(data) {
+            $('#division').append(data.map(division => `<option value="${division.id}">${division.name_e}</option>`));
         });
+    }
+});
         // Handle division change event
         $('#division').change(function() {
             const divisionId = $(this).val();

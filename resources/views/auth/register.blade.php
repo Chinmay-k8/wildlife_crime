@@ -100,7 +100,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="designation" class="form-label">Designation</label>
@@ -117,14 +116,13 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="col-6">
                                     <div class="mb-3">
                                         <label for="user_area" class="form-label">User Area</label>
                                         <select id="user_area" class="form-control @error('user_area') is-invalid @enderror" name="user_area" required>
-                                            <option value="" disabled selected>Select Designation</option>
-                                            @foreach($divisions as $division)
-                                                <option value="{{ $division->id }}">{{ $division->name_e }}</option>
-                                            @endforeach
+                                            <option value="" disabled selected>Select User Area</option>
+                                            <!-- Dynamic options will be populated here -->
                                         </select>
                                         @error('user_area')
                                             <span class="invalid-feedback" role="alert">
@@ -147,4 +145,29 @@
             </div> <!-- end col-->
         </div>
     </div>
+    <script>
+    $(document).ready(function() {
+        const divisions = @json($divisions);
+        const state = @json($state);
+
+        $('#designation').on('change', function() {
+            const designationId = $(this).val();
+            let userAreaDropdown = $('#user_area');
+            userAreaDropdown.empty(); // Clear previous options
+            userAreaDropdown.append('<option value="" disabled selected>Select User Area</option>');
+
+            // Check if designation_id is 4, 5, or 6 for divisions
+            if (designationId == 4 || designationId == 5 || designationId == 6) {
+                divisions.forEach(division => {
+                    userAreaDropdown.append(`<option value="${division.id}">${division.name_e}</option>`);
+                });
+            } else {
+                // Else populate circles
+                state.forEach(state => {
+                    userAreaDropdown.append(`<option value="${state.id}">${state.name_e}</option>`);
+                });
+            }
+        });
+    });
+</script>
 @endsection
