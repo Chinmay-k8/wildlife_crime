@@ -284,69 +284,69 @@ td {
                 $('#edit-modal #action_against_staff-dropdown').val(selectedItem.action_against_staff);
                 $('#edit-modal #case_present_status').val(selectedItem.case_present_status);
                 
-                $('#edit-modal #accused-details-table tbody').empty();
-                function checkRowCount1() {
-                    var rowCount = $('#edit-modal #accused-details-table tbody tr').length;
+                // $('#edit-modal #accused-details-table tbody').empty();
+                // function checkRowCount1() {
+                //     var rowCount = $('#edit-modal #accused-details-table tbody tr').length;
 
-                    if (rowCount === 1) {
-                        // If only one row is left, hide the delete button
-                        $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').hide();
-                    } else {
-                        // If more than one row, show the delete button
-                        $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').show();
-                    }
-                }
-                selectedItem.accused.forEach((accused, index) => {
-                    var index = $('#edit-modal #accused-details-table tbody tr').length;
+                //     if (rowCount === 1) {
+                //         // If only one row is left, hide the delete button
+                //         $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').hide();
+                //     } else {
+                //         // If more than one row, show the delete button
+                //         $('#edit-modal #accused-details-table tbody tr').find('.delete-accused').show();
+                //     }
+                // }
+                // selectedItem.accused.forEach((accused, index) => {
+                //     var index = $('#edit-modal #accused-details-table tbody tr').length;
 
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" value="${accused.name}" class="form-control"></td>
-                            <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control"></td>
-                            <td><input type="text" value="${accused.father_name}" class="form-control"></td>
-                            <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control"></td>
-                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-acc" style="cursor: pointer; width: 24px;"></td>
-                        </tr>`;
-                    $('#edit-modal #accused-details-table tbody').append(newRow);
-                    updateIndices();
-                    checkRowCount1();
-                });
-                function updateIndices() {
-                    $('#accused-details-table tbody tr').each(function(index) {
-                        $(this).find('input').each(function() {
-                            var name = $(this).attr('name');
+                //     var newRow = `
+                //         <tr>
+                //             <td><input type="text" value="${accused.name}" class="form-control"></td>
+                //             <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control"></td>
+                //             <td><input type="text" value="${accused.father_name}" class="form-control"></td>
+                //             <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control"></td>
+                //              <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id="delete-acc" style="cursor: pointer; width: 24px;"></td>
+                //         </tr>`;
+                //     $('#edit-modal #accused-details-table tbody').append(newRow);
+                //     updateIndices();
+                //     checkRowCount1();
+                // });
+                // function updateIndices() {
+                //     $('#accused-details-table tbody tr').each(function(index) {
+                //         $(this).find('input').each(function() {
+                //             var name = $(this).attr('name');
                             
-                            // Log the current name value to debug
-                            console.log('Current name:', name);
+                //             // Log the current name value to debug
+                //             console.log('Current name:', name);
 
-                            // Only try to update if the name attribute exists
-                            if (name !== undefined) {
-                                var newName = name.replace(/\d+/, index);
-                                console.log('Updated name:', newName); // Log the new name for debugging
-                                $(this).attr('name', newName);
-                            }
-                        });
-                    });
-                }
-                $('#edit-modal #add-row').off('click').click(function() {
-                    var index = $('#edit-modal #accused-details-table tbody tr').length;
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" name="accused[${index}][name]" class="form-control"></td>
-                            <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
-                            <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
-                            <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
-                            <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id= "delete-acc" style="cursor: pointer; width: 24px;"></td>
-                        </tr>`;
-                    $('#edit-modal #accused-details-table tbody').append(newRow);
-                    updateIndices();
-                    checkRowCount1();
-                });
-                $(document).on('click', '#edit-modal #delete-acc', function() {
-                    $(this).closest('tr').remove();
-                    updateIndices();
-                    checkRowCount1();
-                });
+                //             // Only try to update if the name attribute exists
+                //             if (name !== undefined) {
+                //                 var newName = name.replace(/\d+/, index);
+                //                 console.log('Updated name:', newName); // Log the new name for debugging
+                //                 $(this).attr('name', newName);
+                //             }
+                //         });
+                //     });
+                // }
+                // $('#edit-modal #add-row').off('click').click(function() {
+                //     var index = $('#edit-modal #accused-details-table tbody tr').length;
+                //     var newRow = `
+                //         <tr>
+                //             <td><input type="text" name="accused[${index}][name]" class="form-control"></td>
+                //             <td><input type="text" name="accused[${index}][alias]" class="form-control"></td>
+                //             <td><input type="text" name="accused[${index}][father_name]" class="form-control"></td>
+                //             <td><input type="text" name="accused[${index}][address]" class="form-control"></td>
+                //             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused" id= "delete-acc" style="cursor: pointer; width: 24px;"></td>
+                //         </tr>`;
+                //     $('#edit-modal #accused-details-table tbody').append(newRow);
+                //     updateIndices();
+                //     checkRowCount1();
+                // });
+                // $(document).on('click', '#edit-modal #delete-acc', function() {
+                //     $(this).closest('tr').remove();
+                //     updateIndices();
+                //     checkRowCount1();
+                // });
 
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
