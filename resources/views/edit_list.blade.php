@@ -53,7 +53,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="case_type">Case Type</label>
-                                    <select id="case_type-dropdown" name="case_type" class="form-control" required>
+                                    <select id="case_type-dropdown" name="case_type" class="form-control" disabled="true">
                                         <option value="">Select Case Type</option>
                                         <option value="UD">UD</option>
                                         <option value="OR">OR</option>
@@ -63,7 +63,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                 <label for="case_no" id="case_no_label">Case Number</label>
-                                    <input type="text" id="case_no" name="case_no" class="form-control">
+                                    <input type="text" id="case_no" name="case_no" class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <div class="row ">
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="detection-agency-group">
                                 <div class="form-group">
                                     <label for="detection_agency">Case Detection Agency</label>
                                     <select id="detection_agency-dropdown" name="detection_agency" class="form-control" required>
@@ -133,69 +133,84 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <!-- Hidden by default -->
+                            <div class="col-md-4" id="other-agency-group" style="display: none;">
                                 <div class="form-group">
-                                    <label for="investigating_agency">Case Investigating Agency</label>
-                                    <select id="investigating_agency-dropdown" name="investigating_agency" class="form-control" required>
-                                        <option value="">Select Agency</option>
-                                        <option value="Forest Department">Forest Department</option>
-                                        <option value="Other">Other</option>
-                                    </select>
+                                    <label for="other_detection_agency">Other Agency Name</label>
+                                    <input type="text" id="other_detection_agency" name="other_detection_agency" class="form-control" placeholder="Enter other agency name">
                                 </div>
                             </div>
+                            <div class="col-md-6" id="investigating-agency-group">
+                            <div class="form-group">
+                                <label for="investigating_agency">Case Investigating Agency</label>
+                                <input type="text" id="investigating_agency" name="investigating_agency" class="form-control" readonly>
+                            </div>
+                        </div>
                         </div >
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
+                                        <label for="schedule_type">Shedule Type of Species (New/Old)</label>
+                                        <select id="schedule_type-dropdown" name="schedule_type" class="form-control">
+                                            <option value="">Select Type</option>
+                                            <option value="new">New</option>
+                                            <option value="old">Old</option>
+                                        </select>
+                                </div> 
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                        <label for="species_schedule">Schedule Of Species under WLPA</label>
+                                        <select id="species_schedule-dropdown" name="species_schedule" class="form-control" >
+                                            <option value="">Select Scedule</option>
+                                            <option value="I">I</option>
+                                            <option value="II">II</option>
+                                            <option value="III">III</option>
+                                            <option value="IV">IV</option>
+                                            <option value="V">V</option>
+                                            <option value="VI">VI</option>
+                                        </select>
+                                </div> 
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                         <label for="species_name">Name Of the Species</label>
-                                        <input type="text" id="species_name" name="species_name" class="form-control" >
-                                </div> 
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                        <label for="species_age">Age of the Species</label>
-                                        <input type="text" id="species_age" name="species_age" class="form-control" >
-                                </div> 
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                        <label for="species_sex">Sex Of the Species</label>
-                                        <select id="species_sex-dropdown" name="species_sex" class="form-control" required>
-                                            <option value="">Select Sex</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                        <select id="species_name-dropdown" name="species_name" class="form-control">
+                                            <!-- <option value="">Select Agency</option>
+                                            <option value="Forest">Forest</option>
+                                            <option value="Other">Other</option> -->
                                         </select>
                                 </div> 
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="old_wlpa">Old Schedule Of Species under WLPA</label>
-                                    <input type="text" id="old_wlpa" name="old_wlpa" class="form-control" >
+                                        <label for="species_age">Age of the Species</label>
+                                        <input type="text" id="species_age" name="species_age" class="form-control" readonly>
                                 </div> 
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                        <label for="species_sex">Sex Of the Species</label>
+                                        <input type="text" id="species_sex" name="species_sex" class="form-control" readonly>
+                                </div> 
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="property_recovered_type">Property Recovered Type</label>
-                                    <select id="property_recovered_type-dropdown" name="property_recovered_type" class="form-control" >
-                                        <option value="Live animal">Live animal</option>
-                                        <option value="Carcass">Carcass</option>
-                                        <option value="Body parts">Body parts</option>
-                                        <option value="Arms and Ammunition">Arms and Ammunition</option>
-                                        <option value="GI wire">GI wire</option>
-                                        <option value="Vehicles">Vehicles</option>
-                                        <option value="Other Material">Other Material</option>
-                                    </select>
+                                    <input type="text" id="property_recovered_type" name="property_recovered_type" class="form-control" readonly>
                                 </div> 
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col md-12">
-                                <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="2" style="resize: none;" ></textarea>
-                                </div>
+                            <div class="col md-6">
+                                <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>                            
+                                <input type="text" id="property_recovered_details" name="property_recovered_details" class="form-control" readonly>
+                            </div>
+                            <div class="col md-6">
+                                <label for="brief_fact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
+                                <input type="text" id="brief_fact" name="brief_fact" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="row">

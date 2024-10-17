@@ -159,14 +159,20 @@ td {
             $('#edit-modal #range-dropdown').empty();       //Empty the dropdowns each time the modal loads
             $('#edit-modal #section-dropdown').empty();
             $('#edit-modal #beat-dropdown').empty();
-
+            $('#edit-modal #species_name-dropdown').empty();
+            $('#edit-modal #species_schedule-dropdown').empty();
+            $('#edit-modal #schedule_type-dropdown').empty();
+            
             $('#edit-modal #circle-dropdown').show();       // Show text input by default
             $('#edit-modal #division-dropdown').show();
             $('#edit-modal #range-dropdown').show();
             $('#edit-modal #section-dropdown').show();
             $('#edit-modal #beat-dropdown').show();
+            $('#edit-modal #species_name-dropdown').show();
+            $('#edit-modal #species_schedule-dropdown').show();
+            $('#edit-modal #schedule_type-dropdown').show();
 
-
+            
 
 
            
@@ -264,12 +270,62 @@ td {
                 $('#edit-modal #detection_date').val(selectedItem.detection_date);
                 $('#edit-modal #latitude').val(selectedItem.latitude);
                 $('#edit-modal #longitude').val(selectedItem.longitude);
-                $('#edit-modal #detection_agency-dropdown').val(selectedItem.detection_agency);
-                $('#edit-modal #investigating_agency-dropdown').val(selectedItem.investigating_agency);
-                $('#edit-modal #species_name').val(selectedItem.species_name);
+                $('#edit-modal #detection_agency-dropdown').append(`<option value="${selectedItem.detection_agency}" selected>${selectedItem.detection_agency}</option>`);
+                document.getElementById('detection_agency-dropdown').addEventListener('change', function () {
+                    var otherAgencyGroup = document.getElementById('other-agency-group');
+                    var detectionAgencyGroup = document.getElementById('detection-agency-group');
+                    var investigatingAgencyGroup = document.getElementById('investigating-agency-group');
+                    var detectionAgency = this.value;
+
+                    if (detectionAgency === 'Other') {
+                        // Show the 'Other Agency Name' input field
+                        otherAgencyGroup.style.display = 'block';
+
+                        // Adjust all columns to fit three elements in a row
+                        detectionAgencyGroup.classList.remove('col-md-6');
+                        detectionAgencyGroup.classList.add('col-md-4');
+                        
+                        investigatingAgencyGroup.classList.remove('col-md-6');
+                        investigatingAgencyGroup.classList.add('col-md-4');
+
+                        otherAgencyGroup.classList.remove('col-md-6');
+                        otherAgencyGroup.classList.add('col-md-4');
+                    } else {
+                        // Hide the 'Other Agency Name' input field
+                        otherAgencyGroup.style.display = 'none';
+
+                        // Reset the columns back to two elements
+                        detectionAgencyGroup.classList.remove('col-md-4');
+                        detectionAgencyGroup.classList.add('col-md-6');
+                        
+                        investigatingAgencyGroup.classList.remove('col-md-4');
+                        investigatingAgencyGroup.classList.add('col-md-6');
+                    }
+                });
+                $('#edit-modal #investigating_agency').val("Forest Department");
+                $('#edit-modal #species_name-dropdown').append(`<option value="${selectedItem.species.id}" selected>${selectedItem.species.species_name}</option>`);
                 $('#edit-modal #species_age').val(selectedItem.species_age);
                 $('#edit-modal #species_sex-dropdown').val(selectedItem.species_sex);
-                $('#edit-modal #old_wlpa').val(selectedItem.old_wlpa);
+                $('#edit-modal #species_name-dropdown').append(`<option value="${selectedItem.species.id}" selected>${selectedItem.species.species_name}</option>`);
+                $('#edit-modal #species_schedule-dropdown').append(`<option value="${selectedItem.species.schedule_no}" selected>${selectedItem.species.schedule_no}</option>`);
+                $('#edit-modal #schedule_type-dropdown').append(`<option value="${selectedItem.species.species_type}" selected>${selectedItem.species.species_type}</option>`);
+                
+                // // Assuming selectedItem.species.schedule_no contains the selected value
+                // const selectedValue = selectedItem.species.schedule_no;
+
+                // // Check if the selected value already exists in the dropdown
+                // const speciesScheduleDropdown = $('#edit-modal #species_schedule-dropdown');
+
+                // // If the option already exists, just mark it as selected
+                // let optionExists = speciesScheduleDropdown.find(`option[value="${selectedValue}"]`).length > 0;
+
+                // if (optionExists) {
+                //     speciesScheduleDropdown.val(selectedValue);  // Mark the existing option as selected
+                // } else {
+                //     // If it doesn't exist, append the new option with selected attribute
+                //     speciesScheduleDropdown.append(`<option value="${selectedValue}" selected>${selectedValue}</option>`);
+                // }
+
                 $('#edit-modal #property_recovered_type-dropdown').val(selectedItem.property_recovered_type);
                 $('#edit-modal #property_recovered_details').val(selectedItem.property_recovered_details);
                 $('#edit-modal #officer_name').val(selectedItem.officer_name);
@@ -625,8 +681,8 @@ td {
             }
         });
 
-         // Handle View Details
-         $(document).on('click', '#view-details', function (e) {
+        // Handle View Details
+        $(document).on('click', '#view-details', function (e) {
             e.preventDefault();
             var id = $(this).data('id');
             
