@@ -303,12 +303,11 @@ td {
                     }
                 });
                 $('#edit-modal #investigating_agency').val("Forest Department");
-                $('#edit-modal #species_name-dropdown').append(`<option value="${selectedItem.species.id}" selected>${selectedItem.species.species_name}</option>`);
                 $('#edit-modal #species_age').val(selectedItem.species_age);
                 $('#edit-modal #species_sex-dropdown').val(selectedItem.species_sex);
                 $('#edit-modal #species_name-dropdown').append(`<option value="${selectedItem.species.id}" selected>${selectedItem.species.species_name}</option>`);
                 $('#edit-modal #species_schedule-dropdown').append(`<option value="${selectedItem.species.schedule_no}" selected>${selectedItem.species.schedule_no}</option>`);
-                $('#edit-modal #schedule_type-dropdown').append(`<option value="${selectedItem.species.species_type}" selected>${selectedItem.species.species_type}</option>`);
+                $('#edit-modal #schedule_type-dropdown').val(selectedItem.species.species_type);
                 
                 // // Assuming selectedItem.species.schedule_no contains the selected value
                 // const selectedValue = selectedItem.species.schedule_no;
