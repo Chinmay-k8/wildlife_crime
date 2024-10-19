@@ -242,10 +242,11 @@ td {
                     // console.log( selectedValue);
                    
                 });
-
+                 
                 $('#edit-modal #beat-dropdown').append(`<option value="${selectedItem.beat.id}" selected>${selectedItem.beat.name_e}</option>`);
                  
                 $('#edit-modal #case_type-dropdown').val(selectedItem.case_type);
+
                 updateCaseNumberLabel();
                 function updateCaseNumberLabel() {
                     const caseType = $('#edit-modal #case_type-dropdown').val();
