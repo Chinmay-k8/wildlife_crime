@@ -159,18 +159,12 @@ td {
             $('#edit-modal #range-dropdown').empty();       //Empty the dropdowns each time the modal loads
             $('#edit-modal #section-dropdown').empty();
             $('#edit-modal #beat-dropdown').empty();
-            $('#edit-modal #species_name-dropdown').empty();
-            $('#edit-modal #species_schedule-dropdown').empty();
-            $('#edit-modal #schedule_type-dropdown').empty();
             
             $('#edit-modal #circle-dropdown').show();       // Show text input by default
             $('#edit-modal #division-dropdown').show();
             $('#edit-modal #range-dropdown').show();
             $('#edit-modal #section-dropdown').show();
             $('#edit-modal #beat-dropdown').show();
-            $('#edit-modal #species_name-dropdown').show();
-            $('#edit-modal #species_schedule-dropdown').show();
-            $('#edit-modal #schedule_type-dropdown').show();
 
             
 
@@ -304,32 +298,58 @@ td {
                     }
                 });
                 $('#edit-modal #investigating_agency').val("Forest Department");
+                $('#schedule_type-dropdown').val(selectedItem.species.species_type);
+        
+                // 2. Set 'Schedule of Species' dropdown
+                $('#species_schedule-dropdown').val(selectedItem.species.schedule_no);
+                
+                // 3. Prepopulate the 'Species Name' dropdown with selected value
+                $('#species_name-dropdown').empty().append(`<option value="${selectedItem.species.id}" selected>${selectedItem.species.species_name}</option>`);
+                
+                $('#schedule_type-dropdown').change(function() {
+                    const scheduleType = $(this).val();
+
+                    // Reset species_schedule and species_name on schedule_type change
+                    $('#species_schedule-dropdown').empty().append('<option value="">Select Schedule</option>');
+                    $('#species_name-dropdown').empty().append('<option value="">Select Species</option>');
+
+                    // Populate species_schedule dropdown based on schedule_type
+                    if (scheduleType === 'new') {
+                        $('#species_schedule-dropdown').append('<option value="I">I</option>');
+                        $('#species_schedule-dropdown').append('<option value="II">II</option>');
+                        $('#species_schedule-dropdown').append('<option value="III">III</option>');
+                        $('#species_schedule-dropdown').append('<option value="IV">IV</option>');
+                    } else if (scheduleType === 'old') {
+                        $('#species_schedule-dropdown').append('<option value="I">I</option>');
+                        $('#species_schedule-dropdown').append('<option value="II">II</option>');
+                        $('#species_schedule-dropdown').append('<option value="III">III</option>');
+                        $('#species_schedule-dropdown').append('<option value="IV">IV</option>');
+                        $('#species_schedule-dropdown').append('<option value="V">V</option>');
+                        $('#species_schedule-dropdown').append('<option value="VI">VI</option>');
+                    }
+                });
+
+                // Change event for Schedule dropdown
+                $('#species_schedule-dropdown').change(function() {
+                    const scheduleType = $('#schedule_type-dropdown').val();
+                    const schedule = $(this).val();
+
+                    // Reset species_name dropdown
+                    $('#species_name-dropdown').empty().append('<option value="">Select Species</option>');
+
+                    // Make API call only if both scheduleType and schedule are selected
+                    if (scheduleType && schedule) {
+                        $.getJSON(`/species/${scheduleType}/${schedule}`, function(data) {
+                            $('#species_name-dropdown').append(data.map(species => `<option value="${species.id}">${species.species_name}</option>`));
+                        });
+                    }
+                });
                 $('#edit-modal #species_age').val(selectedItem.species_age);
                 $('#edit-modal #species_sex-dropdown').val(selectedItem.species_sex);
-                $('#edit-modal #species_name-dropdown').append(`<option value="${selectedItem.species.id}" selected>${selectedItem.species.species_name}</option>`);
-                $('#edit-modal #species_schedule-dropdown').append(`<option value="${selectedItem.species.schedule_no}" selected>${selectedItem.species.schedule_no}</option>`);
-                $('#edit-modal #schedule_type-dropdown').val(selectedItem.species.species_type);
-                
-                // // Assuming selectedItem.species.schedule_no contains the selected value
-                // const selectedValue = selectedItem.species.schedule_no;
-
-                // // Check if the selected value already exists in the dropdown
-                // const speciesScheduleDropdown = $('#edit-modal #species_schedule-dropdown');
-
-                // // If the option already exists, just mark it as selected
-                // let optionExists = speciesScheduleDropdown.find(`option[value="${selectedValue}"]`).length > 0;
-
-                // if (optionExists) {
-                //     speciesScheduleDropdown.val(selectedValue);  // Mark the existing option as selected
-                // } else {
-                //     // If it doesn't exist, append the new option with selected attribute
-                //     speciesScheduleDropdown.append(`<option value="${selectedValue}" selected>${selectedValue}</option>`);
-                // }
-
                 $('#edit-modal #property_recovered_type-dropdown').val(selectedItem.property_recovered_type);
                 $('#edit-modal #property_recovered_details').val(selectedItem.property_recovered_details);
-                $('#edit-modal #officer_name').val(selectedItem.officer_name);
-                $('#edit-modal #officer_number').val(selectedItem.officer_number);
+                $('#edit-modal #officer_name').val(selectedItem.in_officer_name);
+                $('#edit-modal #officer_number').val(selectedItem.in_officer_mobile);
                 $('#edit-modal #brief_fact').val(selectedItem.brief_fact);
                 $('#edit-modal #court_forward_date').val(selectedItem.court_forward_date);
                 $('#edit-modal #court_name').val(selectedItem.court_name);

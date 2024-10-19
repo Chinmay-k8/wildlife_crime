@@ -187,30 +187,44 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                         <label for="species_age">Age of the Species</label>
-                                        <input type="text" id="species_age" name="species_age" class="form-control" readonly>
+                                        <input type="text" id="species_age" name="species_age" class="form-control">
                                 </div> 
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                         <label for="species_sex">Sex Of the Species</label>
-                                        <input type="text" id="species_sex" name="species_sex" class="form-control" readonly>
+                                        <select id="species_sex-dropdown" name="species_sex" class="form-control" required>
+                                            <option value="">Select Sex</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
                                 </div> 
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="property_recovered_type">Property Recovered Type</label>
-                                    <input type="text" id="property_recovered_type" name="property_recovered_type" class="form-control" readonly>
+                                        <label for="property_recovered_type">Property Recovered Type</label>
+                                        <select id="property_recovered_type-dropdown" name="property_recovered_type" class="form-control" >
+                                            <option value="">Select Type</option>
+                                            <option value="Live_animal">Live animal</option>
+                                            <option value="Meat">Meat</option>
+                                            <option value="Carcass">Carcass</option>
+                                            <option value="Body_parts">Body parts</option>
+                                            <option value="Arms_and_Ammunition">Arms and Ammunition</option>
+                                            <option value="GI_wire">Tool</option>
+                                            <option value="Vehicles">Vehicles</option>
+                                            <option value="Other_Material">Other Material</option>
+                                        </select>
                                 </div> 
                             </div>
                         </div>
                         <div class="row">
                             <div class="col md-6">
                                 <label for="briefFact" class="col-sm-2 col-form-label">Property recovered details:</label>                            
-                                <input type="text" id="property_recovered_details" name="property_recovered_details" class="form-control" readonly>
+                                <input type="text" id="property_recovered_details" name="property_recovered_details" class="form-control">
                             </div>
                             <div class="col md-6">
                                 <label for="brief_fact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
-                                <input type="text" id="brief_fact" name="brief_fact" class="form-control" readonly>
+                                <input type="text" id="brief_fact" name="brief_fact" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -234,31 +248,6 @@
                                 <div class="col-sm-10">
                                     <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;" ></textarea>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <h5>Accused Detail</h5>
-                                <table class="table table-bordered" id="accused-details-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Alias</th>
-                                            <th>Father's Name</th>
-                                            <th>Address</th>
-                                            <th><img src="{{ asset('assets/images/users/add.png') }}" alt="Add More" id="add-row" style="cursor: pointer; width: 24px;"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="text" name="accused[0][name]" class="form-control"></td>
-                                            <td><input type="text" name="accused[0][alias]" class="form-control"></td>
-                                            <td><input type="text" name="accused[0][father_name]" class="form-control"></td>
-                                            <td><input type="text" name="accused[0][address]" class="form-control"></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                         <div class="row">
