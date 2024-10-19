@@ -353,6 +353,22 @@ td {
                 $('#edit-modal #brief_fact').val(selectedItem.brief_fact);
                 $('#edit-modal #court_forward_date').val(selectedItem.court_forward_date);
                 $('#edit-modal #court_name').val(selectedItem.court_name);
+                 // Function to populate the case fields
+                function populateCaseFields(selectedItem) {
+                    const caseNumberPattern = /2\(b\) CC No\. (\d+) of (\d+)/;
+                    const match = selectedItem.court_case_number.match(caseNumberPattern);
+
+                    if (match) {
+                        const casePart1 = match[1]; // e.g., 132
+                        const caseYear = match[2];  // e.g., 2005
+
+                        // Populate the inputs
+                        $('#case_part_1').val(casePart1);
+                        $('#case_year').val(caseYear);
+                    }
+                }
+                // Call the function to prepopulate the fields
+                populateCaseFields(selectedItem);
                 $('#edit-modal #court_case_number').val(selectedItem.court_case_number);
                 $('#edit-modal #pr_number').val(selectedItem.pr_number);
                 $('#edit-modal #pr_date').val(selectedItem.pr_date);
@@ -424,6 +440,86 @@ td {
                 //     checkRowCount1();
                 // });
 
+                // Prepopulate the form with fetched data
+function populateAbscondedAccusedDetails(selectedItem) {
+    const detectedOption = selectedItem.detected_absconded_accused_option; // 'Yes' or 'No'
+    const numAccused = selectedItem.no_of_detected_absconded_accused; // e.g., 3
+    const accusedDetails = selectedItem.absconded_accused || []; // Array of accused names
+
+    // Set 'Yes' or 'No' in the dropdown
+    document.getElementById('detected_absconded_accused_option').value = detectedOption;
+
+    // If 'Yes' is selected, display number and populate the table
+    if (detectedOption === 'Yes') {
+        document.getElementById('absconded-accused-count-container').style.display = 'block';
+        document.getElementById('absconded-accused-table-container').style.display = 'block';
+        document.getElementById('no_of_detected_absconded_accused').value = numAccused;
+        
+        generateTableRows(numAccused, accusedDetails);
+    }
+}
+
+function generateTableRows(count, accusedDetails) {
+    const tableBody = document.getElementById('absconded-accused-table-body');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    for (let index = 0; index < count; index++) {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        const input = document.createElement('input');
+
+        input.type = 'text';
+        input.name = `absconded_accused[${index}][accused_name]`;
+        input.classList.add('form-control');
+        input.placeholder = 'Enter Accused Name';
+
+        // If accused details are available, prepopulate the input field
+        if (accusedDetails[index]) {
+            input.value = accusedDetails[index].accused_name;
+        }
+
+        cell.appendChild(input);
+        row.appendChild(cell);
+        tableBody.appendChild(row);
+    }
+}
+
+// Event listener for 'Yes/No' dropdown change
+document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
+    const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
+    const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
+    const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');
+
+    if (this.value === 'Yes') {
+        abscondedAccusedContainer.style.display = 'block';
+        detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+        abscondedAccusedDropdown.value = '';
+    } else {
+        abscondedAccusedContainer.style.display = 'none';
+        detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+        resetTable(); // Reset table when 'No' is selected
+    }
+});
+
+// Event listener for number of accused change
+document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
+    const tableContainer = document.getElementById('absconded-accused-table-container');
+    const numAccused = parseInt(this.value);
+    
+    if (numAccused > 0) {
+        tableContainer.style.display = 'block';
+        generateTableRows(numAccused, []); // Blank rows for new input
+    } else {
+        tableContainer.style.display = 'none';
+    }
+});
+
+function resetTable() {
+    document.getElementById('absconded-accused-table-body').innerHTML = '';
+    document.getElementById('absconded-accused-table-container').style.display = 'none';
+}
+
+populateAbscondedAccusedDetails(selectedItem);
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
                 function checkRowCount2() {
@@ -500,7 +596,7 @@ td {
                     var index = $('#edit-modal #arrested-accused-details-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" value="${arrested_accused.name}" class="form-control"></td>
+                            <td><input type="text" value="${arrested_accused.accused_name}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" id="delete-acc2" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #arrested-accused-details-table tbody').append(newRow);
@@ -552,8 +648,8 @@ td {
                     var index = $('#edit-modal #nbw-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.name}" class="form-control"></td>
-                            <td><input type="text" name="nbw_accused[${index}][status]" value="${nbw_accused.status}" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.accused_name}" class="form-control"></td>
+                            <td><input type="text" name="nbw_accused[${index}][status]" value="${nbw_accused.nbw_status}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #nbw-accused-table tbody').append(newRow);
@@ -606,8 +702,8 @@ td {
                     var index = $('#edit-modal #released-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" name="released_accused[${index}][name]" value="${released_accused.name}" class="form-control"></td>
-                            <td><input type="date" name="released_accused[${index}][date]" value="${released_accused.date}" class="form-control"></td>
+                            <td><input type="text" name="released_accused[${index}][name]" value="${released_accused.accused_name}" class="form-control"></td>
+                            <td><input type="date" name="released_accused[${index}][date]" value="${released_accused.bail_date}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
                     $('#edit-modal #released-accused-table tbody').append(newRow);

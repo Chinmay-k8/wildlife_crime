@@ -243,14 +243,6 @@
                                 </div>
                         </div>
                         <div class="row">
-                            <div class="col md-12">
-                                <label for="brief_fact" class="col-sm-2 col-form-label">Brief Fact / Cause of death:</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" id="brief_fact" name="brief_fact" rows="6" style="resize: none;" ></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-12">
                                 <h5>Mobiles recovered</h5>
                                 <table class="table table-bordered" id="mobiles-recovered-table">
@@ -290,6 +282,49 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row mt-4">
+                            <div class="col-md-12" id="detected-absconded-accused-container">
+                                <div class="form-group">
+                                    <label for="detected_absconded_accused_option">Absconded Accused Detected if any</label>
+                                    <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="absconded-accused-count-container" style="display: none;">
+                                <div class="form-group">
+                                    <label for="no_of_detected_absconded_accused">No of Absconded Accused Detected</label>
+                                    <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4" id="absconded-accused-table-container" style="display: none;">
+                            <div class="col-12">    
+                                <h5>Absconded Accused Detail</h5>
+                                <table class="table table-bordered" id="absconded-accused-details-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Accused Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="absconded-accused-table-body">
+                                        <!-- Rows will be dynamically inserted here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -305,8 +340,21 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="court_case_number">Case (2bcc) number</label>
-                                    <input type="text" id="court_case_number" name="court_case_number" class="form-control" >
+                                    <label for="court_case_number">Case (2(b) CC/No.) number</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">2(b) CC No</span>
+                                        <input type="text" id="case_part_1" name="case_part_1" maxlength="3" class="form-control" required>
+                                        <span class="input-group-text">of</span>
+                                        <select id="case_year" name="case_year" class="form-control" required>
+                                            <option value="">Select Year</option>
+                                            <?php
+                                            $currentYear = date('Y');
+                                            for ($year = 2000; $year <= $currentYear; $year++) {
+                                                echo "<option value=\"$year\">$year</option>";
+                                            }
+                                            ?>  
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
