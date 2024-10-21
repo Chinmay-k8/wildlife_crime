@@ -282,49 +282,83 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row mt-4">
-                            <div class="col-md-12" id="detected-absconded-accused-container">
-                                <div class="form-group">
-                                    <label for="detected_absconded_accused_option">Absconded Accused Detected if any</label>
-                                    <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
-                                        <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6" id="absconded-accused-count-container" style="display: none;">
-                                <div class="form-group">
-                                    <label for="no_of_detected_absconded_accused">No of Absconded Accused Detected</label>
-                                    <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-4" id="absconded-accused-table-container" style="display: none;">
-                            <div class="col-12">    
-                                <h5>Absconded Accused Detail</h5>
-                                <table class="table table-bordered" id="absconded-accused-details-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Accused Name</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="absconded-accused-table-body">
-                                        <!-- Rows will be dynamically inserted here -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <div class="row">
+    <!-- Absconded Accused Detected -->
+    <div class="col-md-12" id="detected-accused-section">
+        <div class="form-group">
+            <label for="detected_absconded_accused_option">Absconded Accused Detected if any</label>
+            <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6" id="absconded-accused-section" style="display: none;">
+        <div class="form-group">
+            <label for="no_of_detected_absconded_accused">No of Absconded Accused Detected</label>
+            <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+    </div>
+</div>
+<!-- This section will be hidden/shown based on the condition -->
+<div class="row" id="absconded-accused-table-row" style="display: none;">
+    <!-- Absconded Accused Detail Table -->
+    <div class="col-12">
+        <h5>Absconded Accused Detail</h5>
+        <table class="table table-bordered" id="absconded-accused-details-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="absconded_accused[0][accused_name]" class="form-control"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-12" id="edit-undetected-absconded-accused-container">
+        <div class="form-group">
+            <label for="edit_undetected_absconded_accused_option">Absconded Accused Undetected if any</label>
+            <select id="edit_undetected_absconded_accused_option" name="edit_undetected_absconded_accused_option" class="form-control" required>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6" id="edit-undetected-absconded-accused-count-container" style="display:none;">
+        <div class="form-group">
+            <label for="edit_no_of_undetected_absconded_accused">No of Undetected Absconded Accused</label>
+            <select id="edit_no_of_undetected_absconded_accused" name="edit_no_of_undetected_absconded_accused" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+    </div>
+</div>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">

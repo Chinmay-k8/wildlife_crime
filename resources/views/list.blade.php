@@ -441,26 +441,38 @@ td {
                 // });
 
                 // Prepopulate the form with fetched data
-function populateAbscondedAccusedDetails(selectedItem) {
+                function populateAbscondedAccusedDetails(selectedItem) {
     const detectedOption = selectedItem.detected_absconded_accused_option; // 'Yes' or 'No'
     const numAccused = selectedItem.no_of_detected_absconded_accused; // e.g., 3
     const accusedDetails = selectedItem.absconded_accused || []; // Array of accused names
 
     // Set 'Yes' or 'No' in the dropdown
-    document.getElementById('detected_absconded_accused_option').value = detectedOption;
+    const detectedOptionDropdown = document.getElementById('detected_absconded_accused_option');
+    detectedOptionDropdown.value = detectedOption;
 
     // If 'Yes' is selected, display number and populate the table
     if (detectedOption === 'Yes') {
-        document.getElementById('absconded-accused-count-container').style.display = 'block';
-        document.getElementById('absconded-accused-table-container').style.display = 'block';
+        document.getElementById('absconded-accused-section').style.display = 'block';
+        document.getElementById('absconded-accused-table-row').style.display = 'block';
         document.getElementById('no_of_detected_absconded_accused').value = numAccused;
         
+        // Populate the table with accused details
         generateTableRows(numAccused, accusedDetails);
+
+        // Adjust layout
+        document.getElementById('detected-accused-section').classList.replace('col-md-12', 'col-md-6');
+    } else {
+        // If 'No', hide the sections
+        document.getElementById('absconded-accused-section').style.display = 'none';
+        document.getElementById('absconded-accused-table-row').style.display = 'none';
+        document.getElementById('detected-accused-section').classList.replace('col-md-6', 'col-md-12');
+        
+        resetTable();
     }
 }
 
 function generateTableRows(count, accusedDetails) {
-    const tableBody = document.getElementById('absconded-accused-table-body');
+    const tableBody = document.getElementById('absconded-accused-details-table').querySelector('tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     for (let index = 0; index < count; index++) {
@@ -486,40 +498,86 @@ function generateTableRows(count, accusedDetails) {
 
 // Event listener for 'Yes/No' dropdown change
 document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
-    const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
-    const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
+    const abscondedAccusedSection = document.getElementById('absconded-accused-section');
+    const detectedAccusedSection = document.getElementById('detected-accused-section');
     const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');
 
     if (this.value === 'Yes') {
-        abscondedAccusedContainer.style.display = 'block';
-        detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
-        abscondedAccusedDropdown.value = '';
+        abscondedAccusedSection.style.display = 'block';
+        detectedAccusedSection.classList.replace('col-md-12', 'col-md-6');
+        abscondedAccusedDropdown.value = ''; // Reset count when 'Yes' is selected
     } else {
-        abscondedAccusedContainer.style.display = 'none';
-        detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+        abscondedAccusedSection.style.display = 'none';
+        detectedAccusedSection.classList.replace('col-md-6', 'col-md-12');
         resetTable(); // Reset table when 'No' is selected
     }
 });
 
 // Event listener for number of accused change
 document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
-    const tableContainer = document.getElementById('absconded-accused-table-container');
+    const tableRow = document.getElementById('absconded-accused-table-row');
     const numAccused = parseInt(this.value);
     
     if (numAccused > 0) {
-        tableContainer.style.display = 'block';
+        tableRow.style.display = 'block';
         generateTableRows(numAccused, []); // Blank rows for new input
     } else {
-        tableContainer.style.display = 'none';
+        tableRow.style.display = 'none';
     }
 });
 
 function resetTable() {
-    document.getElementById('absconded-accused-table-body').innerHTML = '';
-    document.getElementById('absconded-accused-table-container').style.display = 'none';
+    document.getElementById('absconded-accused-details-table').querySelector('tbody').innerHTML = ''; // Clear the table
+    document.getElementById('absconded-accused-table-row').style.display = 'none';
 }
 
+// Initialize the modal with selected item details
 populateAbscondedAccusedDetails(selectedItem);
+
+// Variables pointing to the modal elements
+const editUndetectedAccusedOption = document.getElementById('edit_undetected_absconded_accused_option');
+const editUnabscondedAccusedContainer = document.getElementById('edit-undetected-absconded-accused-count-container');
+const editUndetectedAccusedContainer = document.getElementById('edit-undetected-absconded-accused-container');
+const editUnabscondedAccusedDropdown = document.getElementById('edit_no_of_undetected_absconded_accused');
+
+// Function to update visibility based on 'Yes' or 'No' selection
+function updateEditAbscondedAccusedDisplay(){
+    if (editUndetectedAccusedOption.value === 'Yes') {
+        editUnabscondedAccusedContainer.style.display = 'block';
+        editUndetectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+    } else {
+        editUnabscondedAccusedContainer.style.display = 'none';
+        editUndetectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+        editUnabscondedAccusedDropdown.value = '';  // Clear the previously selected value when 'No' is selected
+    }
+}
+
+// Function to populate the form with fetched data
+function populateEditUndetectedAbscondedAccusedDetails(selectedItem) {
+    const undetectedOption = selectedItem.undetected_absconded_accused_option; // Fetch the option (Yes/No)
+    const numUndetectedAccused = selectedItem.no_of_undetected_absconded_accused; // Fetch the number of accused
+
+    // Set the value of the 'Yes' or 'No' dropdown
+    editUndetectedAccusedOption.value = undetectedOption;
+
+    // Show/Hide the number dropdown based on the value of 'Yes' or 'No'
+    if (undetectedOption === 'Yes') {
+        editUnabscondedAccusedContainer.style.display = 'block';
+        editUndetectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+        editUnabscondedAccusedDropdown.value = numUndetectedAccused; // Set the number of accused if fetched
+    } else {
+        editUnabscondedAccusedContainer.style.display = 'none';
+        editUndetectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+        editUnabscondedAccusedDropdown.value = ''; // Reset dropdown if 'No' is selected
+    }
+}
+
+// Listen for changes in the dropdown and update accordingly
+editUndetectedAccusedOption.addEventListener('change', updateEditAbscondedAccusedDisplay);
+
+// Call this function when the modal opens to populate data from the selectedItem object
+populateEditUndetectedAbscondedAccusedDetails(selectedItem);
+
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
                 function checkRowCount2() {
@@ -648,7 +706,7 @@ populateAbscondedAccusedDetails(selectedItem);
                     var index = $('#edit-modal #nbw-accused-table tbody tr').length;
                     var newRow = `
                         <tr>
-                            <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.accused_name}" class="form-control"></td>
+                             <td><input type="text" name="nbw_accused[${index}][name]" value="${nbw_accused.accused_name}" class="form-control"></td>
                             <td><input type="text" name="nbw_accused[${index}][status]" value="${nbw_accused.nbw_status}" class="form-control"></td>
                             <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
                         </tr>`;
