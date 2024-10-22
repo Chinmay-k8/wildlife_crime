@@ -578,6 +578,77 @@ editUndetectedAccusedOption.addEventListener('change', updateEditAbscondedAccuse
 // Call this function when the modal opens to populate data from the selectedItem object
 populateEditUndetectedAbscondedAccusedDetails(selectedItem);
 
+// Variables to handle the edit modal's additional PR section
+const editAdditionalPrOption = document.getElementById('edit_additional_pr_option');
+const editAdditionalPrContainer = document.getElementById('edit_additional-pr-container');
+const editAdditionalPrTableBody = document.getElementById('edit_additional_pr_table_body');
+
+// Function to display/hide the additional PR table and populate the data
+function updateEditAdditionalPrDisplay() {
+    if (editAdditionalPrOption.value === 'Yes') {
+        editAdditionalPrContainer.style.display = 'block'; // Show the PR table
+    } else {
+        editAdditionalPrContainer.style.display = 'none'; // Hide the PR table
+        clearEditPrTable(); // Optionally clear the table when hiding it
+    }
+}
+
+// Function to populate the additional PR table with fetched data (from backend)
+function populateEditAdditionalPrDetails(prData) {
+    if (prData && prData.length > 0) {
+        prData.forEach((pr, index) => {
+            addEditPrRow(index, pr.number, pr.date, pr.status); // Populate each row
+        });
+    }
+}
+
+// Function to dynamically add a row for additional PR
+function addEditPrRow(index, number = '', date = '', status = '') {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td><input type="text" name="additional_pr[${index}][number]" class="form-control" value="${number}" placeholder="Enter PR Number"></td>
+        <td><input type="date" name="additional_pr[${index}][date]" class="form-control" value="${date}" max="${new Date().toISOString().split('T')[0]}"></td>
+        <td><input type="text" name="additional_pr[${index}][status]" class="form-control" value="${status}" placeholder="Enter Status"></td>
+        <td><button type="button" class="btn btn-sm btn-danger" onclick="removeEditPrRow(this)">Remove</button></td>
+    `;
+    editAdditionalPrTableBody.appendChild(newRow);
+}
+
+// Event listener for adding a new row
+document.getElementById('edit_add-pr-row').addEventListener('click', function () {
+    const index = editAdditionalPrTableBody.children.length;
+    addEditPrRow(index); // Add blank row for new entry
+});
+
+// Function to remove a PR row
+function removeEditPrRow(button) {
+    const row = button.closest('tr');
+    row.remove(); // Remove the selected row
+    updatePrInputNames(); // Update input names after removing
+}
+
+// Function to update input names after rows are modified
+function updatePrInputNames() {
+    const rows = editAdditionalPrTableBody.children;
+    Array.from(rows).forEach((row, index) => {
+        row.querySelectorAll('input').forEach(input => {
+            const name = input.name.replace(/\[\d+\]/, `[${index}]`);
+            input.name = name; // Update the index in the name
+        });
+    });
+}
+
+// Function to clear all rows from the PR table
+function clearEditPrTable() {
+    editAdditionalPrTableBody.innerHTML = ''; // Clear all rows
+}
+
+// Event listener to show/hide the additional PR table based on the selected option
+editAdditionalPrOption.addEventListener('change', updateEditAdditionalPrDisplay);
+
+// Call this function to populate the edit modal with data
+populateEditAdditionalPrDetails(selectedItem.additional_pr);
+
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
                 function checkRowCount2() {

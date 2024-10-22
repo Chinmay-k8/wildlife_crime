@@ -436,25 +436,56 @@
                         </div>
                         <div class="row">
                             <h5>Submission of final PR</h5>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="officer_name">Final PR number</label>
                                     <input type="text" id="pr_number" name="pr_number" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pr_date">Date</label>
                                     <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}" >
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="pr_status">Status</label>
                                     <input type="text" id="pr_status" name="pr_status" class="form-control" >
                                 </div>
                             </div>
+                            <div class="col-3">
+    <div class="form-group">
+        <label for="edit_additional_pr_option">Additional PR if any</label>
+        <select id="edit_additional_pr_option" name="edit_additional_pr_option" class="form-control" required>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+    </div>
+</div>
                         </div>
+                        <div class="row mt-4" id="edit_additional-pr-container" style="display: none;">
+    <div class="col-12">
+        <h5>Submission of Additional PR</h5>
+        <table class="table table-bordered" id="edit_additional-pr-table">
+            <thead>
+                <tr>
+                    <th>PR Number</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>
+                        <button id="edit_add-pr-row" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                            Add More
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="edit_additional_pr_table_body">
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
                         <div class="row">
                             <div class="col md-6">
                                 <div class="form-group">
