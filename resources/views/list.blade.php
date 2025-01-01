@@ -141,6 +141,238 @@ td {
         $.getJSON('circles', function(data) {
             circleData = data;  // Store the circle data for future use
         });
+         // Handle View Details
+        $(document).on('click', '#view-details', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            
+            // Find the selected record from the fetched data
+            var selectedItem = fetchedData.find(item => item.id === id);
+
+            // Populate the modal with the selected item details
+            if (selectedItem) {
+                console.log(selectedItem);
+
+                $('#view-full-width-modal #case_no').val(selectedItem.case_no);
+                $('#view-full-width-modal #circle').val(selectedItem.circle ? selectedItem.circle.name_e : '');
+                $('#view-full-width-modal #division').val(selectedItem.division ? selectedItem.division.name_e : '');
+                $('#view-full-width-modal #range').val(selectedItem.range ? selectedItem.range.name_e : '');
+                $('#view-full-width-modal #section').val(selectedItem.section ? selectedItem.section.name_e : '');
+                $('#view-full-width-modal #beat').val(selectedItem.beat ? selectedItem.beat.name_e : '');
+                $('#view-full-width-modal #case_type').val(selectedItem.case_type);
+                $('#view-full-width-modal #case_no').val(selectedItem.case_no);
+                $('#view-full-width-modal #penal_code').val(selectedItem.penal_code);
+                $('#view-full-width-modal #detection_place_type').val(selectedItem.detection_place_type);
+                $('#view-full-width-modal #detection_place').val(selectedItem.detection_place);
+                $('#view-full-width-modal #case_date').val(selectedItem.case_date);
+                $('#view-full-width-modal #detection_date').val(selectedItem.detection_date);
+                $('#view-full-width-modal #latitude').val(selectedItem.latitude);
+                $('#view-full-width-modal #longitude').val(selectedItem.longitude);
+                $('#view-full-width-modal #detection_agency').val(selectedItem.detection_agency);
+                $('#view-full-width-modal #investigating_agency').val("Forest Department");
+                if (selectedItem.species) {
+                    // If species is not null, populate the values from the species object
+                    $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);
+                    $('#view-full-width-modal #species_schedule').val(selectedItem.species.schedule_no);
+                    $('#view-full-width-modal #species_name').val(selectedItem.species.species_name);
+                } else {
+                    // If species is null, use values from the selectedItem directly
+                    $('#view-full-width-modal #schedule_type').val(selectedItem.species_name); 
+                    $('#view-full-width-modal #species_schedule').val(selectedItem.species_schedule); 
+                    $('#view-full-width-modal #species_name').val("old"); 
+                }
+                $('#view-full-width-modal #species_age').val(selectedItem.species_age);
+                $('#view-full-width-modal #species_sex').val(selectedItem.species_sex);
+                $('#view-full-width-modal #property_recovered_type').val(selectedItem.property_recovered_type);
+                $('#view-full-width-modal #property_recovered_details').val(selectedItem.property_recovered_details);
+                $('#view-full-width-modal #officer_name').val(selectedItem.in_officer_name);
+                $('#view-full-width-modal #officer_number').val(selectedItem.in_officer_mobile);
+                $('#view-full-width-modal #brief_fact').val(selectedItem.brief_fact);
+                $('#view-full-width-modal #detected_absconded_accused_option').val(selectedItem.detected_absconded_accused_option);
+
+                // Check if the value is "Yes"
+                if (selectedItem.detected_absconded_accused_option === "Yes") {
+                    // Show the "No of Absconded Accused Detected" section and the table
+                    $('#absconded-accused-section').show();
+                    $('#absconded-accused-table-row').show();
+
+                    // Set the value for no_of_detected_absconded_accused
+                    $('#view-full-width-modal #no_of_detected_absconded_accused').val(selectedItem.no_of_detected_absconded_accused);
+
+                    // Clear any existing rows in the table
+                    $('#view-full-width-modal #absconded-accused-details-table tbody').empty();
+
+                    // Loop through absconded_accused and append rows to the table
+                    selectedItem.absconded_accused.forEach((absconded_accused, index) => {
+                        var newRow = `
+                            <tr>
+                                <td><input type="text" value="${absconded_accused.accused_name}" class="form-control" readonly></td>
+                            </tr>`;
+                        $('#view-full-width-modal #absconded-accused-details-table tbody').append(newRow);
+                    });
+
+                    // Adjust the layout of the "Absconded Accused Detected if any" div to take up half the width (col-md-6)
+                    $('#detected-accused-section').removeClass('col-md-12').addClass('col-md-6');
+
+                } else {
+                    // Hide the "No of Absconded Accused Detected" section and the table
+                    $('#view-full-width-modal #absconded-accused-section').hide();
+                    $('#view-full-width-modal #absconded-accused-table-row').hide();
+
+                    // Make the "Absconded Accused Detected if any" div take the full width (col-md-12)
+                    $('#view-full-width-modal #detected-accused-section').removeClass('col-md-6').addClass('col-md-12');
+                }
+                $('#view-full-width-modal #undetected_absconded_accused_option').val(selectedItem.undetected_absconded_accused_option);
+                if(selectedItem.undetected_absconded_accused_option === "Yes"){
+                    $('#view-full-width-modal #un-absconded-accused-section').show();
+                    $('#view-full-width-modal #no_of_undetected_absconded_accused').val(selectedItem.no_of_undetected_absconded_accused);
+                    $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-12').addClass('col-md-6');
+                }
+                else{
+                    $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-6').addClass('col-md-12');
+                }
+
+                $('#view-full-width-modal #additional_pr_option').val(selectedItem.additional_pr_option);
+                if (selectedItem.additional_pr_option === "Yes") {
+                    $('#view-full-width-modal #additional-pr-table-row').show();
+                    
+                    // Clear any existing rows in the table
+                    $('#view-full-width-modal #additional-pr-table tbody').empty();
+
+                    // Loop through additionalpr and append rows to the table
+                    selectedItem.additionalpr.forEach((additionalpr, index) => {
+                        var newRow = `
+                            <tr>
+                                <td><input type="text" value="${additionalpr.number}" class="form-control" readonly></td>
+                                <td><input type="text" value="${additionalpr.date}" class="form-control" readonly></td>
+                                <td><input type="text" value="${additionalpr.status}" class="form-control" readonly></td>
+                            </tr>`;
+                        $('#view-full-width-modal #additional-pr-table tbody').append(newRow);
+                    });
+
+                } else {
+                    $('#view-full-width-modal #additional-pr-table-row').hide();
+                }
+                
+                $('#view-full-width-modal #court_forward_date').val(selectedItem.court_forward_date);
+                $('#view-full-width-modal #court_name').val(selectedItem.court_name);
+                $('#view-full-width-modal #court_case_number').val(selectedItem.court_case_number);
+                $('#view-full-width-modal #pr_number').val(selectedItem.pr_number);
+                $('#view-full-width-modal #pr_date').val(selectedItem.pr_date);
+                $('#view-full-width-modal #pr_status').val(selectedItem.pr_status);
+                $('#view-full-width-modal #action_against_staff').val(selectedItem.action_against_staff);
+                $('#view-full-width-modal #case_present_status').val(selectedItem.case_present_status);
+                
+                // $('#view-full-width-modal #accused-details-table tbody').empty();
+                // selectedItem.accused.forEach((accused, index) => {
+                //     var newRow = `
+                //         <tr>
+                //             <td><input type="text" value="${accused.name}" class="form-control" readonly></td>
+                //             <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control" readonly></td>
+                //             <td><input type="text" value="${accused.father_name}" class="form-control" readonly></td>
+                //             <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control" readonly></td>
+                //         </tr>`;
+                //     $('#accused-details-table tbody').append(newRow);
+                // });
+
+                $('#view-full-width-modal #mobiles-recovered-table tbody').empty();
+                selectedItem.accused_mobiles.forEach((accused_mobiles, index) => {
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" value="${accused_mobiles.mobile_no}" class="form-control" readonly></td>
+                            <td><input type="text" value="${accused_mobiles.imei_no}" class="form-control" readonly></td>
+                        </tr>`;
+                    $('#mobiles-recovered-table tbody').append(newRow);
+                });
+
+                $('#view-full-width-modal #arrested-accused-details-table tbody').empty();
+                selectedItem.arrested_accused.forEach((arrested_accused, index) => {
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" value="${arrested_accused.accused_name}" class="form-control" readonly></td>
+                        </tr>`;
+                    $('#arrested-accused-details-table tbody').append(newRow);
+                });
+
+                $('#view-full-width-modal #nbw-accused-table tbody').empty();
+                selectedItem.nbw_accused.forEach((nbw_accused, index) => {
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" value="${nbw_accused.accused_name}" class="form-control" readonly></td>
+                            <td><input type="text" value="${nbw_accused.nbw_status}" class="form-control" readonly></td>
+                        </tr>`;
+                    $('#nbw-accused-table tbody').append(newRow);
+                });
+
+                $('#view-full-width-modal #released-accused-table tbody').empty();
+                selectedItem.released_accused.forEach((released_accused, index) => {
+                    var newRow = `
+                        <tr>
+                            <td><input type="text" value="${released_accused.accused_name}" class="form-control" readonly></td>
+                            <td><input type="date" value="${released_accused.bail_date}" class="form-control" readonly></td>
+                        </tr>`;
+                    $('#released-accused-table tbody').append(newRow);
+                });
+
+                // Use the Laravel route helper to generate URLs for the download route
+                const baseUrl = '{{ url("download") }}';
+
+                if (selectedItem.uploads && selectedItem.uploads.length > 0) {
+                    const upload = selectedItem.uploads[0]; // Assuming only one set of uploads per form
+
+                    // Populate Post Mortem Report
+                    if (upload.post_mortem_report) {
+                        $('#view-full-width-modal #post_mortem_report_container').html(`
+                            <a href="${baseUrl}/post-mortem-report/${upload.post_mortem_report}" target="_blank">${upload.post_mortem_report}</a>
+                        `);
+                    } else {
+                        $('#view-full-width-modal #post_mortem_report_container').text('No document uploaded');
+                    }
+
+                    // Populate Electrical Inspector Report
+                    if (upload.electrical_inspector_report) {
+                        $('#view-full-width-modal #electrical_inspector_report_container').html(`
+                            <a href="${baseUrl}/electrical-inspector-report/${upload.electrical_inspector_report}" target="_blank">${upload.electrical_inspector_report}</a>
+                        `);
+                    } else {
+                        $('#view-full-width-modal #electrical_inspector_report_container').text('No document uploaded');
+                    }
+
+                    // Populate Laboratory Report
+                    if (upload.laboratory_report) {
+                        $('#view-full-width-modal #lab_report_container').html(`
+                            <a href="${baseUrl}/laboratory-report/${upload.laboratory_report}" target="_blank">${upload.laboratory_report}</a>
+                        `);
+                    } else {
+                        $('#view-full-width-modal #lab_report_container').text('No document uploaded');
+                    }
+
+                    // Populate Court Judgement
+                    if (upload.court_judgement) {
+                        $('#view-full-width-modal #court_judgement_container').html(`
+                            <a href="${baseUrl}/court-judgement/${upload.court_judgement}" target="_blank">${upload.court_judgement}</a>
+                        `);
+                    } else {
+                        $('#view-full-width-modal #court_judgement_container').text('No document uploaded');
+                    }
+                } else {
+                    // If no uploads data exists
+                    $('#view-full-width-modal #post_mortem_report_container').text('No document uploaded');
+                    $('#view-full-width-modal #electrical_inspector_report_container').text('No document uploaded');
+                    $('#view-full-width-modal #lab_report_container').text('No document uploaded');
+                    $('#view-full-width-modal #court_judgement_container').text('No document uploaded');
+                }
+
+                // Show the modal
+                $('#view-full-width-modal').modal('show');
+                const caseType = $('#view-full-width-modal #case_type').val(); 
+                const label = caseType ? caseType + ' Case Number' : 'Case Number';
+                $('#view-full-width-modal #case_no_label').text(label); 
+            } else {
+                alert('Error: Record not found.');
+            }
+            
+        });
         // When the Edit Details button is clicked
         $(document).on('click', '#edit-details', function (e) {
             
@@ -441,85 +673,85 @@ td {
                 // });
 
                 // Prepopulate the form with fetched data
-function populateAbscondedAccusedDetails(selectedItem) {
-    const detectedOption = selectedItem.detected_absconded_accused_option; // 'Yes' or 'No'
-    const numAccused = selectedItem.no_of_detected_absconded_accused; // e.g., 3
-    const accusedDetails = selectedItem.absconded_accused || []; // Array of accused names
+        function populateAbscondedAccusedDetails(selectedItem) {
+            const detectedOption = selectedItem.detected_absconded_accused_option; // 'Yes' or 'No'
+            const numAccused = selectedItem.no_of_detected_absconded_accused; // e.g., 3
+            const accusedDetails = selectedItem.absconded_accused || []; // Array of accused names
 
-    // Set 'Yes' or 'No' in the dropdown
-    document.getElementById('detected_absconded_accused_option').value = detectedOption;
+            // Set 'Yes' or 'No' in the dropdown
+            document.getElementById('detected_absconded_accused_option').value = detectedOption;
 
-    // If 'Yes' is selected, display number and populate the table
-    if (detectedOption === 'Yes') {
-        document.getElementById('absconded-accused-count-container').style.display = 'block';
-        document.getElementById('absconded-accused-table-container').style.display = 'block';
-        document.getElementById('no_of_detected_absconded_accused').value = numAccused;
-        
-        generateTableRows(numAccused, accusedDetails);
-    }
-}
-
-function generateTableRows(count, accusedDetails) {
-    const tableBody = document.getElementById('absconded-accused-table-body');
-    tableBody.innerHTML = ''; // Clear existing rows
-
-    for (let index = 0; index < count; index++) {
-        const row = document.createElement('tr');
-        const cell = document.createElement('td');
-        const input = document.createElement('input');
-
-        input.type = 'text';
-        input.name = `absconded_accused[${index}][accused_name]`;
-        input.classList.add('form-control');
-        input.placeholder = 'Enter Accused Name';
-
-        // If accused details are available, prepopulate the input field
-        if (accusedDetails[index]) {
-            input.value = accusedDetails[index].accused_name;
+            // If 'Yes' is selected, display number and populate the table
+            if (detectedOption === 'Yes') {
+                document.getElementById('absconded-accused-count-container').style.display = 'block';
+                document.getElementById('absconded-accused-table-container').style.display = 'block';
+                document.getElementById('no_of_detected_absconded_accused').value = numAccused;
+                
+                generateTableRows(numAccused, accusedDetails);
+            }
         }
 
-        cell.appendChild(input);
-        row.appendChild(cell);
-        tableBody.appendChild(row);
-    }
-}
+        function generateTableRows(count, accusedDetails) {
+            const tableBody = document.getElementById('absconded-accused-table-body');
+            tableBody.innerHTML = ''; // Clear existing rows
 
-// Event listener for 'Yes/No' dropdown change
-document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
-    const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
-    const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
-    const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');
+            for (let index = 0; index < count; index++) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                const input = document.createElement('input');
 
-    if (this.value === 'Yes') {
-        abscondedAccusedContainer.style.display = 'block';
-        detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
-        abscondedAccusedDropdown.value = '';
-    } else {
-        abscondedAccusedContainer.style.display = 'none';
-        detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
-        resetTable(); // Reset table when 'No' is selected
-    }
-});
+                input.type = 'text';
+                input.name = `absconded_accused[${index}][accused_name]`;
+                input.classList.add('form-control');
+                input.placeholder = 'Enter Accused Name';
 
-// Event listener for number of accused change
-document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
-    const tableContainer = document.getElementById('absconded-accused-table-container');
-    const numAccused = parseInt(this.value);
-    
-    if (numAccused > 0) {
-        tableContainer.style.display = 'block';
-        generateTableRows(numAccused, []); // Blank rows for new input
-    } else {
-        tableContainer.style.display = 'none';
-    }
-});
+                // If accused details are available, prepopulate the input field
+                if (accusedDetails[index]) {
+                    input.value = accusedDetails[index].accused_name;
+                }
 
-function resetTable() {
-    document.getElementById('absconded-accused-table-body').innerHTML = '';
-    document.getElementById('absconded-accused-table-container').style.display = 'none';
-}
+                cell.appendChild(input);
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+            }
+        }
 
-populateAbscondedAccusedDetails(selectedItem);
+        // Event listener for 'Yes/No' dropdown change
+        document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
+            const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
+            const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
+            const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');
+
+            if (this.value === 'Yes') {
+                abscondedAccusedContainer.style.display = 'block';
+                detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+                abscondedAccusedDropdown.value = '';
+            } else {
+                abscondedAccusedContainer.style.display = 'none';
+                detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+                resetTable(); // Reset table when 'No' is selected
+            }
+        });
+
+        // Event listener for number of accused change
+        document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
+            const tableContainer = document.getElementById('absconded-accused-table-container');
+            const numAccused = parseInt(this.value);
+            
+            if (numAccused > 0) {
+                tableContainer.style.display = 'block';
+                generateTableRows(numAccused, []); // Blank rows for new input
+            } else {
+                tableContainer.style.display = 'none';
+            }
+        });
+
+        function resetTable() {
+            document.getElementById('absconded-accused-table-body').innerHTML = '';
+            document.getElementById('absconded-accused-table-container').style.display = 'none';
+        }
+
+            populateAbscondedAccusedDetails(selectedItem);
 
                 $('#edit-modal #mobiles-recovered-table tbody').empty();
                 function checkRowCount2() {
@@ -797,239 +1029,8 @@ populateAbscondedAccusedDetails(selectedItem);
             }
         });
 
-        // Handle View Details
-        $(document).on('click', '#view-details', function (e) {
-            e.preventDefault();
-            var id = $(this).data('id');
-            
-            // Find the selected record from the fetched data
-            var selectedItem = fetchedData.find(item => item.id === id);
+   
 
-            // Populate the modal with the selected item details
-            if (selectedItem) {
-                console.log(selectedItem);
-
-                $('#view-full-width-modal #case_no').val(selectedItem.case_no);
-                $('#view-full-width-modal #circle').val(selectedItem.circle ? selectedItem.circle.name_e : '');
-                $('#view-full-width-modal #division').val(selectedItem.division ? selectedItem.division.name_e : '');
-                $('#view-full-width-modal #range').val(selectedItem.range ? selectedItem.range.name_e : '');
-                $('#view-full-width-modal #section').val(selectedItem.section ? selectedItem.section.name_e : '');
-                $('#view-full-width-modal #beat').val(selectedItem.beat ? selectedItem.beat.name_e : '');
-                $('#view-full-width-modal #case_type').val(selectedItem.case_type);
-                $('#view-full-width-modal #case_no').val(selectedItem.case_no);
-                $('#view-full-width-modal #penal_code').val(selectedItem.penal_code);
-                $('#view-full-width-modal #detection_place_type').val(selectedItem.detection_place_type);
-                $('#view-full-width-modal #detection_place').val(selectedItem.detection_place);
-                $('#view-full-width-modal #case_date').val(selectedItem.case_date);
-                $('#view-full-width-modal #detection_date').val(selectedItem.detection_date);
-                $('#view-full-width-modal #latitude').val(selectedItem.latitude);
-                $('#view-full-width-modal #longitude').val(selectedItem.longitude);
-                $('#view-full-width-modal #detection_agency').val(selectedItem.detection_agency);
-                $('#view-full-width-modal #investigating_agency').val("Forest Department");
-                if (selectedItem.species) {
-                    // If species is not null, populate the values from the species object
-                    $('#view-full-width-modal #schedule_type').val(selectedItem.species.species_type);
-                    $('#view-full-width-modal #species_schedule').val(selectedItem.species.schedule_no);
-                    $('#view-full-width-modal #species_name').val(selectedItem.species.species_name);
-                } else {
-                    // If species is null, use values from the selectedItem directly
-                    $('#view-full-width-modal #schedule_type').val(selectedItem.species_name); 
-                    $('#view-full-width-modal #species_schedule').val(selectedItem.species_schedule); 
-                    $('#view-full-width-modal #species_name').val("old"); 
-                }
-                $('#view-full-width-modal #species_age').val(selectedItem.species_age);
-                $('#view-full-width-modal #species_sex').val(selectedItem.species_sex);
-                $('#view-full-width-modal #property_recovered_type').val(selectedItem.property_recovered_type);
-                $('#view-full-width-modal #property_recovered_details').val(selectedItem.property_recovered_details);
-                $('#view-full-width-modal #officer_name').val(selectedItem.in_officer_name);
-                $('#view-full-width-modal #officer_number').val(selectedItem.in_officer_mobile);
-                $('#view-full-width-modal #brief_fact').val(selectedItem.brief_fact);
-                $('#view-full-width-modal #detected_absconded_accused_option').val(selectedItem.detected_absconded_accused_option);
-
-                // Check if the value is "Yes"
-                if (selectedItem.detected_absconded_accused_option === "Yes") {
-                    // Show the "No of Absconded Accused Detected" section and the table
-                    $('#absconded-accused-section').show();
-                    $('#absconded-accused-table-row').show();
-
-                    // Set the value for no_of_detected_absconded_accused
-                    $('#view-full-width-modal #no_of_detected_absconded_accused').val(selectedItem.no_of_detected_absconded_accused);
-
-                    // Clear any existing rows in the table
-                    $('#view-full-width-modal #absconded-accused-details-table tbody').empty();
-
-                    // Loop through absconded_accused and append rows to the table
-                    selectedItem.absconded_accused.forEach((absconded_accused, index) => {
-                        var newRow = `
-                            <tr>
-                                <td><input type="text" value="${absconded_accused.accused_name}" class="form-control" readonly></td>
-                            </tr>`;
-                        $('#view-full-width-modal #absconded-accused-details-table tbody').append(newRow);
-                    });
-
-                    // Adjust the layout of the "Absconded Accused Detected if any" div to take up half the width (col-md-6)
-                    $('#detected-accused-section').removeClass('col-md-12').addClass('col-md-6');
-
-                } else {
-                    // Hide the "No of Absconded Accused Detected" section and the table
-                    $('#view-full-width-modal #absconded-accused-section').hide();
-                    $('#view-full-width-modal #absconded-accused-table-row').hide();
-
-                    // Make the "Absconded Accused Detected if any" div take the full width (col-md-12)
-                    $('#view-full-width-modal #detected-accused-section').removeClass('col-md-6').addClass('col-md-12');
-                }
-                $('#view-full-width-modal #undetected_absconded_accused_option').val(selectedItem.undetected_absconded_accused_option);
-                if(selectedItem.undetected_absconded_accused_option === "Yes"){
-                    $('#view-full-width-modal #un-absconded-accused-section').show();
-                    $('#view-full-width-modal #no_of_undetected_absconded_accused').val(selectedItem.no_of_undetected_absconded_accused);
-                    $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-12').addClass('col-md-6');
-                }
-                else{
-                    $('#view-full-width-modal #undetected-accused-section').removeClass('col-md-6').addClass('col-md-12');
-                }
-
-                $('#view-full-width-modal #additional_pr_option').val(selectedItem.additional_pr_option);
-                if (selectedItem.additional_pr_option === "Yes") {
-                    $('#view-full-width-modal #additional-pr-table-row').show();
-                    
-                    // Clear any existing rows in the table
-                    $('#view-full-width-modal #additional-pr-table tbody').empty();
-
-                    // Loop through additionalpr and append rows to the table
-                    selectedItem.additionalpr.forEach((additionalpr, index) => {
-                        var newRow = `
-                            <tr>
-                                <td><input type="text" value="${additionalpr.number}" class="form-control" readonly></td>
-                                <td><input type="text" value="${additionalpr.date}" class="form-control" readonly></td>
-                                <td><input type="text" value="${additionalpr.status}" class="form-control" readonly></td>
-                            </tr>`;
-                        $('#view-full-width-modal #additional-pr-table tbody').append(newRow);
-                    });
-
-                } else {
-                    $('#view-full-width-modal #additional-pr-table-row').hide();
-                }
-                
-                $('#view-full-width-modal #court_forward_date').val(selectedItem.court_forward_date);
-                $('#view-full-width-modal #court_name').val(selectedItem.court_name);
-                $('#view-full-width-modal #court_case_number').val(selectedItem.court_case_number);
-                $('#view-full-width-modal #pr_number').val(selectedItem.pr_number);
-                $('#view-full-width-modal #pr_date').val(selectedItem.pr_date);
-                $('#view-full-width-modal #pr_status').val(selectedItem.pr_status);
-                $('#view-full-width-modal #action_against_staff').val(selectedItem.action_against_staff);
-                $('#view-full-width-modal #case_present_status').val(selectedItem.case_present_status);
-                
-                // $('#view-full-width-modal #accused-details-table tbody').empty();
-                // selectedItem.accused.forEach((accused, index) => {
-                //     var newRow = `
-                //         <tr>
-                //             <td><input type="text" value="${accused.name}" class="form-control" readonly></td>
-                //             <td><input type="text" value="${accused.alias ? accused.alias : ''}" class="form-control" readonly></td>
-                //             <td><input type="text" value="${accused.father_name}" class="form-control" readonly></td>
-                //             <td><input type="text" value="${accused.address ? accused.address : ''}" class="form-control" readonly></td>
-                //         </tr>`;
-                //     $('#accused-details-table tbody').append(newRow);
-                // });
-
-                $('#view-full-width-modal #mobiles-recovered-table tbody').empty();
-                selectedItem.accused_mobiles.forEach((accused_mobiles, index) => {
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" value="${accused_mobiles.mobile_no}" class="form-control" readonly></td>
-                            <td><input type="text" value="${accused_mobiles.imei_no}" class="form-control" readonly></td>
-                        </tr>`;
-                    $('#mobiles-recovered-table tbody').append(newRow);
-                });
-
-                $('#view-full-width-modal #arrested-accused-details-table tbody').empty();
-                selectedItem.arrested_accused.forEach((arrested_accused, index) => {
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" value="${arrested_accused.accused_name}" class="form-control" readonly></td>
-                        </tr>`;
-                    $('#arrested-accused-details-table tbody').append(newRow);
-                });
-
-                $('#view-full-width-modal #nbw-accused-table tbody').empty();
-                selectedItem.nbw_accused.forEach((nbw_accused, index) => {
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" value="${nbw_accused.accused_name}" class="form-control" readonly></td>
-                            <td><input type="text" value="${nbw_accused.nbw_status}" class="form-control" readonly></td>
-                        </tr>`;
-                    $('#nbw-accused-table tbody').append(newRow);
-                });
-
-                $('#view-full-width-modal #released-accused-table tbody').empty();
-                selectedItem.released_accused.forEach((released_accused, index) => {
-                    var newRow = `
-                        <tr>
-                            <td><input type="text" value="${released_accused.accused_name}" class="form-control" readonly></td>
-                            <td><input type="date" value="${released_accused.bail_date}" class="form-control" readonly></td>
-                        </tr>`;
-                    $('#released-accused-table tbody').append(newRow);
-                });
-
-                // Use the Laravel route helper to generate URLs for the download route
-                const baseUrl = '{{ url("download") }}';
-
-                if (selectedItem.uploads && selectedItem.uploads.length > 0) {
-                    const upload = selectedItem.uploads[0]; // Assuming only one set of uploads per form
-
-                    // Populate Post Mortem Report
-                    if (upload.post_mortem_report) {
-                        $('#view-full-width-modal #post_mortem_report_container').html(`
-                            <a href="${baseUrl}/post-mortem-report/${upload.post_mortem_report}" target="_blank">${upload.post_mortem_report}</a>
-                        `);
-                    } else {
-                        $('#view-full-width-modal #post_mortem_report_container').text('No document uploaded');
-                    }
-
-                    // Populate Electrical Inspector Report
-                    if (upload.electrical_inspector_report) {
-                        $('#view-full-width-modal #electrical_inspector_report_container').html(`
-                            <a href="${baseUrl}/electrical-inspector-report/${upload.electrical_inspector_report}" target="_blank">${upload.electrical_inspector_report}</a>
-                        `);
-                    } else {
-                        $('#view-full-width-modal #electrical_inspector_report_container').text('No document uploaded');
-                    }
-
-                    // Populate Laboratory Report
-                    if (upload.laboratory_report) {
-                        $('#view-full-width-modal #lab_report_container').html(`
-                            <a href="${baseUrl}/laboratory-report/${upload.laboratory_report}" target="_blank">${upload.laboratory_report}</a>
-                        `);
-                    } else {
-                        $('#view-full-width-modal #lab_report_container').text('No document uploaded');
-                    }
-
-                    // Populate Court Judgement
-                    if (upload.court_judgement) {
-                        $('#view-full-width-modal #court_judgement_container').html(`
-                            <a href="${baseUrl}/court-judgement/${upload.court_judgement}" target="_blank">${upload.court_judgement}</a>
-                        `);
-                    } else {
-                        $('#view-full-width-modal #court_judgement_container').text('No document uploaded');
-                    }
-                } else {
-                    // If no uploads data exists
-                    $('#view-full-width-modal #post_mortem_report_container').text('No document uploaded');
-                    $('#view-full-width-modal #electrical_inspector_report_container').text('No document uploaded');
-                    $('#view-full-width-modal #lab_report_container').text('No document uploaded');
-                    $('#view-full-width-modal #court_judgement_container').text('No document uploaded');
-                }
-
-                // Show the modal
-                $('#view-full-width-modal').modal('show');
-                const caseType = $('#view-full-width-modal #case_type').val(); 
-                const label = caseType ? caseType + ' Case Number' : 'Case Number';
-                $('#view-full-width-modal #case_no_label').text(label); 
-            } else {
-                alert('Error: Record not found.');
-            }
-            
-        });
-
-    });
+});
 </script>
 @endsection

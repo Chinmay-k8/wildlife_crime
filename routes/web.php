@@ -9,7 +9,7 @@ use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\Api\ListController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\UserProfileController;
-
+use App\Http\Controllers\Form1Controller;
 
 
 
@@ -56,7 +56,8 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/list-data', [ListController::class, 'fetchData'])->name('list.data');
     Route::get('/download/{fileType}/{fileName}', [ListController::class, 'downloadDocument'])->name('download.document');
     Route::get('/download_excel', [ExcelController::class, 'download_demo_excel'])->name('download.excel');
-
+    Route::get('/form1', [Form1Controller::class, 'showForm1'])->name('form1.show');
+    Route::post('/form1report', [Form1Controller::class, 'reportForm1'])->name('form1.report');
 
 
 });

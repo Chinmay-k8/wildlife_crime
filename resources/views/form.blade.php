@@ -113,13 +113,13 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="case_date">Case Date</label>
+                                <label for="case_date">Date of registration of the offense case</label>
                                 <input type="date" id="case_date" name="case_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="case_date">Detection Date</label>
+                                <label for="case_date">Date of detection of the offense case</label>
                                 <input type="date" id="detection_date" name="detection_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
@@ -175,6 +175,7 @@
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
                                     <option value="Forest_Department" selected>Forest Department</option>
+                                    <option value="STF" selected>STF</option>
                                 </select>
                             </div>
                         </div>
@@ -184,7 +185,7 @@
                     <div class="row">
                          <div class="col-md-4">
                             <div class="form-group">
-                                    <label for="schedule_type">Shedule Type of Species (New/Old)</label>
+                                    <label for="schedule_type">Schedule  Type of Species (New/Old)</label>
                                     <select id="schedule_type" name="schedule_type" class="form-control">
                                         <option value="">Select Type</option>
                                         <option value="new">New</option>
@@ -196,7 +197,7 @@
                             <div class="form-group">
                                     <label for="species_schedule">Schedule Of Species under WLPA</label>
                                     <select id="species_schedule" name="species_schedule" class="form-control" >
-                                        <option value="">Select Scedule</option>
+                                        <option value="">Select Schedule</option>
                                         <option value="I">I</option>
                                         <option value="II">II</option>
                                         <option value="III">III</option>
@@ -357,7 +358,7 @@
                     <div class="row mt-4">
                         <div class="col-md-12" id="detected-absconded-accused-container">
                             <div class="form-group">
-                                <label for="detected_absconded_accused_option">Absconded Accused Detected if any</label>
+                                <label for="detected_absconded_accused_option">Identified Accused yet to be arrested if any</label>
                                 <select id="detected_absconded_accused_option" name="detected_absconded_accused_option" class="form-control" required>
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>
@@ -366,7 +367,7 @@
                         </div>
                         <div class="col-md-6"  id="absconded-accused-count-container" style="display: none;">
                             <div class="form-group">
-                                <label for="no_of_detected_absconded_accused">No of Absconded Accused Detected</label>
+                                <label for="no_of_detected_absconded_accused">No. of Identified Accused yet to be arrested</label>
                                 <select id="no_of_detected_absconded_accused" name="no_of_detected_absconded_accused" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -384,7 +385,7 @@
                     </div>
                     <div class="row mt-4" id="absconded-accused-table-container" style="display: none;">
                         <div class="col-12">    
-                            <h5>Absconded Accused Detail</h5>
+                            <h5> Accused Detail</h5>
                             <table class="table table-bordered" id="absconded-accused-details-table">
                                 <thead>
                                     <tr>
@@ -400,7 +401,7 @@
                     <div class="row mt-4">
                         <div class="col-md-12" id="undetected-absconded-accused-container">
                             <div class="form-group">
-                                <label for="undetected_absconded_accused_option">Absconded Accused Undetected if any</label>
+                                <label for="undetected_absconded_accused_option">Unidentified Accused yet to arrested if any</label>
                                 <select id="undetected_absconded_accused_option" name="undetected_absconded_accused_option" class="form-control" required>
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>
@@ -409,7 +410,7 @@
                         </div>
                         <div class="col-md-6"  id="undetected_absconded-accused-count-container">
                             <div class="form-group">
-                                <label for="no_of_undetected_absconded_accused">No of Undetected Absconded Accused</label>
+                                <label for="no_of_undetected_absconded_accused">No. of Unidentified Accused yet to be arrested</label>
                                 <select id="no_of_undetected_absconded_accused" name="no_of_undetected_absconded_accused" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -491,7 +492,7 @@
                                 <thead>
                                     <tr>
                                         <th>Accused name </th>
-                                        <th>Date</th>
+                                        <th>Date of bail</th>
                                         <th>
                                             <button id="add-row4" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
                                                 Add More

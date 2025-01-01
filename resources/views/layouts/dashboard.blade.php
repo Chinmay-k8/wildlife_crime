@@ -286,6 +286,20 @@
                                 </div>
                             </li>
                             <li>
+                                <a href="#sidebarForm1" data-bs-toggle="collapse">
+                                    <i data-feather="file-text"></i>
+                                    <span class="menu-arrow"></span>
+                                    <span>Form-I</span>
+                                </a>
+                                <div class="collapse" id="sidebarForm1">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="{{ route('form1.show') }}">Report</a>
+                                        </li> 
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
                                 <a href="#sidebarUsers" data-bs-toggle="collapse">
                                     <i class="fe-user-plus"></i>
                                     <span class="menu-arrow"></span>
@@ -346,6 +360,7 @@
                          @yield('form-content')
                          @yield('list-content')
                          @yield('excel-content')
+                         @yield('form1')
                          @yield('user-mgnt')
                          @yield('userlist-section')
                         <!-- end row -->
