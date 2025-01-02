@@ -47,8 +47,9 @@ class Form1Controller extends Controller{
     function reportForm1(Request $request){
 
         
-        print_r($request->all());
-        echo '</pre>';
-        exit; 
+        // print_r($request->all());
+        // echo '</pre>';
+        // exit; 
+        
     }
 }

@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="detection_place_type">Place of Detection Type</label>
                                 <select id="detection_place_type" name="detection_place_type" class="form-control">
@@ -105,19 +105,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="detection_place">Place of Detection</label>
                                     <input type="text" id="detection_place" name="detection_place" class="form-control" required>
                                 </div>
                         </div>
-                        <div class="col-md-3">
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6">
                             <div class="form-group">
                                 <label for="case_date">Date of registration of the offense case</label>
                                 <input type="date" id="case_date" name="case_date" class="form-control" max="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="case_date">Date of detection of the offense case</label>
                                 <input type="date" id="detection_date" name="detection_date" class="form-control" max="{{ date('Y-m-d') }}" required>
@@ -174,6 +176,7 @@
                             <div class="form-group">
                                 <label for="investigating_agency">Case Investigating Agency</label>
                                 <select id="investigating_agency" name="investigating_agency" class="form-control" required>
+                                    <option value="" selected>Select Agency</option>
                                     <option value="Forest_Department" selected>Forest Department</option>
                                     <option value="STF" selected>STF</option>
                                 </select>
@@ -183,7 +186,7 @@
 
                     <div class="row mt-4">
                     <div class="row">
-                         <div class="col-md-4">
+                         <div class="col-md-6">
                             <div class="form-group">
                                     <label for="schedule_type">Schedule  Type of Species (New/Old)</label>
                                     <select id="schedule_type" name="schedule_type" class="form-control">
@@ -193,7 +196,7 @@
                                     </select>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                     <label for="species_schedule">Schedule Of Species under WLPA</label>
                                     <select id="species_schedule" name="species_schedule" class="form-control" >
@@ -254,142 +257,61 @@
                         </div> -->
                     </div>
                      <div class="row mt-4">
-                     <div class="col-12">
-    <h5>Property Recovered</h5>
-    <table class="table table-bordered" id="property-recovered-table">
-        <thead>
-            <tr>
-                <th>Property Recovered Type</th>
-                <th>Property Recovered Details</th>
-                <th>MR Number</th>
-                <th>Status of Recovered Property</th>
-                <th>Additional Details</th>
-                <th>
-                    <button id="add-row-property" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
-                                                Add More
-                    </button>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <select name="property[0][type]" class="form-control property-type">
-                        <option value="">Select Type</option>
-                        <option value="Live_animal">Live animal</option>
-                        <option value="Meat">Meat</option>
-                        <option value="Carcass">Carcass</option>
-                        <option value="Body_parts">Body parts</option>
-                        <option value="Arms_and_Ammunition">Arms and Ammunition</option>
-                        <option value="GI_wire">Tool</option>
-                        <option value="Vehicles">Vehicles</option>
-                        <option value="Other_Material">Other Material</option>
-                    </select>
-                </td>
-                <td>
-                    <textarea name="property[0][details]" class="form-control" rows="1" style="resize: none;"></textarea>
-                </td>
-                <td>
-                    <input type="text" name="property[0][mr_number]" class="form-control">
-                </td>
-                <td>
-                    <select name="property[0][status]" class="form-control property-status">
-                        <option value="">Select Status</option>
-                        <option value="in_malkhana">In the Malkhana</option>
-                        <option value="court_malkhana">Sent to court Malkhana</option>
-                        <option value="disposed">Disposed</option>
-                    </select>
-                </td>
-                <td class="additional-details">
-                    
-                </td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<script>
-    $(document).ready(function () {
-        // Add more rows
-        $('#add-row-property').click(function () {
-            const index = $('#property-recovered-table tbody tr').length;
-            const newRow = `
-                <tr>
-                    <td>
-                        <select name="property[${index}][type]" class="form-control property-type">
-                            <option value="">Select Type</option>
-                            <option value="Live_animal">Live animal</option>
-                            <option value="Meat">Meat</option>
-                            <option value="Carcass">Carcass</option>
-                            <option value="Body_parts">Body parts</option>
-                            <option value="Arms_and_Ammunition">Arms and Ammunition</option>
-                            <option value="GI_wire">Tool</option>
-                            <option value="Vehicles">Vehicles</option>
-                            <option value="Other_Material">Other Material</option>
-                        </select>
-                    </td>
-                    <td>
-                        <textarea name="property[${index}][details]" class="form-control" rows="1" style="resize: none;"></textarea>
-                    </td>
-                    <td>
-                        <input type="text" name="property[${index}][mr_number]" class="form-control">
-                    </td>
-                    <td>
-                        <select name="property[${index}][status]" class="form-control property-status">
-                            <option value="">Select Status</option>
-                            <option value="in_malkhana">In the Malkhana</option>
-                            <option value="court_malkhana">Sent to court Malkhana</option>
-                            <option value="disposed">Disposed</option>
-                        </select>
-                    </td>
-                    <td class="additional-details">
-                        <!-- Dynamic additional fields will be appended here -->
-                    </td>
-                    <td>
-                        <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-row-property" style="cursor: pointer; width: 24px;">
-                    </td>
-                </tr>`;
-            $('#property-recovered-table tbody').append(newRow);
-        });
-
-        // Delete a row
-        $(document).on('click', '.delete-row-property', function () {
-            $(this).closest('tr').remove();
-        });
-
-        // Handle dynamic fields based on dropdown selections
-        $(document).on('change', '.property-type', function () {
-            const $row = $(this).closest('tr');
-            const value = $(this).val();
-            const $detailsCell = $row.find('.additional-details');
-            $detailsCell.empty();
-            if (value === 'Vehicles') {
-                $detailsCell.append(`
-                    <div style="margin-bottom: 8px;">
-                    <input type="text" name="vehicle_number" class="form-control" placeholder="Vehicle Number">
+                        <div class="col-12">
+                            <h5>Property Recovered</h5>
+                            <table class="table table-bordered" id="property-recovered-table">
+                                <thead>
+                                    <tr>
+                                        <th>Property Recovered Type</th>
+                                        <th>Property Recovered Details</th>
+                                        <th>MR Number</th>
+                                        <th>Status of Recovered Property</th>
+                                        <th>Additional Details</th>
+                                        <th>
+                                            <button id="add-row-property" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                                        Add More
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select name="property[0][property_recovered_type]" class="form-control property-type">
+                                                <option value="">Select Type</option>
+                                                <option value="Live_animal">Live animal</option>
+                                                <option value="Meat">Meat</option>
+                                                <option value="Carcass">Carcass</option>
+                                                <option value="Body_parts">Body parts</option>
+                                                <option value="Arms_and_Ammunition">Arms and Ammunition</option>
+                                                <option value="GI_wire">Tool</option>
+                                                <option value="Vehicles">Vehicles</option>
+                                                <option value="Other_Material">Other Material</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <textarea name="property[0][property_recovered_details]" class="form-control" rows="1" style="resize: none;"></textarea>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="property[0][mr_number]" class="form-control">
+                                        </td>
+                                        <td>
+                                            <select name="property[0][property_status]" class="form-control property-status">
+                                                <option value="">Select Status</option>
+                                                <option value="in_malkhana">In the Malkhana</option>
+                                                <option value="court_malkhana">Sent to court Malkhana</option>
+                                                <option value="disposed">Disposed</option>
+                                            </select>
+                                        </td>
+                                        <td class="additional-details">
+                                            
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div>
-                        <input type="text" name="chassis_number" class="form-control" placeholder="Chassis Number">
-                    </div>`);
-            }
-        });
-
-        $(document).on('change', '.property-status', function () {
-            const $row = $(this).closest('tr');
-            const value = $(this).val();
-            const $detailsCell = $row.find('.additional-details');
-            if (value === 'court_malkhana') {
-                $detailsCell.append(`
-                    <div style="margin-top: 8px;">
-                    <input type="text" name="cmr_number" class="form-control" placeholder="CMR Number">
-                </div>`);
-            } else {
-                $detailsCell.find('input[name="cmr_number"]').remove();
-            }
-        });
-    });
-</script>
 
                     <div class="row">
                         <!-- <div class="col-md-6">
@@ -398,7 +320,7 @@
                                 <textarea class="form-control" id="property_recovered_details" name="property_recovered_details" rows="1" style="resize: none;"></textarea>
                             </div>
                         </div> -->
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="brief_fact" class="form-label">Brief Fact / Cause of Death:</label>
                                 <textarea class="form-control" id="brief_fact" name="brief_fact" rows="1" style="resize: none;"></textarea>
@@ -406,7 +328,56 @@
                         </div>
                     </div>  
                     <div class="row mt-4">
-                    <div class="row">
+                        <div class="col-12">
+                            <h5>Investigating Officer Details</h5>
+                            <table class="table table-bordered" id="inv-officer-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Officer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>
+                                                <button id="add-row-inv-off" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                    Add More
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" name="inv_off[0][officer_name]" class="form-control"></td>
+                                            <td><input type="text" name="inv_off[0][mobile_no]" class="form-control"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>Holding Investigating Officer Details</h5>
+                            <table class="table table-bordered" id="ho-inv-officer-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Officer Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>
+                                                <button id="add-row-ho-inv-off" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                    Add More
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" name="ho_inv_off[0][officer_name]" class="form-control"></td>
+                                            <td><input type="text" name="ho_inv_off[0][mobile_no]" class="form-control"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody> 
+                            </table>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
                         <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="in_officer_name">Name of the Investigating Officer</label>
@@ -420,7 +391,7 @@
                                     <input type="text" id="in_officer_mobile" name="in_officer_mobile" class="form-control" required>
                                 </div>
                             </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="row mt-4">
                         <div class="col-12">
                             <h5>Accused Detail</h5>
@@ -894,76 +865,111 @@ $(document).ready(function() {
         updateIndices6();
     });
     $('#add-row-property').click(function () {
-            const index = $('#property-recovered-table tbody tr').length;
-            const newRow = `
-                <tr>
-                    <td>
-                        <select name="property[${index}][type]" class="form-control property-type">
-                            <option value="">Select Type</option>
-                            <option value="Live_animal">Live animal</option>
-                            <option value="Meat">Meat</option>
-                            <option value="Carcass">Carcass</option>
-                            <option value="Body_parts">Body parts</option>
-                            <option value="Arms_and_Ammunition">Arms and Ammunition</option>
-                            <option value="GI_wire">Tool</option>
-                            <option value="Vehicles">Vehicles</option>
-                            <option value="Other_Material">Other Material</option>
-                        </select>
-                    </td>
-                    <td>
-                        <textarea name="property[${index}][details]" class="form-control" rows="1" style="resize: none;"></textarea>
-                    </td>
-                    <td>
-                        <input type="text" name="property[${index}][mr_number]" class="form-control">
-                    </td>
-                    <td>
-                        <select name="property[${index}][status]" class="form-control property-status">
-                            <option value="">Select Status</option>
-                            <option value="in_malkhana">In the Malkhana</option>
-                            <option value="court_malkhana">Sent to court Malkhana</option>
-                            <option value="disposed">Disposed</option>
-                        </select>
-                    </td>
-                    <td class="additional-details">
-                        <!-- Dynamic additional fields will be appended here -->
-                    </td>
-                    <td>
-                        <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-row-property" style="cursor: pointer; width: 24px;">
-                    </td>
-                </tr>`;
-            $('#property-recovered-table tbody').append(newRow);
+        const index = $('#property-recovered-table tbody tr').length;
+        const newRow = `
+            <tr>
+                <td>
+                    <select name="property[${index}][property_recovered_type]" class="form-control property-type">
+                        <option value="">Select Type</option>
+                        <option value="Live_animal">Live animal</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Carcass">Carcass</option>
+                        <option value="Body_parts">Body parts</option>
+                        <option value="Arms_and_Ammunition">Arms and Ammunition</option>
+                        <option value="GI_wire">Tool</option>
+                        <option value="Vehicles">Vehicles</option>
+                        <option value="Other_Material">Other Material</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea name="property[${index}][property_recovered_details]" class="form-control" rows="1" style="resize: none;"></textarea>
+                </td>
+                <td>
+                    <input type="text" name="property[${index}][mr_number]" class="form-control">
+                </td>
+                <td>
+                    <select name="property[${index}][property_status]" class="form-control property-status">
+                        <option value="">Select Status</option>
+                        <option value="in_malkhana">In the Malkhana</option>
+                        <option value="court_malkhana">Sent to court Malkhana</option>
+                        <option value="disposed">Disposed</option>
+                    </select>
+                </td>
+                <td class="additional-details">
+                    <!-- Dynamic fields will be appended here -->
+                </td>
+                <td>
+                    <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-row-property" style="cursor: pointer; width: 24px;">
+                </td>
+            </tr>`;
+        $('#property-recovered-table tbody').append(newRow);
     });
-    $(document).on('click', '.delete-row-property', function () {
+    $('#add-row-inv-off').click(function (){
+        const index = $('#inv-officer-table tbody tr').length;
+        const newRow = `
+             <tr>
+                <td><input type="text" name="inv_off[${index}][officer_name]" class="form-control"></td>
+                <td><input type="text" name="inv_off[${index}][mobile_no]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-inv-off" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#inv-officer-table tbody').append(newRow);
+    
+    });
+    $('#add-row-ho-inv-off').click(function (){
+        const index = $('#ho-inv-officer-table tbody tr').length;
+        const newRow = `
+             <tr>
+                <td><input type="text" name="ho_inv_off[${index}][officer_name]" class="form-control"></td>
+                <td><input type="text" name="ho_inv_off[${index}][mobile_no]" class="form-control"></td>
+                <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-ho-inv-off" style="cursor: pointer; width: 24px;"></td>
+            </tr>`;
+        $('#ho-inv-officer-table tbody').append(newRow);
+    
+    });
+    $(document).on('click', '.delete-inv-off', function() {
         $(this).closest('tr').remove();
+        updateIndices8();
+    });
+    $(document).on('click', '.delete-ho-inv-off', function() {
+        $(this).closest('tr').remove();
+        updateIndices9();
     });
     $(document).on('change', '.property-type', function () {
         const $row = $(this).closest('tr');
+        const index = $row.index(); // Fetch the row index dynamically
         const value = $(this).val();
         const $detailsCell = $row.find('.additional-details');
-        $detailsCell.empty();
+        $detailsCell.empty(); // Clear previous details
+
         if (value === 'Vehicles') {
             $detailsCell.append(`
                 <div style="margin-bottom: 8px;">
-                <input type="text" name="vehicle_number" class="form-control" placeholder="Vehicle Number">
+                    <input type="text" name="property[${index}][vehicle_reg_no]" class="form-control" placeholder="Vehicle Number">
                 </div>
                 <div>
-                    <input type="text" name="chassis_number" class="form-control" placeholder="Chassis Number">
+                    <input type="text" name="property[${index}][vehicle_cha_no]" class="form-control" placeholder="Chassis Number">
                 </div>`);
         }
     });
+
     $(document).on('change', '.property-status', function () {
         const $row = $(this).closest('tr');
+        const index = $row.index(); // Fetch the row index dynamically
         const value = $(this).val();
         const $detailsCell = $row.find('.additional-details');
+
         if (value === 'court_malkhana') {
-            $detailsCell.append(`
-                <div style="margin-top: 8px;">
-                <input type="text" name="cmr_number" class="form-control" placeholder="CMR Number">
-            </div>`);
+            if (!$detailsCell.find(`input[name="property[${index}][cmr_no]"]`).length) {
+                $detailsCell.append(`
+                    <div style="margin-top: 8px;">
+                        <input type="text" name="property[${index}][cmr_no]" class="form-control" placeholder="CMR Number">
+                    </div>`);
+            }
         } else {
-            $detailsCell.find('input[name="cmr_number"]').remove();
+            $detailsCell.find(`input[name="property[${index}][cmr_no]"]`).remove();
         }
     });
+      
     $(document).on('click', '.delete-accused', function() {
         $(this).closest('tr').remove();
         updateIndices();
@@ -987,6 +993,14 @@ $(document).ready(function() {
     $(document).on('click', '.delete-pr', function() {
         $(this).closest('tr').remove();
         updateIndices6();
+    });
+    $(document).on('click', '.delete-row-property', function () {
+            $(this).closest('tr').remove();
+            updateIndices7();
+    });
+    $(document).on('click', '.delete-mobile', function() {
+        $(this).closest('tr').remove();
+        updateIndices3();
     });
     // Update the indices of the accused details rows
     function updateIndices() {
@@ -1043,7 +1057,34 @@ $(document).ready(function() {
             });
         });
     }
-     document.getElementById('case_present_status').addEventListener('change', function() {
+    function updateIndices7(){
+        $('#property-recovered-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });  
+    }
+    function updateIndices8(){
+        $('#inv-officer-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });  
+    }
+    function updateIndices9(){
+        $('#ho-inv-officer-table tbody tr').each(function(index) {
+            $(this).find('input').each(function() {
+                var name = $(this).attr('name');
+                var newName = name.replace(/\d+/, index);
+                $(this).attr('name', newName);
+            });
+        });  
+    }
+    document.getElementById('case_present_status').addEventListener('change', function() {
         const courtJudgementContainer = document.getElementById('court-judgement-container');
         const courtJudgementInput = document.getElementById('court_judgement');
         const selectedStatus = this.value;

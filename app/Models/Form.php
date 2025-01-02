@@ -51,6 +51,16 @@ class Form extends Model
     {
         return $this->belongsTo(MasterSpecies::class, 'species_name', 'id');
     }
+    //Relationship with Property10 model
+    public function property10(){
+        return $this->hasMany(Property10::class, 'form_data_id');
+    }
+    public function inoff10(){
+        return $this->hasMany(InvestigatingOffForm10::class, 'form_data_id');
+    }
+    public function holoff10(){
+        return $this->hasMany(HolOff10::class, 'form_data_id');
+    }
     // Relationship with Accused model
     public function accused()
     {

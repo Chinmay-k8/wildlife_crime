@@ -17,6 +17,9 @@ use App\Models\SpeciesInvolved;
 use App\Models\UserArea;
 use App\Models\Division;
 use App\Models\Circle;
+use App\Models\Property10;
+use App\Models\InvestigatingOffForm10;
+use App\Models\HolOff10;
 
 
 
@@ -53,14 +56,12 @@ class FormController extends Controller
         return view('form', compact('selectedCircle', 'selectedarea', 'circles', 'divisions', 'designationId'));
     }
 
-    
-
     // Handle form submission
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
         $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
-        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr','absconded_accused', 'detection_agency', 'other_detection_agency' ]);
+        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr','absconded_accused', 'detection_agency', 'other_detection_agency' , 'property' , 'inv_off', 'ho_inv_off' ]);
         $case_part_1 = $request->input('case_part_1'); // e.g. "132"
         $case_year = $request->input('case_year');     // e.g. "2005"
         $formData['court_case_number'] = "2(b) CC No. {$case_part_1} of {$case_year}";
@@ -81,7 +82,9 @@ class FormController extends Controller
         $NbwData = $request->input('nbw_accused');
         $additionalprData = $request->input('additional_pr');
         $abscondedAccusedData = $request->input('absconded_accused');
-
+        $propertyData = $request->input('property');
+        $invoffData = $request->input('inv_off');
+        $hoinvoffData = $request->input('ho_inv_off');
 
         $formData['user_id'] = Auth::id(); // Include user_id from Auth
         $latitude_deg = $request->input('lat_deg');
@@ -154,6 +157,24 @@ class FormController extends Controller
             foreach($abscondedAccusedData as $abscondedAccusedItem){
                 $abscondedAccusedItem['form_data_id'] = $formId;
                 AbscondedAccused::create( $abscondedAccusedItem);
+            }
+        }
+        if(!empty($propertyData)){
+            foreach($propertyData as $propertyItem){
+                $propertyItem['form_data_id'] = $formId;
+                Property10::create($propertyItem);
+            }
+        }
+        if(!empty($invoffData)){
+            foreach($invoffData as $invoffItem){
+                $invoffItem['form_data_id'] = $formId;
+                InvestigatingOffForm10::create($invoffItem);
+            }
+        }
+        if(!empty($hoinvoffData)){
+            foreach($hoinvoffData as $hoinvoffItem){
+                $hoinvoffItem['form_data_id'] = $formId;
+                HolOff10::create($hoinvoffItem);
             }
         }
         //Handle file uploads
