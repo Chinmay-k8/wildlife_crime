@@ -186,7 +186,7 @@
 
                     <div class="row mt-4">
                     <div class="row">
-                         <div class="col-md-6">
+                         <div class="col-md-4">
                             <div class="form-group">
                                     <label for="schedule_type">Schedule  Type of Species (New/Old)</label>
                                     <select id="schedule_type" name="schedule_type" class="form-control">
@@ -196,7 +196,7 @@
                                     </select>
                             </div> 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                     <label for="species_schedule">Schedule Of Species under WLPA</label>
                                     <select id="species_schedule" name="species_schedule" class="form-control" >
@@ -223,13 +223,13 @@
                     </div>
                     <div class="row mt-4">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                     <label for="species_age">Age of the Species</label>
                                         <input type="text" id="species_age" name="species_age" class="form-control" required>
                             </div> 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                     <label for="species_sex">Sex Of the Species</label>
                                     <select id="species_sex" name="species_sex" class="form-control" required>
@@ -449,6 +449,10 @@
                                 <thead>
                                     <tr>
                                         <th>Name</th>
+                                        <th>Court Name</th>
+                                        <th>Date of forwarding to court</th>
+                                        <th>Trial court name</th>
+                                        <th>Date of forwarding to trial court</th>
                                         <th>
                                             <button id="add-row2" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">Add More</button>
                                         </th>
@@ -457,6 +461,10 @@
                                 <tbody>
                                     <tr>
                                         <td><input type="text" name="arrested_accused[0][accused_name]" class="form-control"></td>
+                                        <td><input type="text" name="arrested_accused[0][court_name]" class="form-control"></td>
+                                        <td><input type="date" name="arrested_accused[0][court_forward_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                                        <td><input type="text" name="arrested_accused[0][tr_court_name]" class="form-control"></td>
+                                        <td><input type="date" name="arrested_accused[0][tr_court_forward_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
@@ -535,7 +543,7 @@
                         </div>
                     </div>
                     <div class="row mt-4">  
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="court_forward_date">Date of forwarding to court</label>
                                 <input type="date" id="court_forward_date" name="court_forward_date" class="form-control" max="{{ date('Y-m-d') }}" required>
@@ -546,8 +554,8 @@
                                     <label for="court_name">Court name</label>
                                     <input type="text" id="court_name" name="court_name" class="form-control" required>
                                 </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> -->
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="court_case_number">Case (2(b) CC/No.) number</label>
                                 <div class="input-group">
@@ -575,6 +583,7 @@
                                     <tr>
                                         <th>Accused Name</th>
                                         <th>NBW Execution Status</th>
+                                        <th>Additional information</th>
                                         <th>
                                             <button id="add-row5" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
                                                     Add More
@@ -586,8 +595,17 @@
                                 <tbody>
                                     <tr>
                                         <td><input type="text" name="nbw_accused[0][accused_name]" class="form-control"></td>
-                                        <td><input type="text" name="nbw_accused[0][nbw_status]" class="form-control"></td>
-                                        <td></td>
+                                        <td>
+                                            <select name="nbw_accused[0][nbw_status]" class="form-control nbw-status">
+                                                <option value="">Select Status</option>
+                                                <option value="executed">Executed</option>
+                                                <option value="non_executed">Non executed</option>
+                                                <option value="recalled">Recalled</option>  
+                                            </select>
+                                        </td>
+                                        <td class = "nbw-additional-details"></td>
+                                        <td>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -600,6 +618,7 @@
                                 <thead>
                                     <tr>
                                         <th>Accused name </th>
+                                        <th>Court name </th>
                                         <th>Date of bail</th>
                                         <th>
                                             <button id="add-row4" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
@@ -611,14 +630,15 @@
                                 <tbody>
                                     <tr>
                                         <td><input type="text" name="released_accused[0][accused_name]" class="form-control"></td>
-                                        <td><input type="date" id="release_date" name="released_accused[0][bail_date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
+                                        <td><input type="text" name="released_accused[0][court_name]" class="form-control"></td>
+                                        <td><input type="date" id="release_date" name="released_accused[0][bail_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
                                         <td></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <!-- <div class="row mt-4">
                         <h5>Submission of final PR</h5>
                         <div class="col-md-3">
                                 <div class="form-group">
@@ -647,8 +667,91 @@
                                     </select>
                             </div> 
                         </div>
+                    </div> -->
+                    <div class="row mt-4">
+                        <h5>
+                            Status of the Final PR
+                            <div class="form-check form-check-inline" style="display: inline-block; margin-left: 15px;">
+                                <input class="form-check-input" type="radio" name="status_final_pr" id="status_final_pr_yes" value="Yes">
+                                <label class="form-check-label" for="status_final_pr_yes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="display: inline-block;">
+                                <input class="form-check-input" type="radio" name="status_final_pr" id="status_final_pr_no" value="No" checked>
+                                <label class="form-check-label" for="status_final_pr_no">No</label>
+                            </div>
+                        </h5>
                     </div>
-                    <div class="row mt-4" id="additional-pr-container" style="display: none;">
+
+                    <div class="row" id="final-pr-details" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pr_number">PR Number</label>
+                                <input type="text" id="pr_number" name="pr_number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pr_date">Date of Receipt in Court</label>
+                                <input type="date" id="pr_date" name="pr_date" class="form-control" max="{{ date('Y-m-d') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const yesRadio = document.getElementById('status_final_pr_yes');
+                            const noRadio = document.getElementById('status_final_pr_no');
+                            const finalPrDetails = document.getElementById('final-pr-details');
+
+                            yesRadio.addEventListener('change', function () {
+                                if (this.checked) {
+                                    finalPrDetails.style.display = 'flex';
+                                }
+                            });
+
+                            noRadio.addEventListener('change', function () {
+                                if (this.checked) {
+                                    finalPrDetails.style.display = 'none';
+                                }
+                            });
+                        });
+                    </script>
+                    <div class="row mt-4">
+                        <h5>
+                            Additional PR if any
+                            <div class="form-check form-check-inline" style="display: inline-block; margin-left: 15px;">
+                                <input class="form-check-input" type="radio" name="additional_pr_option" id="additional_pr_option_yes" value="Yes">
+                                <label class="form-check-label" for="additional_pr_option_yes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="display: inline-block;">
+                                <input class="form-check-input" type="radio" name="additional_pr_option" id="additional_pr_option_no" value="No" checked>
+                                <label class="form-check-label" for="additional_pr_option_no">No</label>
+                            </div>
+                        </h5>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const additionalPrYes = document.getElementById('additional_pr_option_yes');
+                            const additionalPrNo = document.getElementById('additional_pr_option_no');
+                            const additionalPrContainer = document.getElementById('additional-pr-container');
+
+                            additionalPrYes.addEventListener('change', function () {
+                                if (this.checked) {
+                                    additionalPrContainer.style.display = 'block';
+                                }
+                            });
+
+                            additionalPrNo.addEventListener('change', function () {
+                                if (this.checked) {
+                                    additionalPrContainer.style.display = 'none';
+                                    const inputs = additionalPrContainer.querySelectorAll('input');
+                                    inputs.forEach(input => input.value = '');
+                                }
+                            });
+                        });
+                    </script>
+                       
+                    <!-- <div class="row mt-4" id="additional-pr-container" style="display: none;">
                         <div class="col-12">
                             <h5>Submission of Additional PR</h5>
                             <table class="table table-bordered" id="additional-pr-table">
@@ -674,6 +777,31 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div> -->
+                    <div class="row mt-4" id="additional-pr-container" style="display: none;">
+                        <div class="col-12">
+                            <h5>Submission of Additional PR</h5>
+                            <table class="table table-bordered" id="additional-pr-table">
+                                <thead>
+                                    <tr>
+                                        <th>Submission Date</th>
+                                        <th>Date of receipt in court </th>
+                                        <th>
+                                            <button id="add-pr-row" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                    Add More
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="date" name="additional_pr[0][submission_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                                        <td><input type="date" name="additional_pr[0][receipt_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-6">
@@ -688,50 +816,206 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                    <label for="case_present_status">Present Status of the case</label>
-                                    <select id="case_present_status" name="case_present_status" class="form-control" placeholder="Test" required>
-                                        <option value="">Select Status</option>
-                                        <option value="Under_investigation_prosecution_not_submitted">Under investigation prosecution not submitted</option>
-                                        <option value="Prosecution_submitted_matter_not_listed">Prosecution submitted matter not listed</option>
-                                        <option value="Matter_listed_hearing_not_started">Matter listed hearing not started</option>
-                                        <option value="Under_trial">Under trial</option>
-                                        <option value="Hearing_completed_judgement_reserved">Hearing completed judgement reserved</option>
-                                        <option value="Hearing_completed_judgement_pronounced_offender_acquitted">Hearing completed judgement pronounced offender acquitted</option>
-                                        <option value="Hearing_completed_judgement_pronounced_offender_convicted">Hearing completed judgement pronounced offender convicted</option>
-                                    </select>
+                                    <label for="action_against_staff_status">Status of the action taken against the staff</label>
+                                    <div class="form-group">
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="staff_action_status_criminal_case" value="1" id="status1">
+                                            <label class="form-check-label" for="staff_action_status_criminal_case">Criminal Case</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="staff_action_status_dept_proceeding" value="1" id="status2">
+                                            <label class="form-check-label" for="staff_action_status_dept_proceeding">Departmental Proceeding</label>
+                                        </div>
+                                    </div>
                             </div>  
                         </div>
                     </div>
                     <div class="row mt-4">
-                    <h5>Uploads</h5>
-                    <div class="row">
-                        <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Post Mortem Report</th>
-                                <th>Report from Electrical Inspector</th>
-                                <th>Laboratory Report/Other Report</th>
-                                <th>Judgement of the Court</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type="file" class="form-control" id="post_mortem_report" name="post_mortem_report" accept=".pdf,.doc,.docx">
-                                </td>
-                                <td>
-                                    <input type="file" class="form-control" id="electrical_inspector_report" name="electrical_inspector_report" accept=".pdf,.doc,.docx">
-                                </td>
-                                <td>
-                                    <input type="file" class="form-control" id="laboratory_report" name="laboratory_report" accept=".pdf,.doc,.docx">
-                                </td>
-                                <td>
-                                    <input type="file" class="form-control" id="court_judgement" name="court_judgement" accept=".pdf,.doc,.docx">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <div class="col-12">
+                                <div class="form-group">
+                                        <label for="case_present_status">Present Status of the case</label>
+                                        <select id="case_present_status" name="case_present_status" class="form-control" required>
+                                            <option value="">Select Status</option>
+                                            <option value="Under_investigation_prosecution_not_submitted">Under investigation prosecution not submitted</option>
+                                            <option value="Prosecution_submitted_matter_not_listed">Prosecution submitted matter not listed</option>
+                                            <option value="Matter_listed_hearing_not_started">Matter listed hearing not started</option>
+                                            <option value="Under_trial">Under trial</option>
+                                            <option value="Hearing_completed_judgement_reserved">Hearing completed judgement reserved</option>
+                                            <option value="Hearing_completed_judgement_pronounced_offender_acquitted">Hearing completed judgement pronounced offender acquitted</option>
+                                            <option value="Hearing_completed_judgement_pronounced_offender_convicted">Hearing completed judgement pronounced offender convicted</option>
+                                        </select>
+                                </div>  
+                        </div>
+
                     </div>
+                    <div class="row mt-4">
+                        <h5>
+                            Appeal if any
+                            <div class="form-check form-check-inline" style="display: inline-block; margin-left: 15px;">
+                                <input class="form-check-input" type="radio" name="appeal" id="appeal_yes" value="Yes">
+                                <label class="form-check-label" >Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline" style="display: inline-block;">
+                                <input class="form-check-input" type="radio" name="appeal" id="appeal_no" value="No" checked>
+                                <label class="form-check-label">No</label>
+                            </div>
+                        </h5>
+                    </div>
+                    <div class="row mt-2" id="appeal-details" style="display: none;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="appeal_court_name">Appeal Court Name</label>
+                                <input type="text" id="appeal_court_name" name="appeal_court_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="appeal_date">Appeal Date</label>
+                                <input type="date" id="appeal_date" name="appeal_date" class="form-control" max="{{ date('Y-m-d') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const appealYes = document.getElementById('appeal_yes');
+                            const appealNo = document.getElementById('appeal_no');
+                            const appealDetails = document.getElementById('appeal-details');
+
+                            appealYes.addEventListener('change', function () {
+                                if (this.checked) {
+                                    appealDetails.style.display = 'flex';
+                                }
+                            });
+
+                            appealNo.addEventListener('change', function () {
+                                if (this.checked) {
+                                    appealDetails.style.display = 'none';
+                                }
+                            });
+                        });
+                    </script>
+                    <div class="row mt-4">
+                        <h5>Uploads</h5>
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Document Type</th>
+                                        <th>Document Title</th>
+                                        <th>Upload</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Post Mortem Report</td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Enter Title" name="post_mortem_report_title">
+                                        </td>
+                                        <td>
+                                            <input type="file" class="form-control" id="post_mortem_report" name="post_mortem_report" accept=".pdf,.doc,.docx">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Report from Electrical Inspector</td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Enter Title" name="electrical_inspector_report_title">
+                                        </td>
+                                        <td>
+                                            <input type="file" class="form-control" id="electrical_inspector_report" name="electrical_inspector_report" accept=".pdf,.doc,.docx">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Laboratory Report</td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="LAB/Institution Name" name="laboratory_report_title">
+                                        </td>
+                                        <td>
+                                            <input type="file" class="form-control" id="laboratory_report" name="laboratory_report" accept=".pdf,.doc,.docx">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Judgement of the Court</td>
+                                        <td>
+                                            <select class="form-control" name="court_judgement_title">
+                                                <option value="acquitted">Acquitted</option>
+                                                <option value="convicted">Convicted</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="file" class="form-control" id="court_judgement" name="court_judgement" accept=".pdf,.doc,.docx">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <h5>Other Documents</h5>
+                        <div class="row">
+                            <table class="table table-bordered" id="other-documents-table">
+                                <thead>
+                                    <tr>
+                                        <th>Document Title</th>
+                                        <th>Upload</th>
+                                        <th>
+                                            <button id="add-row-other-doc" type="button" class="btn btn-sm" style="background-color: rgb(0, 80, 64); color: white; cursor: pointer;">
+                                                Add More
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="text" name="other_documents[0][other_document_type]" class="form-control" placeholder="Enter Title">
+                                        </td>
+                                        <td>
+                                            <input type="file" name="other_documents[0][other_document_name]" class="form-control" accept=".pdf,.doc,.docx">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <script>
+                    $(document).ready(function() {
+                        $('#add-row-other-doc').click(function() {
+                            var index = $('#other-documents-table tbody tr').length;
+                            var newRow = `
+                                <tr>
+                                    <td>
+                                        <input type="text" name="other_documents[${index}][other_document_type]" class="form-control" placeholder="Enter Title">
+                                    </td>
+                                    <td>
+                                        <input type="file" name="other_documents[${index}][other_document_name]" class="form-control" accept=".pdf,.doc,.docx">
+                                    </td>
+                                    <td>
+                                        <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-other-doc" style="cursor: pointer; width: 24px;">
+                                    </td>
+                                </tr>`;
+                            $('#other-documents-table tbody').append(newRow);
+                            updateIndicesOtherDocs();
+                        });
+
+                        $(document).on('click', '.delete-other-doc', function() {
+                            $(this).closest('tr').remove();
+                            updateIndicesOtherDocs();
+                        });
+
+                        function updateIndicesOtherDocs() {
+                            $('#other-documents-table tbody tr').each(function(index) {
+                                $(this).find('input').each(function() {
+                                    var name = $(this).attr('name');
+                                    var newName = name.replace(/\d+/, index);
+                                    $(this).attr('name', newName);
+                                });
+                            });
+                        }
+                    });
+                    </script>
                     
 
 
@@ -784,17 +1068,17 @@ $(document).ready(function() {
         }
     });
 
-    document.getElementById('additional_pr_option').addEventListener('change', function() {
-        const additionalPrContainer = document.getElementById('additional-pr-container');
-        if (this.value === 'Yes') {
-            additionalPrContainer.style.display = 'block'; // Show the additional PR table
-        } else {
-            additionalPrContainer.style.display = 'none'; // Hide the additional PR table
-            // Optionally clear the existing inputs when hidden
-            const inputs = additionalPrContainer.querySelectorAll('input');
-            inputs.forEach(input => input.value = ''); // Clear all inputs
-        }
-    });
+    // document.getElementById('additional_pr_option').addEventListener('change', function() {
+    //     const additionalPrContainer = document.getElementById('additional-pr-container');
+    //     if (this.value === 'Yes') {
+    //         additionalPrContainer.style.display = 'block'; // Show the additional PR table
+    //     } else {
+    //         additionalPrContainer.style.display = 'none'; // Hide the additional PR table
+    //         // Optionally clear the existing inputs when hidden
+    //         const inputs = additionalPrContainer.querySelectorAll('input');
+    //         inputs.forEach(input => input.value = ''); // Clear all inputs
+    //     }
+    // });  
 
     $('#add-row').click(function() {
         var index = $('#accused-details-table tbody tr').length;
@@ -814,6 +1098,11 @@ $(document).ready(function() {
         var newRow = `
             <tr>
                 <td><input type="text" name="arrested_accused[${index}][accused_name]" class="form-control"></td>
+                <td><input type="text" name="arrested_accused[${index}][court_name]" class="form-control"></td>
+                <td><input type="date" name="arrested_accused[${index}][court_forward_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                <td><input type="text" name="arrested_accused[${index}][tr_court_name]" class="form-control"></td>
+                <td><input type="date" name="arrested_accused[${index}][tr_court_forward_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-accused2" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#arrested-accused-details-table tbody').append(newRow);
@@ -835,6 +1124,7 @@ $(document).ready(function() {
         var newRow = `
             <tr>
                 <td><input type="text" name="released_accused[${index}][accused_name]" class="form-control"></td>
+                <td><input type="text" name="released_accused[${index}][court_name]" class="form-control"></td>
                 <td><input type="date" name="released_accused[${index}][bail_date]" class="form-control" max="{{ date('Y-m-d') }}" required></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-released-accused" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
@@ -846,7 +1136,16 @@ $(document).ready(function() {
         var newRow = `
             <tr>
                 <td><input type="text" name="nbw_accused[${index}][accused_name]" class="form-control"></td>
-                <td><input type="text" name="nbw_accused[${index}][nbw_status]" class="form-control"></td>
+                <td>
+                    <select name="nbw_accused[${index}][nbw_status]" class="form-control nbw-status">
+                         <option value="">Select Status</option>
+                         <option value="executeds">Executed</option>
+                         <option value="non_executed">Non executed</option>
+                         <option value="recalled">Recalled</option>  
+                    </select>
+                </td>
+                <td class = "nbw-additional-details"></td>
+
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-nbw-accused" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#nbw-accused-table tbody').append(newRow);
@@ -856,9 +1155,8 @@ $(document).ready(function() {
         var index = $('#additional-pr-table tbody tr').length;
         var newRow = `
             <tr>
-                <td><input type="text" name="additional_pr[${index}][number]" class="form-control"></td>
-                <td><input type="date" name="additional_pr[${index}][date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
-                 <td><input type="text" name="additional_pr[${index}][status]" class="form-control"></td>
+                <td><input type="date" name="additional_pr[${index}][submission_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
+                <td><input type="date" name="additional_pr[${index}][receipt_date]" class="form-control" max="{{ date('Y-m-d') }}"></td>
                 <td> <img src="{{ asset('assets/images/users/delete.png') }}" alt="Delete" class="delete-pr" style="cursor: pointer; width: 24px;"></td>
             </tr>`;
         $('#additional-pr-table tbody').append(newRow);
@@ -951,7 +1249,30 @@ $(document).ready(function() {
                 </div>`);
         }
     });
+    $(document).on('change', '.nbw-status', function () {
+        const $row = $(this).closest('tr');
+        const index = $row.index(); // Fetch the row index dynamically
+        const value = $(this).val();
+        const $detailsCell = $row.find('.nbw-additional-details');
+        $detailsCell.empty(); // Clear previous details
 
+        if (value === 'executed') {
+            $detailsCell.append(`
+                <div style="margin-bottom: 8px;">
+                    <input type="date" name="nbw_accused[${index}][nbw_court_forward_date]" class="form-control" max = "{{ date('Y-m-d') }}">
+                </div>
+                <div>   
+                    <input type="text" name="nbw_accused[${index}][nbw_court_name]" class="form-control" placeholder="Court name">
+                </div>`);
+        }
+        if (value == 'recalled'){
+            $detailsCell.append(`
+                <div>   
+                    <input type="text" name="nbw_accused[${index}][nbw_recall_reason]" class="form-control" placeholder="Recall reason">
+                </div>`);
+
+        }
+    });
     $(document).on('change', '.property-status', function () {
         const $row = $(this).closest('tr');
         const index = $row.index(); // Fetch the row index dynamically

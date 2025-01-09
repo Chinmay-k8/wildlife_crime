@@ -11,6 +11,7 @@ use App\Models\ReleasedAccused;
 use App\Models\AccusedMobiles;
 use App\Models\NbwAccused;
 use App\Models\Uploads;
+use App\Models\OtherUploads10;
 use App\Models\AdditionalPr;
 use App\Models\AbscondedAccused;
 use App\Models\SpeciesInvolved;
@@ -60,8 +61,8 @@ class FormController extends Controller
     public function submitForm(Request $request)
     {
         // Fetch all form data excluding nested arrays for accused and arrested accused
-        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report', 'electrical_inspector_report', 
-        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr','absconded_accused', 'detection_agency', 'other_detection_agency' , 'property' , 'inv_off', 'ho_inv_off' ]);
+        $formData = $request->except(['accused', 'arrested_accused', 'accused_mobile', 'released_accused', 'nbw_accused', 'post_mortem_report','post_mortem_report_title', 'electrical_inspector_report', 'electrical_inspector_report_title', 'laboratory_report_title', 'court_judgement_title',
+        'laboratory_report', 'court_judgement', 'lat_deg', 'lat_min', 'lat_sec', 'long_deg', 'long_min', 'long_sec', 'case_part_1', 'case_year', 'additional_pr','absconded_accused', 'detection_agency', 'other_detection_agency' , 'property' , 'inv_off', 'ho_inv_off', 'status_final_pr', 'appeal', 'other_documents' ]);
         $case_part_1 = $request->input('case_part_1'); // e.g. "132"
         $case_year = $request->input('case_year');     // e.g. "2005"
         $formData['court_case_number'] = "2(b) CC No. {$case_part_1} of {$case_year}";
@@ -177,18 +178,53 @@ class FormController extends Controller
                 HolOff10::create($hoinvoffItem);
             }
         }
-        //Handle file uploads
+        $postMortemReportTitle = $request->input('post_mortem_report_title');
+        $electricalInspectorReportTitle = $request->input('electrical_inspector_report_title');
+        $laboratoryReportTitle = $request->input('laboratory_report_title');
+        $courtJudgementTitle = $request->input('court_judgement_title');
+
+        // Handle file uploads with titles
         $uploadsData = [
             'form_data_id' => $formId,
-            'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post-mortem-report', $formId),
-            'electrical_inspector_report' => $this->handleFileUpload($request->file('electrical_inspector_report'), 'electrical-inspector-report', $formId),
-            'laboratory_report' => $this->handleFileUpload($request->file('laboratory_report'), 'laboratory-report', $formId),
-            'court_judgement' => $this->handleFileUpload($request->file('court_judgement'), 'court-judgement', $formId),
+            'post_mortem_report' => $this->handleFileUpload($request->file('post_mortem_report'), 'post-mortem-report', $formId, $postMortemReportTitle),
+            'electrical_inspector_report' => $this->handleFileUpload($request->file('electrical_inspector_report'), 'electrical-inspector-report', $formId, $electricalInspectorReportTitle),
+            'laboratory_report' => $this->handleFileUpload($request->file('laboratory_report'), 'laboratory-report', $formId, $laboratoryReportTitle),
+            'court_judgement' => $this->handleFileUpload($request->file('court_judgement'), 'court-judgement', $formId, $courtJudgementTitle),
         ];
+        
 
         // Save upload details
         $uploads = new Uploads();
         $uploads->saveUploads($uploadsData);
+
+        $otherDocuments = $request->file('other_documents');
+        if (!empty($otherDocuments)) {
+            foreach ($otherDocuments as $index => $documentArray) {
+            foreach ($documentArray as $document) {
+                if ($document) {
+                $uploadPath = 'uploads/other-documents/';
+                $dateTime = now()->format('dmy_His');
+                $documentType = $request->input("other_documents.$index.other_document_type");
+                $sanitizedTitle = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $documentType); // Ensure title is safe for filenames
+                $extension = $document->getClientOriginalExtension();
+                $originalNameWithoutExtension = pathinfo($document->getClientOriginalName(), PATHINFO_FILENAME);
+                $sanitizedOriginalName = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $originalNameWithoutExtension);
+                $originalName = $sanitizedOriginalName . '.' . $extension;
+                $fileName = $formId . '_' . $dateTime . '_' . $sanitizedTitle . '_' . $originalName;
+                // Move the uploaded file to the upload directory
+                $document->storeAs($uploadPath, $fileName, 'public');
+                // Save the document details to the database
+                $otherUploadData = [
+                    'form_data_id' => $formId,
+                    'other_document_type' => $documentType,
+                    'other_document_name' => $fileName,
+                ];
+                OtherUploads10::create($otherUploadData);
+                }
+            }
+            }
+        }
+        
 
         // Redirect or return response
         return redirect()->back()->with('success', 'Form submitted and data saved successfully.');
@@ -227,20 +263,21 @@ class FormController extends Controller
 
 
     }
-    public function handleFileUpload($file, $type, $formId)
-    {
-        if ($file) {
+    public function handleFileUpload($file, $type, $formId, $documentTitle)
+{
+    if ($file) {
+        $dateTime = now()->format('dmy_His');
+        $sanitizedTitle = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $documentTitle); // Ensure title is safe for filenames
+        $fileName = $formId . '_' . $dateTime . '_' . $sanitizedTitle . '_' . $file->getClientOriginalName();
 
-            $dateTime = now()->format('dmy_His');
-            $fileName = $formId . '_' . $dateTime . '_' . $file->getClientOriginalName();
+        // Save the file to the appropriate subfolder inside 'uploads'
+        $file->storeAs('uploads/' . $type, $fileName, 'public');
 
-            // Save the file to the appropriate subfolder inside 'uploads'
-            $file->storeAs('uploads/' . $type, $fileName, 'public');
-
-            return $fileName; // Return the file path to be saved in the database
-        }
-        return null; // Return null if no file was uploaded
+        return $fileName; // Return the file path to be saved in the database
     }
+    return null; // Return null if no file was uploaded
+}
+
     public function updateForm(Request $request, $id)
     {
         $requestData = $request->all();

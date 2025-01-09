@@ -89,6 +89,10 @@ class Form extends Model
     {
         return $this->hasMany(Uploads::class, 'form_data_id');
     }
+    public function otheruploads()
+    {
+        return $this->hasMany(OtherUploads10::class, 'form_data_id');
+    }
     public function additionalpr()
     {
         return $this->hasMany(AdditionalPr::class, 'form_data_id');
