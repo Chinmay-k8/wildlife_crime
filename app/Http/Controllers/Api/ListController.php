@@ -20,12 +20,25 @@ class ListController extends Controller
         // Pass the data to the view
         return view('list');
     }
-    public function fetchData()
+    public function fetchData(Request $request)
     {
-         // Fetch all form data with related accused and arrested accused records
-         $formData = Form::with(['arrestedAccused', 'circle', 'division', 'range', 'section', 'beat',  'nbwAccused', 'releasedAccused', 'accusedMobiles', 'abscondedAccused', 'additionalpr', 'uploads', 'species'])->get();
+        // Get the designation id from the authenticated user
+        $designationId = auth()->user()->designation_id;
 
-         // Return the data as JSON
+        // Initialize the query
+        $query = Form::with(['arrestedAccused', 'circle', 'division', 'range', 'section', 'beat',  'nbwAccused', 'releasedAccused', 'accusedMobiles', 'abscondedAccused', 'additionalpr', 'uploads', 'species']);
+
+        // Apply conditions based on the designation id
+        if ($designationId == 4) {
+            $query->whereIn('current_status', ['acf_approved', 'dfo_approved']);
+        } elseif ($designationId == 3) {
+            $query->where('current_status', 'dfo_approved');
+        }
+
+        // Fetch the data in ascending order of id
+        $formData = $query->orderBy('id', 'asc')->get();
+
+        // Return the data as JSON
         return response()->json($formData);
     }
     public function downloadDocument($fileType, $fileName)

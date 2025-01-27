@@ -48,6 +48,8 @@ Route::get('/users/fetch', [UserController::class, 'fetchData'])->name('users.fe
 Route::middleware(['auth'])->group(function () {
     Route::get('/form', [FormController::class, 'showForm'])->name('form.show');
     Route::post('/submit-form', [FormController::class, 'submitForm'])->name('submit-form');
+    Route::post('/submit-approval', [FormController::class, 'submitApproval'])->name('submit-approval');
+
     Route::put('/update-form/{id}', [FormController::class, 'updateForm'])->name('update-form');
     Route::get('/excel', [ExcelController::class, 'showForm'])->name('excel.show');
     Route::post('/excel/upload', [ExcelController::class, 'upload'])->name('excel.upload');

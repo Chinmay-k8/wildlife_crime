@@ -264,19 +264,19 @@ class FormController extends Controller
 
     }
     public function handleFileUpload($file, $type, $formId, $documentTitle)
-{
-    if ($file) {
-        $dateTime = now()->format('dmy_His');
-        $sanitizedTitle = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $documentTitle); // Ensure title is safe for filenames
-        $fileName = $formId . '_' . $dateTime . '_' . $sanitizedTitle . '_' . $file->getClientOriginalName();
+    {
+            if ($file) {
+                $dateTime = now()->format('dmy_His');
+                $sanitizedTitle = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $documentTitle); // Ensure title is safe for filenames
+                $fileName = $formId . '_' . $dateTime . '_' . $sanitizedTitle . '_' . $file->getClientOriginalName();
 
-        // Save the file to the appropriate subfolder inside 'uploads'
-        $file->storeAs('uploads/' . $type, $fileName, 'public');
+                // Save the file to the appropriate subfolder inside 'uploads'
+                $file->storeAs('uploads/' . $type, $fileName, 'public');
 
-        return $fileName; // Return the file path to be saved in the database
+                return $fileName; // Return the file path to be saved in the database
+            }
+            return null; // Return null if no file was uploaded
     }
-    return null; // Return null if no file was uploaded
-}
 
     public function updateForm(Request $request, $id)
     {
@@ -333,6 +333,59 @@ class FormController extends Controller
         Uploads::where('form_data_id', $id)->update($uploadsData);
 
         return response()->json(['success' => 'Form updated successfully!']);
+    }
+    public function submitApproval(Request $request)
+    {
+        $formId = $request->input('form_id');
+        $user = auth()->user();
+        $designationId = $user->designation_id;
+        $prefix = $designationId == 4 ? 'dfo' : ($designationId == 5 ? 'acf' : '');
+
+        if ($prefix) {
+            $approvalStatusField = "{$prefix}_approval_status";
+            $remarksField = "{$prefix}_remarks";
+            $digitalSignatureField = "{$prefix}_digital_signature";
+
+            $approvalStatus = $request->input($approvalStatusField);
+            $remarks = $request->input($remarksField);
+            $digitalSignature = $request->file($digitalSignatureField);
+
+            $form = Form::findOrFail($formId);
+
+            if ($approvalStatus === 'approve') {
+                $form->{"is_{$prefix}_approved"} = 1;
+            } elseif ($approvalStatus === 'reject') {
+                $form->{"is_{$prefix}_approved"} = 0;
+            }
+
+            $form->{"{$prefix}_remarks"} = $remarks;
+            $form->{"{$prefix}_approve_by"} = $user->id;
+
+            if ($digitalSignature) {
+                $dateTime = now()->format('dmy_His');
+                $userName = $user->employee->firstname . '_' . $user->employee->lastname;
+                $fileName = "{$formId}_{$userName}_{$dateTime}_{$digitalSignature->getClientOriginalName()}";
+                $digitalSignature->storeAs('uploads/digital-signatures', $fileName, 'public');
+                $form->{"{$prefix}_digital_signature"} = $fileName;
+            }
+
+            // Update current_status based on approval fields
+            if ($form->is_acf_approved == 1 && $form->is_dfo_approved == 1) {
+                $form->current_status = 'dfo_approved';
+            } elseif ($form->is_acf_approved == 1 && $form->is_dfo_approved == 0) {
+                $form->current_status = 'acf_approved';
+            } elseif ($form->is_acf_approved == 0 && $form->is_dfo_approved == 0) {
+                $form->current_status = 'pending';
+            } else {
+                $form->current_status = 'pending';
+            }
+
+            $form->save();
+
+            return redirect()->back()->with('success', 'Approval submitted successfully.');
+        }
+
+        return redirect()->back()->withErrors('Invalid designation for approval.');
     }
 
 }

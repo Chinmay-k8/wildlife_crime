@@ -27,7 +27,6 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <!-- Hidden input might override dynamic selection, so it's removed -->
                             </div>
                         </div>
 

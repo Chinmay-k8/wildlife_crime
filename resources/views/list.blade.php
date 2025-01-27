@@ -2,6 +2,7 @@
 @section('list-content')
 @include('edit_list')
 @include('view_list')
+@include('approval_page')
 @section('user-info')
 <h1>Form-X</h1>
 @endsection
@@ -100,26 +101,40 @@ td {
 
                 // Format the date as 'd-m-y'
                 let formattedDate = `${day}-${month}-${year}`;
+                
+                const designationId = {{ auth()->user()->designation_id }};
 
                 // Append the formatted date to the row
                 $row.append('<td>' + formattedDate + '</td>');
                 $row.append('<td>' + (item.range ? item.range.name_e : item.range_id) + '</td>');
                 $row.append('<td>' + (item.section ? item.section.name_e : item.section_id) + '</td>');
                 $row.append('<td>' + (item.beat ? item.beat.name_e : item.beat_id) + '</td>');
-                $row.append('<td>' + (item.approval_status ? item.approval_status : 'Pending') + '</td>');
+                $row.append('<td>' + (item.current_status === null ? 'Pending' : (item.current_status === 'acf_approved' ? 'ACF Approved' : (item.current_status === 'dfo_approved' ? 'DFO Approved' : item.current_status))) + '</td>');
                 $row.append(`
                     <td>
-                         <div class="dropdown">
-                                            <a href="#" class="dropdown-toggle arrow-none card-drop" id="actions" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="dripicons-menu"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end" id="action-options">
-                                                <a href="#" class="dropdown-item" id="view-details" data-id="${item.id}"><i class="mdi mdi-eye me-1"></i>View Details</a>
-                                                <a href="#" class="dropdown-item" id="edit-details" data-id="${item.id}"><i class="mdi mdi-pencil me-1"></i>Edit Details</a>
-                                            </div>
-                                        </div>
+                        <div class="dropdown">
+                            <a href="#" class="dropdown-toggle arrow-none card-drop" id="actions" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="dripicons-menu"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" id="action-options">
+                                <a href="#" class="dropdown-item" id="view-details" data-id="${item.id}">
+                                    <i class="mdi mdi-eye me-1"></i>View Details
+                                </a>
+                                <a href="#" class="dropdown-item" id="edit-details" data-id="${item.id}">
+                                    <i class="mdi mdi-pencil me-1"></i>Edit Details
+                                </a>
+                                ${
+                                    designationId == 4 || (designationId == 5 && item.current_status != 'dfo_approved') 
+                                    ? `<a href="#" class="dropdown-item" id="approval-details" data-id="${item.id}">
+                                        <i class="mdi mdi-check me-1"></i>Approval
+                                    </a>` 
+                                    : ''
+                                }
+                            </div>
+                        </div>
                     </td>
                 `);
+
 
                 $tableBody.append($row);
             });
@@ -136,7 +151,7 @@ td {
             }
         });
       
-         // Fetch circle data once and store it
+        // Fetch circle data once and store it
         var circleData = [];
         $.getJSON('circles', function(data) {
             circleData = data;  // Store the circle data for future use
@@ -372,6 +387,15 @@ td {
                 alert('Error: Record not found.');
             }
             
+        });
+        $(document).on('click', '#approval-details', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var selectedItem = fetchedData.find(item => item.id === id);
+            if (selectedItem){
+                $('#approval-modal #form_id').val(selectedItem.id);
+                $('#approval-modal').modal('show');
+            }
         });
         // When the Edit Details button is clicked
         $(document).on('click', '#edit-details', function (e) {
@@ -673,83 +697,83 @@ td {
                 // });
 
                 // Prepopulate the form with fetched data
-        function populateAbscondedAccusedDetails(selectedItem) {
-            const detectedOption = selectedItem.detected_absconded_accused_option; // 'Yes' or 'No'
-            const numAccused = selectedItem.no_of_detected_absconded_accused; // e.g., 3
-            const accusedDetails = selectedItem.absconded_accused || []; // Array of accused names
+            function populateAbscondedAccusedDetails(selectedItem) {
+                const detectedOption = selectedItem.detected_absconded_accused_option; // 'Yes' or 'No'
+                const numAccused = selectedItem.no_of_detected_absconded_accused; // e.g., 3
+                const accusedDetails = selectedItem.absconded_accused || []; // Array of accused names
 
-            // Set 'Yes' or 'No' in the dropdown
-            document.getElementById('detected_absconded_accused_option').value = detectedOption;
+                // Set 'Yes' or 'No' in the dropdown
+                document.getElementById('detected_absconded_accused_option').value = detectedOption;
 
-            // If 'Yes' is selected, display number and populate the table
-            if (detectedOption === 'Yes') {
-                document.getElementById('absconded-accused-count-container').style.display = 'block';
-                document.getElementById('absconded-accused-table-container').style.display = 'block';
-                document.getElementById('no_of_detected_absconded_accused').value = numAccused;
-                
-                generateTableRows(numAccused, accusedDetails);
-            }
-        }
-
-        function generateTableRows(count, accusedDetails) {
-            const tableBody = document.getElementById('absconded-accused-table-body');
-            tableBody.innerHTML = ''; // Clear existing rows
-
-            for (let index = 0; index < count; index++) {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                const input = document.createElement('input');
-
-                input.type = 'text';
-                input.name = `absconded_accused[${index}][accused_name]`;
-                input.classList.add('form-control');
-                input.placeholder = 'Enter Accused Name';
-
-                // If accused details are available, prepopulate the input field
-                if (accusedDetails[index]) {
-                    input.value = accusedDetails[index].accused_name;
+                // If 'Yes' is selected, display number and populate the table
+                if (detectedOption === 'Yes') {
+                    document.getElementById('absconded-accused-count-container').style.display = 'block';
+                    document.getElementById('absconded-accused-table-container').style.display = 'block';
+                    document.getElementById('no_of_detected_absconded_accused').value = numAccused;
+                    
+                    generateTableRows(numAccused, accusedDetails);
                 }
-
-                cell.appendChild(input);
-                row.appendChild(cell);
-                tableBody.appendChild(row);
             }
-        }
 
-        // Event listener for 'Yes/No' dropdown change
-        document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
-            const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
-            const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
-            const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');
+            function generateTableRows(count, accusedDetails) {
+                const tableBody = document.getElementById('absconded-accused-table-body');
+                tableBody.innerHTML = ''; // Clear existing rows
 
-            if (this.value === 'Yes') {
-                abscondedAccusedContainer.style.display = 'block';
-                detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
-                abscondedAccusedDropdown.value = '';
-            } else {
-                abscondedAccusedContainer.style.display = 'none';
-                detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
-                resetTable(); // Reset table when 'No' is selected
+                for (let index = 0; index < count; index++) {
+                    const row = document.createElement('tr');
+                    const cell = document.createElement('td');
+                    const input = document.createElement('input');
+
+                    input.type = 'text';
+                    input.name = `absconded_accused[${index}][accused_name]`;
+                    input.classList.add('form-control');
+                    input.placeholder = 'Enter Accused Name';
+
+                    // If accused details are available, prepopulate the input field
+                    if (accusedDetails[index]) {
+                        input.value = accusedDetails[index].accused_name;
+                    }
+
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                    tableBody.appendChild(row);
+                }
             }
-        });
 
-        // Event listener for number of accused change
-        document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
-            const tableContainer = document.getElementById('absconded-accused-table-container');
-            const numAccused = parseInt(this.value);
-            
-            if (numAccused > 0) {
-                tableContainer.style.display = 'block';
-                generateTableRows(numAccused, []); // Blank rows for new input
-            } else {
-                tableContainer.style.display = 'none';
+            // Event listener for 'Yes/No' dropdown change
+            document.getElementById('detected_absconded_accused_option').addEventListener('change', function() {
+                const abscondedAccusedContainer = document.getElementById('absconded-accused-count-container');
+                const detectedAccusedContainer = document.getElementById('detected-absconded-accused-container');
+                const abscondedAccusedDropdown = document.getElementById('no_of_detected_absconded_accused');
+
+                if (this.value === 'Yes') {
+                    abscondedAccusedContainer.style.display = 'block';
+                    detectedAccusedContainer.classList.replace('col-md-12', 'col-md-6');
+                    abscondedAccusedDropdown.value = '';
+                } else {
+                    abscondedAccusedContainer.style.display = 'none';
+                    detectedAccusedContainer.classList.replace('col-md-6', 'col-md-12');
+                    resetTable(); // Reset table when 'No' is selected
+                }
+            });
+
+            // Event listener for number of accused change
+            document.getElementById('no_of_detected_absconded_accused').addEventListener('change', function() {
+                const tableContainer = document.getElementById('absconded-accused-table-container');
+                const numAccused = parseInt(this.value);
+                
+                if (numAccused > 0) {
+                    tableContainer.style.display = 'block';
+                    generateTableRows(numAccused, []); // Blank rows for new input
+                } else {
+                    tableContainer.style.display = 'none';
+                }
+            });
+
+            function resetTable() {
+                document.getElementById('absconded-accused-table-body').innerHTML = '';
+                document.getElementById('absconded-accused-table-container').style.display = 'none';
             }
-        });
-
-        function resetTable() {
-            document.getElementById('absconded-accused-table-body').innerHTML = '';
-            document.getElementById('absconded-accused-table-container').style.display = 'none';
-        }
 
             populateAbscondedAccusedDetails(selectedItem);
 
@@ -1028,7 +1052,7 @@ td {
                 alert('Error: Record not found.');
             }
         });
-
+        
    
 
 });
